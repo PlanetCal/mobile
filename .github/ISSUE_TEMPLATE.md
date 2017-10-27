@@ -1,9 +1,3 @@
-<!--
-IF YOU DON'T FILL OUT THE FOLLOWING INFORMATION WE MIGHT CLOSE YOUR ISSUE WITHOUT INVESTIGATING
-
-If you are having problems formatting your issue please refer to this article on using markdown in Github: https://guides.github.com/features/mastering-markdown/
--->
-
 **I'm submitting a ...**  (check one with "x")
 [ ] bug report
 [ ] feature request
@@ -16,9 +10,10 @@ If you are having problems formatting your issue please refer to this article on
 <!-- Describe what the behavior would be without the bug. -->
 
 **Steps to reproduce:**
-<!-- If you are able to illustrate the bug or feature request with an example, please provide steps to reproduce and if possible a demo using the following template:
+<!-- If you are able to illustrate the bug or feature request with an example, please provide steps to reproduce and if possible a demo using one of the following templates:
 
-http://plnkr.co/edit/GJte2b?p=preview
+
+For Ionic issues - http://plnkr.co/edit/z0DzVL?p=preview
 -->
 
 **Related code:**
@@ -35,4 +30,3 @@ insert any relevant code here
 ```
 insert the output from ionic info here
 ```
-

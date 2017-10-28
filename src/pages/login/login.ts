@@ -52,6 +52,6 @@ export class LoginPage {
     //this.navCtrl.push(SignupPage);
   }
   onCancel() {
-    this.navCtrl.push(MainPage);
+    this.navCtrl.setRoot(MainPage);
   }
 }

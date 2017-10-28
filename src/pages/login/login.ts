@@ -51,4 +51,7 @@ export class LoginPage {
   onSignup() {
     //this.navCtrl.push(SignupPage);
   }
+  onCancel() {
+    this.navCtrl.push(MainPage);
+  }
 }

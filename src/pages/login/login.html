@@ -15,13 +15,13 @@
 	<form #loginForm="ngForm" novalidate>
 		<ion-list no-lines>
 			<ion-item>
-				<ion-label stacked color="primary">Username</ion-label>
+				<ion-label stacked color="primary">Email Address</ion-label>
 				<ion-input [(ngModel)]="account.email" name="email" type="text" #email="ngModel" spellcheck="false" autocapitalize="off"
 				 required>
 				</ion-input>
 			</ion-item>
 			<p ion-text [hidden]="email.valid || submitted == false" color="danger" padding-left>
-				Username is required
+				Email is required
 			</p>
 
 			<ion-item>
@@ -39,7 +39,17 @@
 				<button ion-button (click)="onLogin(loginForm)" type="submit" block>Login</button>
 			</ion-col>
 			<ion-col>
+				<button ion-button (click)="onCancel()" color="light" block>Cancel</button>
+			</ion-col>
+		</ion-row>
+		<ion-row responsive-sm>
+			<ion-col>
 				<button ion-button (click)="onSignup()" color="light" block>Signup</button>
+			</ion-col>
+		</ion-row>
+		<ion-row responsive-sm>
+			<ion-col>
+				<button ion-button (click)="onForgotPassword()" color="light" block>Forgot password</button>
 			</ion-col>
 		</ion-row>
 	</form>

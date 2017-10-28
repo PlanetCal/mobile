@@ -38,11 +38,7 @@ export class User {
     let seq = this.api.post('login', accountInfo, reqOpts).share();
 
     seq.subscribe((res: any) => {
-      // If the API returned a successful response, mark the user as logged in
-      if (res.status == 'success') {
-        this._loggedIn(res);
-      } else {
-      }
+      this._loggedIn(res);
     }, err => {
       console.error('ERROR', err);
     });
@@ -58,10 +54,7 @@ export class User {
     let seq = this.api.post('signup', accountInfo).share();
 
     seq.subscribe((res: any) => {
-      // If the API returned a successful response, mark the user as logged in
-      if (res.status == 'success') {
-        this._loggedIn(res);
-      }
+      this._loggedIn(res);
     }, err => {
       console.error('ERROR', err);
     });
@@ -80,6 +73,6 @@ export class User {
    * Process a login/signup response to store user data
    */
   _loggedIn(resp) {
-    this._user = resp.user;
+    this._user = resp;
   }
 }

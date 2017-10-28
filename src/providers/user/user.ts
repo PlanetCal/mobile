@@ -1,7 +1,7 @@
 import 'rxjs/add/operator/toPromise';
 
 import { Injectable } from '@angular/core';
-
+import { HttpHeaders } from '@angular/common/http';
 import { Api } from '../api/api';
 
 /**
@@ -34,7 +34,14 @@ export class User {
    * the user entered on the form.
    */
   login(accountInfo: any) {
-    let seq = this.api.post('login', accountInfo).share();
+    var reqOpts = {
+      headers: new HttpHeaders({
+        'Version': '1.0',
+        'Accept': 'application/json'
+      })
+    };
+
+    let seq = this.api.post('login', accountInfo, reqOpts).share();
 
     seq.subscribe((res: any) => {
       // If the API returned a successful response, mark the user as logged in

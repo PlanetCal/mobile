@@ -14,13 +14,20 @@ import { UtilsProvider } from '../../providers/utils/utils';
 export class LoginPage {
 
   account: { email: string, password: string } = {
-    email: 'test@example.com',
-    password: 'test'
+    email: '',
+    password: '1234'
   };
 
   submitted = false;
+  private loginErrorString: string;
 
-  constructor(public navCtrl: NavController, public user: UserProvider) { }
+  constructor(
+    public navCtrl: NavController,
+    public toastCtrl: ToastController,
+    public user: UserProvider) {
+    this.loginErrorString = "Login failed. Please check your username/password, or register yourself.";
+
+  }
 
   // Attempt to login in through our User service
   onLogin(form: NgForm) {
@@ -30,14 +37,13 @@ export class LoginPage {
       this.user.login(this.account).subscribe((resp) => {
         this.navCtrl.push(MainPage);
       }, (err) => {
-        this.navCtrl.push(MainPage);
         // Unable to log in
-        // let toast = this.toastCtrl.create({
-        //   message: this.loginErrorString,
-        //   duration: 3000,
-        //   position: 'top'
-        // });
-        //toast.present();
+        let toast = this.toastCtrl.create({
+          message: this.loginErrorString,
+          duration: 3000,
+          position: 'top'
+        });
+        toast.present();
       });
     }
   }

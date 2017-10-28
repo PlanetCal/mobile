@@ -10,9 +10,6 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { ApiProvider } from '../providers/api/api';
 import { UserProvider } from '../providers/user/user';
 import { UtilsProvider } from '../providers/utils/utils';
-import { HomePageModule } from '../pages/home/home.module';
-import { LoginPageModule } from '../pages/login/login.module';
-import { ListPageModule } from '../pages/list/list.module';
 
 @NgModule({
   declarations: [
@@ -21,10 +18,7 @@ import { ListPageModule } from '../pages/list/list.module';
   imports: [
     BrowserModule,
     HttpClientModule,
-    IonicModule.forRoot(MyApp),
-    HomePageModule,
-    ListPageModule,
-    LoginPageModule
+    IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
   entryComponents: [

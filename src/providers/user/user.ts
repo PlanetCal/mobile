@@ -1,8 +1,8 @@
 import 'rxjs/add/operator/toPromise';
 
 import { Injectable } from '@angular/core';
-import { HttpHeaders } from '@angular/common/http';
 import { Api } from '../api/api';
+import { Utils } from '../utils/utils';
 
 /**
  * Most apps have the concept of a User. This is a simple provider
@@ -27,20 +27,14 @@ import { Api } from '../api/api';
 export class User {
   _user: any;
 
-  constructor(public api: Api) { }
+  constructor(public api: Api, public utils: Utils) { }
 
   /**
    * Send a POST request to our login endpoint with the data
    * the user entered on the form.
    */
   login(accountInfo: any) {
-    var reqOpts = {
-      headers: new HttpHeaders({
-        'Version': '1.0',
-        'Accept': 'application/json'
-      })
-    };
-
+    let reqOpts = this.utils.getSimpleHeaders();
     let seq = this.api.post('login', accountInfo, reqOpts).share();
 
     seq.subscribe((res: any) => {

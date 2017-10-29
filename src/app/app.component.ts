@@ -4,6 +4,8 @@ import { Events, Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
+
+import { UserProvider } from '../providers/user/user';
 import { MainPage } from '../pages/pages';
 import { TutorialPage } from '../pages/pages';
 
@@ -25,7 +27,8 @@ export class MyApp {
     public platform: Platform,
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
-    public storage: Storage
+    public storage: Storage,
+    public userProvider: UserProvider
   ) {
     this.appPages = [
       { title: 'Home', component: 'HomePage', icon: 'help' },
@@ -61,12 +64,12 @@ export class MyApp {
     // load the conference data
     //confData.load();
 
-    // // decide which menu items should be hidden by current login status stored in local storage
-    // this.userData.hasLoggedIn().then((hasLoggedIn) => {
-    //   this.enableMenu(hasLoggedIn === true);
-    // });
-
     this.enableMenu(false);
+
+    // decide which menu items should be hidden by current login status stored in local storage
+    this.userProvider.hasLoggedIn().then((hasLoggedIn) => {
+      this.enableMenu(hasLoggedIn === true);
+    });
 
     this.listenToLoginEvents();
   }

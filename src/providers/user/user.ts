@@ -29,6 +29,8 @@ import { UtilsProvider } from '../utils/utils';
 @Injectable()
 export class UserProvider {
   _user: any;
+  HAS_LOGGED_IN = 'hasLoggedIn';
+  HAS_SEEN_TUTORIAL = 'hasSeenTutorial';
 
   constructor(
     public api: ApiProvider,
@@ -83,5 +85,25 @@ export class UserProvider {
    */
   _loggedIn(resp) {
     this._user = resp;
+    this.storage.set(this.HAS_LOGGED_IN, true);
+    this.storage.set('user', resp);
   }
+
+  getUserInfo(): Promise<string> {
+    return this.storage.get('user').then((value) => {
+      return value;
+    });
+  };
+
+  hasLoggedIn(): Promise<boolean> {
+    return this.storage.get(this.HAS_LOGGED_IN).then((value) => {
+      return value === true;
+    });
+  };
+
+  checkHasSeenTutorial(): Promise<string> {
+    return this.storage.get(this.HAS_SEEN_TUTORIAL).then((value) => {
+      return value;
+    });
+  };
 }

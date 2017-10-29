@@ -81,6 +81,10 @@ export class MyApp {
     });
   }
 
+  openTutorial() {
+    this.nav.setRoot(TutorialPage);
+  }
+
   listenToLoginEvents() {
     this.events.subscribe('user:login', () => {
       this.enableMenu(true);

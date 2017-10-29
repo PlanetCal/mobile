@@ -1,34 +1,95 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import { Events, Nav, Platform } from 'ionic-angular';
+
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
-
-import { FirstRunPage } from '../pages/pages';
+import { MainPage } from '../pages/pages';
+import { TutorialPage } from '../pages/pages';
 
 @Component({
   templateUrl: 'app.html'
 })
+
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage = FirstRunPage;
-
-  pages: Array<{ title: string, component: string }>;
+  rootPage: string;
+  appPages: Array<{ title: string, component: string, icon: string }>;
+  loggedInPages: Array<{ title: string, component: string, icon: string }>;
+  loggedOutPages: Array<{ title: string, component: string, icon: string }>;
+  conditionalPages: Array<{ title: string, component: string, icon: string }>;
 
   constructor(
+    public events: Events,
     public platform: Platform,
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
-    public storage: Storage) {
+    public storage: Storage
+  ) {
+    this.appPages = [
+      { title: 'Home', component: 'HomePage', icon: 'help' },
+      { title: 'List', component: 'ListPage', icon: 'calendar' },
+      { title: 'About', component: 'AboutPage', icon: 'information-circle' }
+    ];
+
+    this.loggedInPages = [
+      { title: 'Account', component: 'AccountPage', icon: 'help' },
+      { title: 'Support', component: 'SupportPage', icon: 'help' },
+      { title: 'Logout', component: 'LogoutPage', icon: 'help' },
+    ];
+
+    this.loggedOutPages = [
+      { title: 'Login', component: 'LoginPage', icon: 'help' },
+      { title: 'Support', component: 'SupportPage', icon: 'help' },
+      { title: 'Signup', component: 'SignupPage', icon: 'person-add' }
+    ];
+
     this.initializeApp();
 
-    // used for an example of ngFor and navigation
-    this.pages = [
-      { title: 'Home', component: 'HomePage' },
-      { title: 'Login', component: 'LoginPage' },
-      { title: 'List', component: 'ListPage' },
-    ]
+    // Check if the user has already seen the tutorial
+    this.storage.get('hasSeenTutorial')
+      .then((hasSeenTutorial) => {
+        if (hasSeenTutorial) {
+          this.rootPage = MainPage;
+        } else {
+          this.rootPage = TutorialPage;
+        }
+        this.platformReady();
+      });
+
+    // load the conference data
+    //confData.load();
+
+    // // decide which menu items should be hidden by current login status stored in local storage
+    // this.userData.hasLoggedIn().then((hasLoggedIn) => {
+    //   this.enableMenu(hasLoggedIn === true);
+    // });
+
+    this.enableMenu(false);
+
+    this.listenToLoginEvents();
+  }
+
+  platformReady() {
+    // Call any initial plugins when ready
+    this.platform.ready().then(() => {
+      this.splashScreen.hide();
+    });
+  }
+
+  listenToLoginEvents() {
+    this.events.subscribe('user:login', () => {
+      this.enableMenu(true);
+    });
+
+    // this.events.subscribe('user:signup', () => {
+    //   this.enableMenu(true);
+    // });
+
+    this.events.subscribe('user:logout', () => {
+      this.enableMenu(false);
+    });
   }
 
   initializeApp() {
@@ -40,9 +101,31 @@ export class MyApp {
     });
   }
 
+  enableMenu(loggedIn: boolean) {
+    this.conditionalPages = loggedIn ? this.loggedInPages : this.loggedOutPages;
+  }
+
   openPage(page) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
     this.nav.setRoot(page.component);
   }
+
+  isActive(page) {
+    let childNav = this.nav.getActiveChildNavs()[0];
+
+    // Tabs are a special case because they have their own navigation
+    if (childNav) {
+      if (childNav.getSelected() && childNav.getSelected().root === page.tabComponent) {
+        return 'primary';
+      }
+      return;
+    }
+
+    if (this.nav.getActive() && this.nav.getActive().name === page.component) {
+      return 'primary';
+    }
+    return;
+  }
+
 }

@@ -1,11 +1,12 @@
 import 'rxjs/add/operator/toPromise';
 //import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/share';
+import { Events } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 
 import { Injectable } from '@angular/core';
 import { ApiProvider } from '../api/api';
 import { UtilsProvider } from '../utils/utils';
-
 /**
  * Most apps have the concept of a User. This is a simple provider
  * with stubs for login/signup/etc.
@@ -29,7 +30,12 @@ import { UtilsProvider } from '../utils/utils';
 export class UserProvider {
   _user: any;
 
-  constructor(public api: ApiProvider, public utils: UtilsProvider) { }
+  constructor(
+    public api: ApiProvider,
+    public utils: UtilsProvider,
+    public events: Events,
+    public storage: Storage
+  ) { }
 
   /**
    * Send a POST request to our login endpoint with the data
@@ -41,6 +47,7 @@ export class UserProvider {
 
     seq.subscribe((res: any) => {
       this._loggedIn(res);
+      this.events.publish('user:login');
     }, err => {
       console.error('ERROR', err);
     });

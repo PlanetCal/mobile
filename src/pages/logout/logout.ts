@@ -1,0 +1,37 @@
+import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { IonicPage, NavController } from 'ionic-angular';
+import { MainPage } from '../pages';
+import { UserProvider } from '../../providers/user/user';
+
+@IonicPage()
+@Component({
+  selector: 'page-user',
+  templateUrl: 'logout.html'
+})
+export class LogoutPage {
+
+  submitted = false;
+  private logoutErrorString: string;
+  username: string;
+
+  constructor(
+    public navCtrl: NavController,
+    public user: UserProvider) {
+
+    let userInfo = this.user._user;
+    if (userInfo && userInfo !== null) {
+      this.username = userInfo.name;
+    }
+  }
+
+  onLogout() {
+    this.user.logout();
+    this.navCtrl.setRoot(MainPage);
+  }
+
+  onCancel() {
+    this.navCtrl.setRoot(MainPage);
+  }
+
+}

@@ -13,24 +13,25 @@ export class LogoutPage {
 
   submitted = false;
   private logoutErrorString: string;
+  username: string;
 
   constructor(
     public navCtrl: NavController,
     public user: UserProvider) {
 
-    // this.user.hasLoggedIn().then(function (hasLoggedIn) {
-    //   if (hasLoggedIn === true) {
-    //     this.user.getUserInfo().then((userInfo) => {
-    //       if (userInfo !== null) {
-    //         this.username = userInfo.name;
-    //       }
-    //     });
-    //   }
-    // });
+    let userInfo = this.user._user;
+    if (userInfo && userInfo !== null) {
+      this.username = userInfo.name;
+    }
   }
 
   onLogout() {
     this.user.logout();
     this.navCtrl.setRoot(MainPage);
   }
+
+  onCancel() {
+    this.navCtrl.setRoot(MainPage);
+  }
+
 }

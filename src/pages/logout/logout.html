@@ -3,7 +3,7 @@
 		<button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-		<ion-title>Logout {{username}}</ion-title>
+		<ion-title>Logout</ion-title>
 	</ion-navbar>
 </ion-header>
 
@@ -11,11 +11,16 @@
 	<div class="logo">
 		<img src="assets/imgs/appicon.svg" alt="Ionic logo">
 	</div>
+	<ion-title>{{username}}, Are you sure you like to logout?</ion-title>
 
 	<ion-row responsive-sm>
 		<ion-col>
-			<button ion-button (click)="onLogout()" block>Log out</button>
+			<button ion-button (click)="onLogout()" block>Logout</button>
 		</ion-col>
 	</ion-row>
-
+	<ion-row responsive-sm>
+		<ion-col>
+			<button ion-button (click)="onCancel()" color="light" block>Cancel</button>
+		</ion-col>
+	</ion-row>
 </ion-content>

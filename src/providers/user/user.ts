@@ -37,7 +37,11 @@ export class UserProvider {
     public utils: UtilsProvider,
     public events: Events,
     public storage: Storage
-  ) { }
+  ) {
+    this.storage.get('user').then((value) => {
+      this._user = value;
+    });
+  }
 
   /**
    * Send a POST request to our login endpoint with the data

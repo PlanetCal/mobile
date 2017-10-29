@@ -49,7 +49,6 @@ export class UserProvider {
 
     seq.subscribe((res: any) => {
       this._loggedIn(res);
-      this.events.publish('user:login');
     }, err => {
       console.error('ERROR', err);
     });
@@ -78,6 +77,9 @@ export class UserProvider {
    */
   logout() {
     this._user = null;
+    this.storage.set(this.HAS_LOGGED_IN, false);
+    this.storage.set('user', null);
+    this.events.publish('user:logout');
   }
 
   /**
@@ -87,6 +89,7 @@ export class UserProvider {
     this._user = resp;
     this.storage.set(this.HAS_LOGGED_IN, true);
     this.storage.set('user', resp);
+    this.events.publish('user:login');
   }
 
   getUserInfo(): Promise<string> {

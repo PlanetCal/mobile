@@ -1,0 +1,21 @@
+<ion-header>
+	<ion-navbar>
+		<button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+		<ion-title>Logout {{username}}</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content>
+	<div class="logo">
+		<img src="assets/imgs/appicon.svg" alt="Ionic logo">
+	</div>
+
+	<ion-row responsive-sm>
+		<ion-col>
+			<button ion-button (click)="onLogout()" block>Log out</button>
+		</ion-col>
+	</ion-row>
+
+</ion-content>

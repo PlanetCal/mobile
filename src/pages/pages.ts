@@ -5,3 +5,4 @@ export const TutorialPage = 'TutorialPage';
 // Change this if not using tabs
 export const MainPage = 'ListPage';
 export const LogoutPage = 'LogoutPage';
+export const AboutPage = 'AboutPage';

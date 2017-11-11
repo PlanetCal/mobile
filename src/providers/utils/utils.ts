@@ -6,8 +6,10 @@ import { Injectable } from '@angular/core';
  */
 @Injectable()
 export class UtilsProvider {
+  productName: string;
 
   constructor() {
+    this.productName = 'PlanetCal';
   }
 
   getSimpleHeaders() {

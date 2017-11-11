@@ -6,11 +6,11 @@ import { MainPage } from '../pages';
 
 @IonicPage()
 @Component({
-  selector: 'page-tutorial',
-  templateUrl: 'tutorial.html'
+  selector: 'page-welcome',
+  templateUrl: 'welcome.html'
 })
 
-export class TutorialPage {
+export class WelcomePage {
   showSkip = true;
 
   @ViewChild('slides') slides: Slides;
@@ -23,7 +23,7 @@ export class TutorialPage {
 
   startApp() {
     this.navCtrl.setRoot(MainPage).then(() => {
-      this.storage.set('hasSeenTutorial', 'true');
+      this.storage.set('hasSeenWelcome', 'true');
     })
   }
 
@@ -36,12 +36,12 @@ export class TutorialPage {
   }
 
   ionViewDidEnter() {
-    // the root left menu should be disabled on the tutorial page
+    // the root left menu should be disabled on the welcome page
     this.menu.enable(false);
   }
 
   ionViewDidLeave() {
-    // enable the root left menu when leaving the tutorial page
+    // enable the root left menu when leaving the welcome page
     this.menu.enable(true);
   }
 

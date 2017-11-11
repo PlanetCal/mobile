@@ -7,7 +7,7 @@ import { Storage } from '@ionic/storage';
 
 import { UserProvider } from '../providers/user/user';
 import { MainPage } from '../pages/pages';
-import { TutorialPage } from '../pages/pages';
+import { WelcomePage } from '../pages/pages';
 import { LogoutPage } from '../pages/pages';
 
 @Component({
@@ -51,13 +51,13 @@ export class MyApp {
 
     this.initializeApp();
 
-    // Check if the user has already seen the tutorial
-    this.storage.get('hasSeenTutorial')
-      .then((hasSeenTutorial) => {
-        if (hasSeenTutorial) {
+    // Check if the user has already seen the welcome
+    this.storage.get('hasSeenWelcome')
+      .then((hasSeenWelcome) => {
+        if (hasSeenWelcome) {
           this.rootPage = MainPage;
         } else {
-          this.rootPage = TutorialPage;
+          this.rootPage = WelcomePage;
         }
         this.platformReady();
       });
@@ -82,8 +82,8 @@ export class MyApp {
     });
   }
 
-  openTutorial() {
-    this.nav.setRoot(TutorialPage);
+  openWelcome() {
+    this.nav.setRoot(WelcomePage);
   }
 
   listenToLoginEvents() {

@@ -10,28 +10,18 @@
   <ion-slides #slides (ionSlideWillChange)="onSlideChangeStart($event)" pager>
 
     <ion-slide>
-      <img src="assets/imgs/ica-slidebox-img-1.png" class="slide-image" />
+      <img src="assets/imgs/planetcal_logo.png" class="slide-image" />
       <h2 class="slide-title">
-        Welcome to <b>ICA</b>
+        Welcome to <b>{{utils.productName}}</b>
       </h2>
       <p>
-        The <b>ionic conference app</b> is a practical preview of the ionic framework in action, and a demonstration of proper
-        code use.
-      </p>
+        Inroducing <b>social calandering</b> to help organize your daily activites. </p>
     </ion-slide>
 
     <ion-slide>
-      <img src="assets/imgs/ica-slidebox-img-2.png" class="slide-image" />
-      <h2 class="slide-title">What is Ionic?</h2>
-      <p><b>Ionic Framework</b> is an open source SDK that enables developers to build high quality mobile apps with web technologies
-        like HTML, CSS, and JavaScript.</p>
-    </ion-slide>
-
-    <ion-slide>
-      <img src="assets/imgs/ica-slidebox-img-3.png" class="slide-image" />
-      <h2 class="slide-title">What is Ionic Pro?</h2>
-      <p><b>Ionic Pro</b> is a powerful set of services and features built on top of Ionic Framework that brings a totally new
-        level of app development agility to mobile dev teams.</p>
+      <img src="assets/imgs/time-zones.png" class="slide-image" />
+      <h2 class="slide-title">What is <b>{{utils.productName}}</b>?</h2>
+      <p><b>{{utils.productName}}</b> puts the events and things we do in our daily life on our fingertips.</p>
     </ion-slide>
 
     <ion-slide>

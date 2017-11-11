@@ -3,6 +3,7 @@ import { IonicPage, MenuController, NavController, Slides } from 'ionic-angular'
 import { Storage } from '@ionic/storage';
 
 import { MainPage } from '../pages';
+import { UtilsProvider } from '../../providers/utils/utils';
 
 @IonicPage()
 @Component({
@@ -18,8 +19,10 @@ export class WelcomePage {
   constructor(
     public navCtrl: NavController,
     public menu: MenuController,
-    public storage: Storage
-  ) { }
+    public storage: Storage,
+    public utils: UtilsProvider
+  ) {
+  }
 
   startApp() {
     this.navCtrl.setRoot(MainPage).then(() => {

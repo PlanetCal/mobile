@@ -6,10 +6,10 @@ import { UserProvider } from '../../providers/user/user';
 
 @IonicPage()
 @Component({
-  selector: 'page-list',
-  templateUrl: 'list.html'
+  selector: 'page-events',
+  templateUrl: 'events.html'
 })
-export class ListPage {
+export class EventsPage {
   selectedItem: any;
   icons: string[];
   items: Array<{ title: string, note: string, icon: string }>;
@@ -44,7 +44,7 @@ export class ListPage {
 
   itemTapped(event, item) {
     // That's right, we're pushing to ourselves!
-    this.navCtrl.push(ListPage, {
+    this.navCtrl.push(EventsPage, {
       item: item
     });
   }

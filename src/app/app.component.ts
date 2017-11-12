@@ -32,7 +32,7 @@ export class MyApp {
   ) {
     this.appPages = [
       { title: 'Home', component: 'HomePage', icon: 'help' },
-      { title: 'List', component: 'ListPage', icon: 'calendar' },
+      { title: 'Events', component: 'EventsPage', icon: 'calendar' },
       { title: 'About', component: 'AboutPage', icon: 'information-circle' },
       { title: 'Support', component: 'SupportPage', icon: 'help-circle' }
     ];

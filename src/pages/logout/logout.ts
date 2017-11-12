@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
 import { IonicPage, NavController } from 'ionic-angular';
 import { MainPage } from '../pages';
 import { UserProvider } from '../../providers/user/user';
@@ -10,9 +9,6 @@ import { UserProvider } from '../../providers/user/user';
   templateUrl: 'logout.html'
 })
 export class LogoutPage {
-
-  submitted = false;
-  private logoutErrorString: string;
   username: string;
 
   constructor(

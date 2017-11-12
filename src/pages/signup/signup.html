@@ -3,7 +3,7 @@
 		<button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-		<ion-title>Login/Reset password</ion-title>
+		<ion-title>Signup</ion-title>
 	</ion-navbar>
 </ion-header>
 
@@ -14,6 +14,15 @@
 
 	<form #loginForm="ngForm" novalidate>
 		<ion-list>
+			<ion-item>
+				<ion-label stacked color="primary">Name</ion-label>
+				<ion-input [(ngModel)]="account.name" name="name" type="text" #name="ngModel" spellcheck="false" autocapitalize="off" required>
+				</ion-input>
+			</ion-item>
+			<p ion-text [hidden]="name.valid || submitted == false" color="danger" padding-left>
+				Name is required
+			</p>
+
 			<ion-item>
 				<ion-label stacked color="primary">Email Address</ion-label>
 				<ion-input [(ngModel)]="account.email" name="email" type="text" #email="ngModel" spellcheck="false" autocapitalize="off"
@@ -34,19 +43,13 @@
 			</p>
 		</ion-list>
 
-		<p ion-text color="danger" padding-left>{{resetPasswordSuccessMessage}}</p>
-
+		<p ion-text color="danger" padding-left>{{signupSuccessMessage}}</p>
 		<ion-row responsive-sm>
 			<ion-col>
-				<button ion-button (click)="onLogin(loginForm)" type="submit" block>Login</button>
+				<button ion-button (click)="onSignup(loginForm)" type="submit" block>Signup</button>
 			</ion-col>
 			<ion-col>
 				<button ion-button (click)="onCancel()" color="light" block>Cancel</button>
-			</ion-col>
-		</ion-row>
-		<ion-row responsive-sm>
-			<ion-col>
-				<button ion-button (click)="resetPassword(loginForm)" color="light" type="submit" block>Reset password</button>
 			</ion-col>
 		</ion-row>
 	</form>

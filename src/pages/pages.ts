@@ -7,3 +7,4 @@ export const MainPage = 'ListPage';
 export const LogoutPage = 'LogoutPage';
 export const AboutPage = 'AboutPage';
 export const SupportPage = 'SupportPage';
+export const SignupPage = 'SignupPage';

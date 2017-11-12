@@ -34,18 +34,18 @@ export class MyApp {
     this.appPages = [
       { title: 'Home', component: 'HomePage', icon: 'help' },
       { title: 'List', component: 'ListPage', icon: 'calendar' },
-      { title: 'About', component: 'AboutPage', icon: 'information-circle' }
+      { title: 'About', component: 'AboutPage', icon: 'information-circle' },
+      { title: 'Support', component: 'SupportPage', icon: 'help-circle' }
     ];
 
     this.loggedInPages = [
-      { title: 'Account', component: 'AccountPage', icon: 'help' },
-      { title: 'Support', component: 'SupportPage', icon: 'help-circle' },
+      { title: 'Settings', component: 'SettingsPage', icon: 'settings' },
       { title: 'Logout', component: 'LogoutPage', icon: 'log-out' },
+      { title: 'Reset Password', component: 'LoginPage', icon: 'refresh' }
     ];
 
     this.loggedOutPages = [
       { title: 'Login', component: 'LoginPage', icon: 'log-in' },
-      { title: 'Support', component: 'SupportPage', icon: 'help-circle' },
       { title: 'Signup', component: 'SignupPage', icon: 'person-add' }
     ];
 

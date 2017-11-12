@@ -65,16 +65,31 @@ export class UserProvider {
    * the user entered on the form.
    */
   signup(accountInfo: any) {
-    let seq = this.api.post('signup', accountInfo).share();
+    let reqOpts = this.utils.getSimpleHeaders();
+    let seq = this.api.post('userauth', accountInfo, reqOpts).share();
 
     seq.subscribe((res: any) => {
-      this._loggedIn(res);
+      //do nothing from the response.
     }, err => {
       console.error('ERROR', err);
     });
 
     return seq;
   }
+
+  resetPassword(accountInfo: any) {
+    let reqOpts = this.utils.getSimpleHeaders();
+    let seq = this.api.put('userauth', accountInfo, reqOpts).share();
+
+    seq.subscribe((res: any) => {
+      //do nothing from the response.
+    }, err => {
+      console.error('ERROR', err);
+    });
+
+    return seq;
+  }
+
 
   /**
    * Log the user out, which forgets the session

@@ -4,7 +4,6 @@ import { NgForm } from '@angular/forms';
 import { IonicPage, NavController, ToastController } from 'ionic-angular';
 import { MainPage } from '../pages';
 import { UserProvider } from '../../providers/user/user';
-import { UtilsProvider } from '../../providers/utils/utils';
 
 @IonicPage()
 @Component({

@@ -8,7 +8,6 @@ import { Storage } from '@ionic/storage';
 import { UserProvider } from '../providers/user/user';
 import { MainPage } from '../pages/pages';
 import { WelcomePage } from '../pages/pages';
-import { LogoutPage } from '../pages/pages';
 
 @Component({
   templateUrl: 'app.html'

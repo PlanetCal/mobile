@@ -3,7 +3,6 @@ import { NgForm } from '@angular/forms';
 
 import { IonicPage, NavController, ToastController } from 'ionic-angular';
 import { MainPage } from '../pages';
-import { SignupPage } from '../pages';
 import { UserProvider } from '../../providers/user/user';
 import { UtilsProvider } from '../../providers/utils/utils';
 
@@ -49,9 +48,9 @@ export class LoginPage {
     }
   }
 
-  onSignup() {
-    this.navCtrl.push(SignupPage);
+  onForgotPassword(form: NgForm) {
   }
+
   onCancel() {
     this.navCtrl.setRoot(MainPage);
   }

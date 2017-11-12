@@ -1,7 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, AlertController, App, FabContainer, ItemSliding, List, ModalController, NavController, NavParams, ToastController, LoadingController, Refresher } from 'ionic-angular';
+import { IonicPage, AlertController, App, ItemSliding, List, ModalController, NavController, NavParams, ToastController, LoadingController, Refresher } from 'ionic-angular';
 
 import { UserProvider } from '../../providers/user/user';
+import { EventsData } from '../../providers/events/events-data';
 
 
 @IonicPage()
@@ -16,6 +17,10 @@ export class EventsPage {
   shownEvents: any = [];
   groups: any = [];
 
+  dayIndex = 0;
+  queryText = '';
+  excludeTracks: any = [];
+
   // the list is a child of the schedule page
   // @ViewChild('scheduleList') gets a reference to the list
   // with the variable #scheduleList, `read: List` tells it to return
@@ -27,7 +32,8 @@ export class EventsPage {
     public navCtrl: NavController,
     public app: App,
     public navParams: NavParams,
-    public user: UserProvider) {
+    public user: UserProvider,
+    public eventsDataProvider: EventsData) {
 
     let userInfo = this.user._user;
     if (userInfo && userInfo !== null) {
@@ -36,19 +42,18 @@ export class EventsPage {
   }
 
   ionViewDidLoad() {
-    this.app.setTitle('Schedule');
+    this.app.setTitle('Event');
     this.updateEvents();
   }
-
 
   updateEvents() {
     // Close any open sliding items when the schedule updates
     this.eventList && this.eventList.closeSlidingItems();
 
-    // this.confData.getTimeline(this.dayIndex, this.queryText, this.excludeTracks, this.segment).subscribe((data: any) => {
-    //   this.shownEvents = data.shownEvents;
-    //   this.groups = data.groups;
-    // });
+    this.eventsDataProvider.getTimeline(this.dayIndex, this.queryText, this.excludeTracks, this.segment).subscribe((data: any) => {
+      this.shownEvents = data.shownEvents;
+      this.groups = data.groups;
+    });
   }
 
   presentFilter() {

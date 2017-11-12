@@ -77,6 +77,20 @@ export class UserProvider {
     return seq;
   }
 
+  resetPassword(accountInfo: any) {
+    let reqOpts = this.utils.getSimpleHeaders();
+    let seq = this.api.put('userauth', accountInfo, reqOpts).share();
+
+    seq.subscribe((res: any) => {
+      //do nothing from the response.
+    }, err => {
+      console.error('ERROR', err);
+    });
+
+    return seq;
+  }
+
+
   /**
    * Log the user out, which forgets the session
    */

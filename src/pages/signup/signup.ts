@@ -21,14 +21,17 @@ export class SignupPage {
 
   submitted = false;
   signupSuccessMessage: string;
-  private signupErrorString: string;
+  private signupErrorToast: string;
+  private signupSuccessToast: string;
+
 
   constructor(
     public navCtrl: NavController,
     public toastCtrl: ToastController,
     public user: UserProvider) {
     this.signupSuccessMessage = '';
-    this.signupErrorString = "Signup failed. Check if account already exists!";
+    this.signupSuccessToast = "Signup request submitted."
+    this.signupErrorToast = "Signup failed. Check if account already exists!";
   }
 
   // Attempt to signup in through our User service
@@ -37,11 +40,17 @@ export class SignupPage {
 
     if (form.valid) {
       this.user.signup(this.account).subscribe((resp) => {
+        let toast = this.toastCtrl.create({
+          message: this.signupSuccessToast,
+          duration: 3000,
+          position: 'top'
+        });
+        toast.present();
         this.signupSuccessMessage = 'Emailed you the validation link. Please follow the steps in your email. Login afterwards!';
       }, (err) => {
         // Unable to log in
         let toast = this.toastCtrl.create({
-          message: this.signupErrorString,
+          message: this.signupErrorToast,
           duration: 3000,
           position: 'top'
         });

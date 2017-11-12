@@ -34,6 +34,8 @@
 			</p>
 		</ion-list>
 
+		<p ion-text color="danger" padding-left>{{resetPasswordSuccessMessage}}</p>
+
 		<ion-row responsive-sm>
 			<ion-col>
 				<button ion-button (click)="onLogin(loginForm)" type="submit" block>Login</button>
@@ -44,7 +46,7 @@
 		</ion-row>
 		<ion-row responsive-sm>
 			<ion-col>
-				<button ion-button (click)="onForgotPassword(loginForm)" color="light" block>Forgot password</button>
+				<button ion-button (click)="resetPassword(loginForm)" color="light" type="submit" block>Reset password</button>
 			</ion-col>
 		</ion-row>
 	</form>

@@ -39,13 +39,13 @@ export class MyApp {
 
     this.loggedInPages = [
       { title: 'Account', component: 'AccountPage', icon: 'help' },
-      { title: 'Support', component: 'SupportPage', icon: 'help' },
-      { title: 'Logout', component: 'LogoutPage', icon: 'help' },
+      { title: 'Support', component: 'SupportPage', icon: 'help-circle' },
+      { title: 'Logout', component: 'LogoutPage', icon: 'log-out' },
     ];
 
     this.loggedOutPages = [
-      { title: 'Login', component: 'LoginPage', icon: 'help' },
-      { title: 'Support', component: 'SupportPage', icon: 'help' },
+      { title: 'Login', component: 'LoginPage', icon: 'log-in' },
+      { title: 'Support', component: 'SupportPage', icon: 'help-circle' },
       { title: 'Signup', component: 'SignupPage', icon: 'person-add' }
     ];
 

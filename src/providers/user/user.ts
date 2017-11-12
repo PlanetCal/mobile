@@ -65,7 +65,8 @@ export class UserProvider {
    * the user entered on the form.
    */
   signup(accountInfo: any) {
-    let seq = this.api.post('signup', accountInfo).share();
+    let reqOpts = this.utils.getSimpleHeaders();
+    let seq = this.api.post('userauth', accountInfo, reqOpts).share();
 
     seq.subscribe((res: any) => {
       this._loggedIn(res);

@@ -3,44 +3,44 @@ import { NgForm } from '@angular/forms';
 
 import { IonicPage, NavController, ToastController } from 'ionic-angular';
 import { MainPage } from '../pages';
-import { SignupPage } from '../pages';
 import { UserProvider } from '../../providers/user/user';
 import { UtilsProvider } from '../../providers/utils/utils';
 
 @IonicPage()
 @Component({
   selector: 'page-user',
-  templateUrl: 'login.html'
+  templateUrl: 'signup.html'
 })
-export class LoginPage {
+export class SignupPage {
 
-  account: { email: string, password: string } = {
+  account: { name: string, email: string, password: string } = {
+    name: '',
     email: '',
     password: '1234'
   };
 
   submitted = false;
-  private loginErrorString: string;
+  private signupErrorString: string;
 
   constructor(
     public navCtrl: NavController,
     public toastCtrl: ToastController,
     public user: UserProvider) {
-    this.loginErrorString = "Login failed. Please check your username/password, or register yourself.";
+    this.signupErrorString = "Signup failed. Check if account already exists!";
 
   }
 
-  // Attempt to login in through our User service
-  onLogin(form: NgForm) {
+  // Attempt to signup in through our User service
+  onSignup(form: NgForm) {
     this.submitted = true;
 
     if (form.valid) {
-      this.user.login(this.account).subscribe((resp) => {
+      this.user.signup(this.account).subscribe((resp) => {
         this.navCtrl.setRoot(MainPage);
       }, (err) => {
         // Unable to log in
         let toast = this.toastCtrl.create({
-          message: this.loginErrorString,
+          message: this.signupErrorString,
           duration: 3000,
           position: 'top'
         });
@@ -49,9 +49,6 @@ export class LoginPage {
     }
   }
 
-  onSignup() {
-    this.navCtrl.push(SignupPage);
-  }
   onCancel() {
     this.navCtrl.setRoot(MainPage);
   }

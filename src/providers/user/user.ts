@@ -30,7 +30,7 @@ import { UtilsProvider } from '../utils/utils';
 export class UserProvider {
   _user: any;
   HAS_LOGGED_IN = 'hasLoggedIn';
-  HAS_SEEN_TUTORIAL = 'hasSeenTutorial';
+  HAS_SEEN_WELCOME = 'hasSeenWelcome';
 
   constructor(
     public api: ApiProvider,
@@ -108,8 +108,8 @@ export class UserProvider {
     });
   };
 
-  checkHasSeenTutorial(): Promise<string> {
-    return this.storage.get(this.HAS_SEEN_TUTORIAL).then((value) => {
+  checkHasSeenWelcome(): Promise<string> {
+    return this.storage.get(this.HAS_SEEN_WELCOME).then((value) => {
       return value;
     });
   };

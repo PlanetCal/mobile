@@ -3,14 +3,15 @@ import { IonicPage, MenuController, NavController, Slides } from 'ionic-angular'
 import { Storage } from '@ionic/storage';
 
 import { MainPage } from '../pages';
+import { UtilsProvider } from '../../providers/utils/utils';
 
 @IonicPage()
 @Component({
-  selector: 'page-tutorial',
-  templateUrl: 'tutorial.html'
+  selector: 'page-welcome',
+  templateUrl: 'welcome.html'
 })
 
-export class TutorialPage {
+export class WelcomePage {
   showSkip = true;
 
   @ViewChild('slides') slides: Slides;
@@ -18,12 +19,14 @@ export class TutorialPage {
   constructor(
     public navCtrl: NavController,
     public menu: MenuController,
-    public storage: Storage
-  ) { }
+    public storage: Storage,
+    public utils: UtilsProvider
+  ) {
+  }
 
   startApp() {
     this.navCtrl.setRoot(MainPage).then(() => {
-      this.storage.set('hasSeenTutorial', 'true');
+      this.storage.set('hasSeenWelcome', 'true');
     })
   }
 
@@ -36,12 +39,12 @@ export class TutorialPage {
   }
 
   ionViewDidEnter() {
-    // the root left menu should be disabled on the tutorial page
+    // the root left menu should be disabled on the welcome page
     this.menu.enable(false);
   }
 
   ionViewDidLeave() {
-    // enable the root left menu when leaving the tutorial page
+    // enable the root left menu when leaving the welcome page
     this.menu.enable(true);
   }
 

@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
+import { UserProvider } from '../../providers/user/user';
+
+
 @IonicPage()
 @Component({
   selector: 'page-list',
@@ -10,8 +13,18 @@ export class ListPage {
   selectedItem: any;
   icons: string[];
   items: Array<{ title: string, note: string, icon: string }>;
+  username: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public user: UserProvider) {
+
+    let userInfo = this.user._user;
+    if (userInfo && userInfo !== null) {
+      this.username = 'for ' + userInfo.name;
+    }
+
     // If we navigated to this page, we will have an item available as a nav param
     this.selectedItem = navParams.get('item');
 

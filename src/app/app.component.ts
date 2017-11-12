@@ -40,7 +40,8 @@ export class MyApp {
 
     this.loggedInPages = [
       { title: 'Settings', component: 'SettingsPage', icon: 'settings' },
-      { title: 'Logout', component: 'LogoutPage', icon: 'log-out' }
+      { title: 'Logout', component: 'LogoutPage', icon: 'log-out' },
+      { title: 'Reset Password', component: 'LoginPage', icon: 'refresh' }
     ];
 
     this.loggedOutPages = [

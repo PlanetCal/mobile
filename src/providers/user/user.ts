@@ -69,7 +69,7 @@ export class UserProvider {
     let seq = this.api.post('userauth', accountInfo, reqOpts).share();
 
     seq.subscribe((res: any) => {
-      this._loggedIn(res);
+      //do nothing from the response.
     }, err => {
       console.error('ERROR', err);
     });

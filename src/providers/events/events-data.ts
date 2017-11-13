@@ -39,7 +39,7 @@ export class EventsData {
       endpoint = 'eventsanonymous';
     }
     let reqOpts = this.utils.getHttpHeaders(token);
-    let queryParams = '?filter=endDateTime>=' + this.utils.convertToUTCDateString(new Date());
+    let queryParams = '?filter=endDateTime>=' + this.utils.convertToDateString(new Date());
     queryParams += '&' + this.utils.eventsFields;
     endpoint += queryParams;
     return this.api.get(endpoint, null, reqOpts).share();

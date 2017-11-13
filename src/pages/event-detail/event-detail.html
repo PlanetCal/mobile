@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Details</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div *ngIf="event">
+    <h1>{{event.name}}</h1>
+    <!--<h4 *ngFor="let speaker of event?.speakers">
+      {{speaker.name}}
+    </h4>-->
+    <p>
+      Start: {{utils.convertToFriendlyDateFromDateString(event.startDateTime)}}
+    </p>
+    <p>
+      End: {{utils.convertToFriendlyDateFromDateString(event.endDateTime)}}
+    </p>
+    <p>{{event.location}}</p>
+    <p>{{event.description}}</p>
+  </div>
+</ion-content>

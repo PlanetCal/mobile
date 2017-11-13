@@ -5,6 +5,8 @@ import { UserProvider } from '../../providers/user/user';
 import { EventsData } from '../../providers/events/events-data';
 import { UtilsProvider } from '../../providers/utils/utils';
 
+import { EventDetailPage } from '../pages';
+
 @IonicPage()
 @Component({
   selector: 'page-events',
@@ -59,7 +61,6 @@ export class EventsPage {
   }
 
   goToEventDetail(eventData: any) {
-    this.username = eventData.id;
-    //this.navCtrl.push(EventDetailPage, { eventId: eventData.id, name: eventData.name });
+    this.navCtrl.push(EventDetailPage, { eventData: eventData });
   }
 }

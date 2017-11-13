@@ -14,17 +14,25 @@ export class UtilsProvider {
     this.eventsFields = 'fields=name|description|startDateTime|endDateTime|address|location|groupId|icon';
   }
 
-  convertToUTCDateString(dateTime: Date): string {
-    let month = dateTime.getUTCMonth() + 1;
-    return dateTime.getUTCFullYear() + '-' + month + '-' + dateTime.getUTCDate();
+  convertToDateString(dateTime: Date): string {
+    let month = dateTime.getMonth() + 1;
+    return dateTime.getFullYear() + '-' + month + '-' + dateTime.getDate();
   }
 
   convertToFriendlyDate(dateTime: Date): string {
     return dateTime.toDateString();
   }
 
+  convertToFriendlyDateFromDateString(dateTime: string): string {
+    let date = new Date(dateTime);
+    let returnString = date.toLocaleDateString('en-us') + ' ' +
+      date.toLocaleTimeString('en-us');
+    return returnString;
+  }
+
   convertToTime(dateTime: string): string {
-    return new Date(dateTime).toLocaleTimeString('en-US');
+    let returnString = new Date(dateTime).toLocaleTimeString('en-US');
+    return returnString;
   }
 
   // getDuration(startDatetime: string, endDateTime: string): string {

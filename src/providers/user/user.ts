@@ -48,7 +48,7 @@ export class UserProvider {
    * the user entered on the form.
    */
   login(accountInfo: any) {
-    let reqOpts = this.utils.getSimpleHeaders();
+    let reqOpts = this.utils.getHttpHeaders();
     let seq = this.api.post('login', accountInfo, reqOpts).share();
 
     seq.subscribe((res: any) => {
@@ -65,7 +65,7 @@ export class UserProvider {
    * the user entered on the form.
    */
   signup(accountInfo: any) {
-    let reqOpts = this.utils.getSimpleHeaders();
+    let reqOpts = this.utils.getHttpHeaders();
     let seq = this.api.post('userauth', accountInfo, reqOpts).share();
 
     seq.subscribe((res: any) => {
@@ -78,7 +78,7 @@ export class UserProvider {
   }
 
   resetPassword(accountInfo: any) {
-    let reqOpts = this.utils.getSimpleHeaders();
+    let reqOpts = this.utils.getHttpHeaders();
     let seq = this.api.put('userauth', accountInfo, reqOpts).share();
 
     seq.subscribe((res: any) => {

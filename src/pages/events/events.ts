@@ -12,12 +12,9 @@ import { EventsData } from '../../providers/events/events-data';
 })
 export class EventsPage {
   username: string;
-
-  segment = 'all';
   shownEvents: any = [];
   groups: any = [];
 
-  dayIndex = 0;
   queryText = '';
   excludeTracks: any = [];
 
@@ -50,10 +47,11 @@ export class EventsPage {
     // Close any open sliding items when the schedule updates
     this.eventList && this.eventList.closeSlidingItems();
 
-    this.eventsDataProvider.getTimeline(this.dayIndex, this.queryText, this.excludeTracks, this.segment).subscribe((data: any) => {
-      this.shownEvents = data.shownEvents;
-      this.groups = data.groups;
-    });
+    this.eventsDataProvider.getTimeline(this.queryText)
+      .subscribe((data: { visibleGroups: number, groups: Array<{ date: string, hide: boolean, events: Array<{ any }> }> }) => {
+        this.shownEvents = data.visibleGroups;
+        this.groups = data.groups;
+      });
   }
 
   presentFilter() {

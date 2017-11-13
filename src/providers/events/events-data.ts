@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-// import { Http } from '@angular/http';
 
 import { UserProvider } from '../../providers/user/user';
+import { ApiProvider } from '../api/api';
+import { UtilsProvider } from '../utils/utils';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -10,124 +11,103 @@ import 'rxjs/add/observable/of';
 
 @Injectable()
 export class EventsData {
-  data: any;
+  eventsGroupedByDate: { visibleGroups: number, groups: Array<{ date: string, hide: boolean, events: Array<{ any }> }> };
 
-  //constructor(public http: Http, public user: UserProvider) { }
-  constructor(public user: UserProvider) { }
+  constructor(
+    public user: UserProvider,
+    public api: ApiProvider,
+    public utils: UtilsProvider,
+  ) { }
 
   load(): any {
-    if (this.data) {
-      return Observable.of(this.data);
+    if (this.eventsGroupedByDate) {
+      return Observable.of(this.eventsGroupedByDate);
     } else {
-      // return this.http.get('assets/data/data.json')
-      //   .map(this.processData, this);
+      return this.getEventsDataFromServer(null)
+        .map(this.processDataFromServer, this);
     }
   }
 
-  processData(data: any) {
-    // just some good 'ol JS fun with objects and arrays
-    // build up the data by linking speakers to sessions
-    this.data = data.json();
+  getEventsDataFromServer(accountInfo: any) {
+    let isUserLoggedIn = this.user.hasLoggedIn();
+    let endpoint = '';
+    let token = null;
+    if (isUserLoggedIn) {
+      endpoint = 'events';
+      token = this.user._user ? this.user._user.token : null;
+    }
+    else {
+      endpoint = 'eventsanonymous';
+    }
+    let reqOpts = this.utils.getHttpHeaders(token);
+    let queryParams = '?filter=endDateTime>=' + this.utils.convertToUTCDateString(new Date());
+    queryParams += '&' + this.utils.eventsFields;
+    endpoint += queryParams;
+    return this.api.get(endpoint, null, reqOpts).share();
+  }
 
-    this.data.tracks = [];
 
-    // loop through each day in the schedule
-    this.data.schedule.forEach((day: any) => {
-      // loop through each timeline group in the day
-      day.groups.forEach((group: any) => {
-        // loop through each session in the timeline group
-        group.sessions.forEach((session: any) => {
-          session.speakers = [];
-          if (session.speakerNames) {
-            session.speakerNames.forEach((speakerName: any) => {
-              let speaker = this.data.speakers.find((s: any) => s.name === speakerName);
-              if (speaker) {
-                session.speakers.push(speaker);
-                speaker.sessions = speaker.sessions || [];
-                speaker.sessions.push(session);
-              }
-            });
-          }
+  processDataFromServer(data: any) {
+    //{ visibleGroups: number, groups: Array<{ date: string, hide: boolean, events: Array<{ any }> }> };
+    this.eventsGroupedByDate = { visibleGroups: 0, groups: [] };
 
-          if (session.tracks) {
-            session.tracks.forEach((track: any) => {
-              if (this.data.tracks.indexOf(track) < 0) {
-                this.data.tracks.push(track);
-              }
-            });
+    data.forEach((event: any) => {
+      let date = this.utils.convertToUTCDateString(new Date(event.startDateTime));
+
+      let eventsForThisDay = this.eventsGroupedByDate.groups.find(event => event.date === date);
+      if (eventsForThisDay) {
+        eventsForThisDay.events.push(event);
+      }
+      else {
+        this.eventsGroupedByDate.groups.push({ date: date, hide: false, events: [event] });
+      }
+    }
+    );
+    return this.eventsGroupedByDate;
+  }
+
+  getTimeline(queryText = '') {
+
+    return this.load().map((data: { visibleGroups: number, groups: Array<{ date: string, hide: boolean, events: Array<{ any }> }> }) => {
+      data.visibleGroups = 0;
+
+      queryText = queryText.toLowerCase().replace(/,|\.|-/g, ' ');
+      let queryWords = queryText.split(' ').filter(w => !!w.trim().length);
+
+      data.groups.forEach((group: { date: string, hide: boolean, events: Array<{ any }> }) => {
+        group.hide = true;
+
+        group.events.forEach((event: any) => {
+          // check if this event should show or not
+          this.filterEvent(event, queryWords);
+          if (!event.hide) {
+            // if this event is not hidden then this group should show
+            group.hide = false;
+            data.visibleGroups++;
           }
         });
       });
+
+      return data;
     });
-
-    return this.data;
   }
 
-  getTimeline(dayIndex: number, queryText = '', excludeTracks: any[] = [], segment = 'all') {
-    // return this.load().map((data: any) => {
-    //   let day = data.schedule[dayIndex];
-    //   day.shownSessions = 0;
-
-    //   queryText = queryText.toLowerCase().replace(/,|\.|-/g, ' ');
-    //   let queryWords = queryText.split(' ').filter(w => !!w.trim().length);
-
-    //   day.groups.forEach((group: any) => {
-    //     group.hide = true;
-
-    //     group.sessions.forEach((session: any) => {
-    //       // check if this session should show or not
-    //       this.filterSession(session, queryWords, excludeTracks, segment);
-
-    //       if (!session.hide) {
-    //         // if this session is not hidden then this group should show
-    //         group.hide = false;
-    //         day.shownSessions++;
-    //       }
-    //     });
-
-    //   });
-
-    //   return day;
-    // });
-  }
-
-  filterSession(session: any, queryWords: string[], excludeTracks: any[], segment: string) {
+  filterEvent(event: any, queryWords: string[]) {
 
     let matchesQueryText = false;
     if (queryWords.length) {
-      // of any query word is in the session name than it passes the query test
+      // of any query word is in the event name than it passes the query test
       queryWords.forEach((queryWord: string) => {
-        if (session.name.toLowerCase().indexOf(queryWord) > -1) {
+        if (event.name.toLowerCase().indexOf(queryWord) > -1) {
           matchesQueryText = true;
         }
       });
     } else {
-      // if there are no query words then this session passes the query test
+      // if there are no query words then this event passes the query test
       matchesQueryText = true;
     }
 
-    // if any of the sessions tracks are not in the
-    // exclude tracks then this session passes the track test
-    let matchesTracks = false;
-    session.tracks.forEach((trackName: string) => {
-      if (excludeTracks.indexOf(trackName) === -1) {
-        matchesTracks = true;
-      }
-    });
-
-    // if the segement is 'favorites', but session is not a user favorite
-    // then this session does not pass the segment test
-    let matchesSegment = false;
-    // if (segment === 'favorites') {
-    //   if (this.user.hasFavorite(session.name)) {
-    //     matchesSegment = true;
-    //   }
-    // } else {
-    //   matchesSegment = true;
-    // }
-
-    // all tests must be true if it should not be hidden
-    session.hide = !(matchesQueryText && matchesTracks && matchesSegment);
+    event.hide = !matchesQueryText;
   }
 
   getSpeakers() {

@@ -7,19 +7,35 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class UtilsProvider {
   productName: string;
+  eventsFields: string;
 
   constructor() {
     this.productName = 'PlanetCal';
+    this.eventsFields = 'fields=name|description|startDateTime|endDateTime|address|location|groupId|icon';
   }
 
-  getSimpleHeaders() {
-    let reqOpts = {
-      headers: new HttpHeaders({
-        'Version': '1.0',
-        'Accept': 'application/json'
-      })
-    };
+  convertToUTCDateString(dateTime) {
+    let month = dateTime.getUTCMonth() + 1;
+    return dateTime.getUTCFullYear() + '-' + month + '-' + dateTime.getUTCDate();
+  }
 
-    return reqOpts;
+  getHttpHeaders(authToken: string = null) {
+    if (authToken) {
+      return {
+        headers: new HttpHeaders({
+          'Version': '1.0',
+          'Accept': 'application/json',
+          'Authorization': 'bearer ' + authToken
+        })
+      };
+    }
+    else {
+      return {
+        headers: new HttpHeaders({
+          'Version': '1.0',
+          'Accept': 'application/json'
+        })
+      };
+    }
   }
 }

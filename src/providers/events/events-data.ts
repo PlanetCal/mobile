@@ -29,12 +29,11 @@ export class EventsData {
   }
 
   getEventsDataFromServer(accountInfo: any) {
-    let isUserLoggedIn = this.user.hasLoggedIn();
     let endpoint = '';
     let token = null;
-    if (isUserLoggedIn) {
+    if (this.user._user) {
       endpoint = 'events';
-      token = this.user._user ? this.user._user.token : null;
+      token = this.user._user.token;
     }
     else {
       endpoint = 'eventsanonymous';

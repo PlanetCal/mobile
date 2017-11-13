@@ -58,7 +58,8 @@ export class EventsPage {
   presentFilter() {
   }
 
-  goToEventDetail(EventData: any) {
+  goToEventDetail(eventData: any) {
+    this.username = eventData.id;
     //this.navCtrl.push(EventDetailPage, { eventId: eventData.id, name: eventData.name });
   }
 }

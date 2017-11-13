@@ -3,7 +3,7 @@ import { IonicPage, AlertController, App, ItemSliding, List, ModalController, Na
 
 import { UserProvider } from '../../providers/user/user';
 import { EventsData } from '../../providers/events/events-data';
-
+import { UtilsProvider } from '../../providers/utils/utils';
 
 @IonicPage()
 @Component({
@@ -30,6 +30,7 @@ export class EventsPage {
     public app: App,
     public navParams: NavParams,
     public user: UserProvider,
+    public utils: UtilsProvider,
     public eventsDataProvider: EventsData) {
 
     let userInfo = this.user._user;

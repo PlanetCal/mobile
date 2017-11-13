@@ -28,8 +28,10 @@
         <button ion-item (click)="goToEventDetail(event)">
           <h3>{{event.name}}</h3>
           <p>
-            {{event.startDateTime}} &mdash;
-            {{event.endDateTime}}:
+            {{utils.convertToTime(event.startDateTime)}} &mdash;
+            {{utils.convertToTime(event.endDateTime)}}
+          </p>
+          <p>            
             {{event.location}}
           </p>
         </button>

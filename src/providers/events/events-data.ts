@@ -46,13 +46,12 @@ export class EventsData {
     return this.api.get(endpoint, null, reqOpts).share();
   }
 
-
   processDataFromServer(data: any) {
     //{ visibleGroups: number, groups: Array<{ date: string, hide: boolean, events: Array<{ any }> }> };
     this.eventsGroupedByDate = { visibleGroups: 0, groups: [] };
 
     data.forEach((event: any) => {
-      let date = this.utils.convertToUTCDateString(new Date(event.startDateTime));
+      let date = this.utils.convertToFriendlyDate(new Date(event.startDateTime));
 
       let eventsForThisDay = this.eventsGroupedByDate.groups.find(event => event.date === date);
       if (eventsForThisDay) {
@@ -67,7 +66,6 @@ export class EventsData {
   }
 
   getTimeline(queryText = '') {
-
     return this.load().map((data: { visibleGroups: number, groups: Array<{ date: string, hide: boolean, events: Array<{ any }> }> }) => {
       data.visibleGroups = 0;
 
@@ -93,7 +91,6 @@ export class EventsData {
   }
 
   filterEvent(event: any, queryWords: string[]) {
-
     let matchesQueryText = false;
     if (queryWords.length) {
       // of any query word is in the event name than it passes the query test
@@ -109,27 +106,4 @@ export class EventsData {
 
     event.hide = !matchesQueryText;
   }
-
-  getSpeakers() {
-    return this.load().map((data: any) => {
-      return data.speakers.sort((a: any, b: any) => {
-        let aName = a.name.split(' ').pop();
-        let bName = b.name.split(' ').pop();
-        return aName.localeCompare(bName);
-      });
-    });
-  }
-
-  getTracks() {
-    return this.load().map((data: any) => {
-      return data.tracks.sort();
-    });
-  }
-
-  getMap() {
-    // return this.load().map((data: any) => {
-    //   return data.map;
-    // });
-  }
-
 }

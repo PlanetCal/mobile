@@ -31,13 +31,13 @@ export class MyApp {
     public userProvider: UserProvider
   ) {
     this.appPages = [
-      { title: 'Home', component: 'HomePage', icon: 'help' },
       { title: 'Events', component: 'EventsPage', icon: 'calendar' },
       { title: 'About', component: 'AboutPage', icon: 'information-circle' },
       { title: 'Support', component: 'SupportPage', icon: 'help-circle' }
     ];
 
     this.loggedInPages = [
+      { title: 'Groups', component: 'GroupsPage', icon: 'people' },
       { title: 'Settings', component: 'SettingsPage', icon: 'settings' },
       { title: 'Logout', component: 'LogoutPage', icon: 'log-out' },
       { title: 'Reset Password', component: 'LoginPage', icon: 'refresh' }

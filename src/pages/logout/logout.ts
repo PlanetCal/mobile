@@ -15,7 +15,7 @@ export class LogoutPage {
     public navCtrl: NavController,
     public user: UserProvider) {
 
-    let userInfo = this.user._user;
+    let userInfo = this.user.getLoggedInUser();
     if (userInfo && userInfo !== null) {
       this.username = userInfo.name;
     }

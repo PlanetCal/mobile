@@ -28,15 +28,15 @@ import { UtilsProvider } from '../utils/utils';
  */
 @Injectable()
 export class UserProvider {
-  _user: any;
-  HAS_LOGGED_IN = 'hasLoggedIn';
-  HAS_SEEN_WELCOME = 'hasSeenWelcome';
+  private _user: any;
+  private HAS_LOGGED_IN = 'hasLoggedIn';
+  private HAS_SEEN_WELCOME = 'hasSeenWelcome';
 
   constructor(
-    public api: ApiProvider,
-    public utils: UtilsProvider,
-    public events: Events,
-    public storage: Storage
+    private api: ApiProvider,
+    private utils: UtilsProvider,
+    private events: Events,
+    private storage: Storage
   ) {
     this.storage.get('user').then((value) => {
       this._user = value;
@@ -47,7 +47,7 @@ export class UserProvider {
    * Send a POST request to our login endpoint with the data
    * the user entered on the form.
    */
-  login(accountInfo: any) {
+  public login(accountInfo: any) {
     let reqOpts = this.utils.getHttpHeaders();
     let seq = this.api.post('login', accountInfo, reqOpts).share();
 
@@ -64,7 +64,7 @@ export class UserProvider {
    * Send a POST request to our signup endpoint with the data
    * the user entered on the form.
    */
-  signup(accountInfo: any) {
+  public signup(accountInfo: any) {
     let reqOpts = this.utils.getHttpHeaders();
     let seq = this.api.post('userauth', accountInfo, reqOpts).share();
 
@@ -77,7 +77,7 @@ export class UserProvider {
     return seq;
   }
 
-  resetPassword(accountInfo: any) {
+  public resetPassword(accountInfo: any) {
     let reqOpts = this.utils.getHttpHeaders();
     let seq = this.api.put('userauth', accountInfo, reqOpts).share();
 
@@ -94,7 +94,7 @@ export class UserProvider {
   /**
    * Log the user out, which forgets the session
    */
-  logout() {
+  public logout() {
     this._user = null;
     this.storage.set(this.HAS_LOGGED_IN, false);
     this.storage.set('user', null);
@@ -104,26 +104,24 @@ export class UserProvider {
   /**
    * Process a login/signup response to store user data
    */
-  _loggedIn(resp) {
+  private _loggedIn(resp) {
     this._user = resp;
     this.storage.set(this.HAS_LOGGED_IN, true);
     this.storage.set('user', resp);
     this.events.publish('user:login');
   }
 
-  getUserInfo(): Promise<string> {
-    return this.storage.get('user').then((value) => {
-      return value;
-    });
-  };
-
-  hasLoggedIn(): Promise<boolean> {
+  public hasLoggedIn(): Promise<boolean> {
     return this.storage.get(this.HAS_LOGGED_IN).then((value) => {
       return value === true;
     });
   };
 
-  checkHasSeenWelcome(): Promise<string> {
+  public getLoggedInUser(): any {
+    return this._user;
+  }
+
+  public checkHasSeenWelcome(): Promise<string> {
     return this.storage.get(this.HAS_SEEN_WELCOME).then((value) => {
       return value;
     });

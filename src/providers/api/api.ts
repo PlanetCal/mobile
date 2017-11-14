@@ -8,10 +8,11 @@ import { Injectable } from '@angular/core';
 export class ApiProvider {
   url: string = 'http://localhost:1337';
 
-  constructor(public http: HttpClient) {
+  constructor(
+    private http: HttpClient) {
   }
 
-  get(endpoint: string, params?: any, reqOpts?: any) {
+  public get(endpoint: string, params?: any, reqOpts?: any) {
     if (!reqOpts) {
       reqOpts = {
         params: new HttpParams()
@@ -29,19 +30,19 @@ export class ApiProvider {
     return this.http.get(this.url + '/' + endpoint, reqOpts);
   }
 
-  post(endpoint: string, body: any, reqOpts?: any) {
+  public post(endpoint: string, body: any, reqOpts?: any) {
     return this.http.post(this.url + '/' + endpoint, body, reqOpts);
   }
 
-  put(endpoint: string, body: any, reqOpts?: any) {
+  public put(endpoint: string, body: any, reqOpts?: any) {
     return this.http.put(this.url + '/' + endpoint, body, reqOpts);
   }
 
-  delete(endpoint: string, reqOpts?: any) {
+  public delete(endpoint: string, reqOpts?: any) {
     return this.http.delete(this.url + '/' + endpoint, reqOpts);
   }
 
-  patch(endpoint: string, body: any, reqOpts?: any) {
+  public patch(endpoint: string, body: any, reqOpts?: any) {
     return this.http.put(this.url + '/' + endpoint, body, reqOpts);
   }
 }

@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, AlertController, App, ItemSliding, List, ModalController, NavController, NavParams, ToastController, LoadingController, Refresher } from 'ionic-angular';
+import { IonicPage, AlertController, App, ItemSliding, List, NavController } from 'ionic-angular';
 
 import { UserProvider } from '../../providers/user/user';
 import { EventsData } from '../../providers/events/events-data';
@@ -13,13 +13,12 @@ import { EventDetailPage } from '../pages';
   templateUrl: 'events.html'
 })
 export class EventsPage {
-  segment = 'all';
-  username: string;
-  shownEvents: any = [];
-  groups: any = [];
+  private segment = 'all';
+  private username: string;
+  private shownEvents: any = [];
+  private groups: any = [];
 
-  queryText = '';
-  excludeTracks: any = [];
+  private queryText = '';
 
   // the list is a child of the schedule page
   // @ViewChild('scheduleList') gets a reference to the list
@@ -29,15 +28,15 @@ export class EventsPage {
 
 
   constructor(
-    public alertCtrl: AlertController,
-    public navCtrl: NavController,
-    public app: App,
-    public navParams: NavParams,
-    public user: UserProvider,
-    public utils: UtilsProvider,
-    public eventsDataProvider: EventsData) {
+    private alertCtrl: AlertController,
+    private navCtrl: NavController,
+    private app: App,
+    private user: UserProvider,
+    private utils: UtilsProvider,
 
-    let userInfo = this.user._user;
+    private eventsDataProvider: EventsData) {
+
+    let userInfo = this.user.getLoggedInUser();
     if (userInfo && userInfo !== null) {
       this.username = 'for ' + userInfo.name;
     }
@@ -48,7 +47,7 @@ export class EventsPage {
     this.updateEvents();
   }
 
-  updateEvents() {
+  private updateEvents() {
     // Close any open sliding items when the schedule updates
     this.eventList && this.eventList.closeSlidingItems();
 
@@ -59,14 +58,14 @@ export class EventsPage {
       });
   }
 
-  presentFilter() {
+  public presentFilter() {
   }
 
-  goToEventDetail(eventData: any) {
+  public goToEventDetail(eventData: any) {
     this.navCtrl.push(EventDetailPage, { eventData: eventData });
   }
 
-  addFavorite(slidingItem: ItemSliding, eventData: any) {
+  public addFavorite(slidingItem: ItemSliding, eventData: any) {
 
     if (this.eventsDataProvider.isFavoriteEvent(eventData.id)) {
       // woops, they already favorited it! What shall we do!?
@@ -91,7 +90,7 @@ export class EventsPage {
     alert.present();
   }
 
-  removeFavorite(slidingItem: ItemSliding, eventData: any, title: string) {
+  public removeFavorite(slidingItem: ItemSliding, eventData: any, title: string) {
     let alert = this.alertCtrl.create({
       title: title,
       message: 'Would you like to remove this session from your favorites?',

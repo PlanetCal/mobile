@@ -6,31 +6,31 @@ import { Injectable } from '@angular/core';
  */
 @Injectable()
 export class UtilsProvider {
-  productName: string;
-  eventsFields: string;
+  public productName: string;
+  public eventsFields: string;
 
-  constructor() {
+  public constructor() {
     this.productName = 'PlanetCal';
     this.eventsFields = 'fields=name|description|startDateTime|endDateTime|address|location|groupId|icon';
   }
 
-  convertToDateString(dateTime: Date): string {
+  public convertToDateString(dateTime: Date): string {
     let month = dateTime.getMonth() + 1;
     return dateTime.getFullYear() + '-' + month + '-' + dateTime.getDate();
   }
 
-  convertToFriendlyDate(dateTime: Date): string {
+  public convertToFriendlyDate(dateTime: Date): string {
     return dateTime.toDateString();
   }
 
-  convertToFriendlyDateFromDateString(dateTime: string): string {
+  public convertToFriendlyDateFromDateString(dateTime: string): string {
     let date = new Date(dateTime);
     let returnString = date.toLocaleDateString('en-us') + ' ' +
       date.toLocaleTimeString('en-us');
     return returnString;
   }
 
-  convertToTime(dateTime: string): string {
+  public convertToTime(dateTime: string): string {
     let returnString = new Date(dateTime).toLocaleTimeString('en-US');
     return returnString;
   }
@@ -40,7 +40,7 @@ export class UtilsProvider {
   //   let endDate = new Date(endDateTime);
   // }
 
-  getHttpHeaders(authToken: string = null) {
+  public getHttpHeaders(authToken: string = null) {
     if (authToken) {
       return {
         headers: new HttpHeaders({

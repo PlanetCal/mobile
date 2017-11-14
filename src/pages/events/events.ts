@@ -1,9 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, AlertController, App, ItemSliding, List, NavController } from 'ionic-angular';
 
-import { UserProvider } from '../../providers/user/user';
-import { EventsData } from '../../providers/events/events-data';
-import { UtilsProvider } from '../../providers/utils/utils';
+import { UserProvider } from '../../providers/user';
+import { EventsData } from '../../providers/events-data';
+import { UtilsProvider } from '../../providers/utils';
 
 import { EventDetailPage } from '../pages';
 

@@ -3,7 +3,7 @@ import { IonicPage, MenuController, NavController, Slides } from 'ionic-angular'
 import { Storage } from '@ionic/storage';
 
 import { MainPage } from '../pages';
-import { UtilsProvider } from '../../providers/utils/utils';
+import { UtilsProvider } from '../../providers/utils';
 
 @IonicPage()
 @Component({

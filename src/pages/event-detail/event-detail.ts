@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavParams } from 'ionic-angular';
-import { UtilsProvider } from '../../providers/utils/utils';
+import { UtilsProvider } from '../../providers/utils';
 
 @IonicPage()
 @Component({

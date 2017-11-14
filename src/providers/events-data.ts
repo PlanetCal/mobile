@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
-import { UserProvider } from '../../providers/user/user';
-import { ApiProvider } from '../api/api';
-import { UtilsProvider } from '../utils/utils';
+import { UserProvider } from './user';
+import { ApiProvider } from './api';
+import { UtilsProvider } from './utils';
 import { Storage } from '@ionic/storage';
 
 import { Observable } from 'rxjs/Observable';

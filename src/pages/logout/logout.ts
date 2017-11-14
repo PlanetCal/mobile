@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
 import { MainPage } from '../pages';
-import { UserProvider } from '../../providers/user/user';
+import { UserProvider } from '../../providers/user';
 
 @IonicPage()
 @Component({
@@ -15,7 +15,7 @@ export class LogoutPage {
     public navCtrl: NavController,
     public user: UserProvider) {
 
-    let userInfo = this.user._user;
+    let userInfo = this.user.getLoggedInUser();
     if (userInfo && userInfo !== null) {
       this.username = userInfo.name;
     }

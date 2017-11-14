@@ -8,10 +8,11 @@ import { MyApp } from './app.component';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { ApiProvider } from '../providers/api/api';
-import { UserProvider } from '../providers/user/user';
-import { UtilsProvider } from '../providers/utils/utils';
-import { EventsData } from '../providers/events/events-data';
+import { ApiProvider } from '../providers/api';
+import { UserProvider } from '../providers/user';
+import { UtilsProvider } from '../providers/utils';
+import { EventsData } from '../providers/events-data';
+import { Constants } from '../providers/constants';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { EventsData } from '../providers/events/events-data';
     ApiProvider,
     UserProvider,
     UtilsProvider,
-    EventsData
+    EventsData,
+    Constants
   ]
 })
 export class AppModule { }

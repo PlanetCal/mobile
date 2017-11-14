@@ -64,7 +64,7 @@ export class EventsData {
     return this.eventsGroupedByDate;
   }
 
-  getTimeline(queryText = '') {
+  getTimeline(queryText = '', segment = 'all') {
     return this.load().map((data: { visibleGroups: number, groups: Array<{ date: string, hide: boolean, events: Array<{ any }> }> }) => {
       data.visibleGroups = 0;
 
@@ -76,7 +76,7 @@ export class EventsData {
 
         group.events.forEach((event: any) => {
           // check if this event should show or not
-          this.filterEvent(event, queryWords);
+          this.filterEvent(event, queryWords, segment);
           if (!event.hide) {
             // if this event is not hidden then this group should show
             group.hide = false;
@@ -89,7 +89,7 @@ export class EventsData {
     });
   }
 
-  filterEvent(event: any, queryWords: string[]) {
+  filterEvent(event: any, queryWords: string[], segment: string) {
     let matchesQueryText = false;
     if (queryWords.length) {
       // of any query word is in the event name than it passes the query test
@@ -103,6 +103,18 @@ export class EventsData {
       matchesQueryText = true;
     }
 
-    event.hide = !matchesQueryText;
+    // if the segement is 'favorites', but session is not a user favorite
+    // then this session does not pass the segment test
+    let matchesSegment = false;
+    if (segment === 'favorites') {
+      // if (this.user.hasFavorite(event.name)) {
+      //   matchesSegment = true;
+      // }
+    } else {
+      matchesSegment = true;
+    }
+
+    // all tests must be true if it should not be hidden
+    event.hide = !(matchesQueryText && matchesSegment);
   }
 }

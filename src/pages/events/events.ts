@@ -13,6 +13,7 @@ import { EventDetailPage } from '../pages';
   templateUrl: 'events.html'
 })
 export class EventsPage {
+  segment = 'all';
   username: string;
   shownEvents: any = [];
   groups: any = [];
@@ -28,6 +29,7 @@ export class EventsPage {
 
 
   constructor(
+    public alertCtrl: AlertController,
     public navCtrl: NavController,
     public app: App,
     public navParams: NavParams,
@@ -50,7 +52,7 @@ export class EventsPage {
     // Close any open sliding items when the schedule updates
     this.eventList && this.eventList.closeSlidingItems();
 
-    this.eventsDataProvider.getTimeline(this.queryText)
+    this.eventsDataProvider.getTimeline(this.queryText, this.segment)
       .subscribe((data: { visibleGroups: number, groups: Array<{ date: string, hide: boolean, events: Array<{ any }> }> }) => {
         this.shownEvents = data.visibleGroups;
         this.groups = data.groups;
@@ -62,5 +64,62 @@ export class EventsPage {
 
   goToEventDetail(eventData: any) {
     this.navCtrl.push(EventDetailPage, { eventData: eventData });
+  }
+
+  addFavorite(slidingItem: ItemSliding, eventData: any) {
+
+    // if (this.user.hasFavorite(eventData.name)) {
+    //   // woops, they already favorited it! What shall we do!?
+    //   // prompt them to remove it
+    //   this.removeFavorite(slidingItem, eventData, 'Favorite already added');
+    // } else {
+    //   // remember this session as a user favorite
+    //   this.user.addFavorite(eventData.name);
+
+    // create an alert instance
+    let alert = this.alertCtrl.create({
+      title: 'Favorite Added',
+      buttons: [{
+        text: 'OK',
+        handler: () => {
+          // close the sliding item
+          slidingItem.close();
+        }
+      }]
+    });
+    // now present the alert on top of all other content
+    alert.present();
+  }
+
+
+
+  removeFavorite(slidingItem: ItemSliding, eventData: any, title: string) {
+    let alert = this.alertCtrl.create({
+      title: title,
+      message: 'Would you like to remove this session from your favorites?',
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: () => {
+            // they clicked the cancel button, do not remove the session
+            // close the sliding item and hide the option buttons
+            slidingItem.close();
+          }
+        },
+        {
+          text: 'Remove',
+          handler: () => {
+            // they want to remove this session from their favorites
+            // this.user.removeFavorite(eventData.name);
+            // this.updateEvents();
+
+            // close the sliding item and hide the option buttons
+            slidingItem.close();
+          }
+        }
+      ]
+    });
+    // now present the alert on top of all other content
+    alert.present();
   }
 }

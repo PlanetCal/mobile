@@ -3,7 +3,15 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Events {{username}}</ion-title>
+
+    <ion-segment [(ngModel)]="segment" (ionChange)="updateEvents()">
+      <ion-segment-button value="all">
+        All
+      </ion-segment-button>
+      <ion-segment-button value="favorites">
+        Favorites
+      </ion-segment-button>
+    </ion-segment>
 
     <ion-buttons end>
       <button ion-button icon-only (click)="presentFilter()">
@@ -25,7 +33,7 @@
         </ion-label>
       </ion-item-divider>
 
-      <ion-item-sliding *ngFor="let event of group.events" [hidden]="event.hide">
+      <ion-item-sliding *ngFor="let event of group.events" #slidingItem [hidden]="event.hide">
         <button ion-item (click)="goToEventDetail(event)">
           <h3>{{event.name}}</h3>
           <p>
@@ -38,8 +46,11 @@
         </button>
 
         <ion-item-options>
-          <button ion-button color="share">
-            Share
+          <button ion-button color="favorite" (click)="addFavorite(slidingItem, event)" *ngIf="segment === 'all'">
+            Favorite
+          </button>
+          <button ion-button color="danger" (click)="removeFavorite(slidingItem, event, 'Remove Favorite')" *ngIf="segment === 'favorites'">
+            Remove
           </button>
         </ion-item-options>
       </ion-item-sliding>

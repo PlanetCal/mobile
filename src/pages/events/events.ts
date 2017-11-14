@@ -4,7 +4,6 @@ import { IonicPage, AlertController, App, ItemSliding, List, NavController } fro
 import { UserProvider } from '../../providers/user';
 import { EventsData } from '../../providers/events-data';
 import { UtilsProvider } from '../../providers/utils';
-
 import { EventDetailPage } from '../pages';
 
 @IonicPage()

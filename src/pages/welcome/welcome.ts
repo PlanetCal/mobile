@@ -3,7 +3,8 @@ import { IonicPage, MenuController, NavController, Slides } from 'ionic-angular'
 import { Storage } from '@ionic/storage';
 
 import { MainPage } from '../pages';
-import { UtilsProvider } from '../../providers/utils';
+import { Constants } from '../../providers/constants';
+
 
 @IonicPage()
 @Component({
@@ -20,7 +21,7 @@ export class WelcomePage {
     public navCtrl: NavController,
     public menu: MenuController,
     public storage: Storage,
-    public utils: UtilsProvider
+    public constants: Constants
   ) {
   }
 

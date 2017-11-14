@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
+import { Storage } from '@ionic/storage';
 
 import { UserProvider } from './user';
 import { ApiProvider } from './api';
 import { UtilsProvider } from './utils';
-import { Storage } from '@ionic/storage';
+import { Constants } from '../providers/constants';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -20,6 +21,7 @@ export class EventsData {
     private user: UserProvider,
     private api: ApiProvider,
     private utils: UtilsProvider,
+    private constants: Constants,
     private storage: Storage
   ) {
     this.storage.get(this.FAVORITE_EVENTS).then((value) => {
@@ -49,7 +51,7 @@ export class EventsData {
     }
     let reqOpts = this.utils.getHttpHeaders(token);
     let queryParams = '?filter=endDateTime>=' + this.utils.convertToDateString(new Date());
-    queryParams += '&' + this.utils.eventsFields;
+    queryParams += '&' + this.constants.eventsFields;
     endpoint += queryParams;
     return this.api.get(endpoint, null, reqOpts).share();
   }

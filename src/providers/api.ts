@@ -1,15 +1,16 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
+import { Constants } from './constants';
+
 /**
  * Api is a generic REST Api handler. Set your API url first.
  */
 @Injectable()
 export class ApiProvider {
-  url: string = 'http://localhost:1337';
-
   constructor(
-    private http: HttpClient) {
+    private http: HttpClient,
+    private constants: Constants) {
   }
 
   public get(endpoint: string, params?: any, reqOpts?: any) {
@@ -27,22 +28,22 @@ export class ApiProvider {
       }
     }
 
-    return this.http.get(this.url + '/' + endpoint, reqOpts);
+    return this.http.get(this.constants.serviceUrl + '/' + endpoint, reqOpts);
   }
 
   public post(endpoint: string, body: any, reqOpts?: any) {
-    return this.http.post(this.url + '/' + endpoint, body, reqOpts);
+    return this.http.post(this.constants.serviceUrl + '/' + endpoint, body, reqOpts);
   }
 
   public put(endpoint: string, body: any, reqOpts?: any) {
-    return this.http.put(this.url + '/' + endpoint, body, reqOpts);
+    return this.http.put(this.constants.serviceUrl + '/' + endpoint, body, reqOpts);
   }
 
   public delete(endpoint: string, reqOpts?: any) {
-    return this.http.delete(this.url + '/' + endpoint, reqOpts);
+    return this.http.delete(this.constants.serviceUrl + '/' + endpoint, reqOpts);
   }
 
   public patch(endpoint: string, body: any, reqOpts?: any) {
-    return this.http.put(this.url + '/' + endpoint, body, reqOpts);
+    return this.http.put(this.constants.serviceUrl + '/' + endpoint, body, reqOpts);
   }
 }

@@ -12,6 +12,7 @@ import { ApiProvider } from '../providers/api';
 import { UserProvider } from '../providers/user';
 import { UtilsProvider } from '../providers/utils';
 import { EventsData } from '../providers/events-data';
+import { Constants } from '../providers/constants';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { EventsData } from '../providers/events-data';
     ApiProvider,
     UserProvider,
     UtilsProvider,
-    EventsData
+    EventsData,
+    Constants
   ]
 })
 export class AppModule { }

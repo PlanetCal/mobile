@@ -6,12 +6,7 @@ import { Injectable } from '@angular/core';
  */
 @Injectable()
 export class UtilsProvider {
-  public productName: string;
-  public eventsFields: string;
-
   public constructor() {
-    this.productName = 'PlanetCal';
-    this.eventsFields = 'fields=name|description|startDateTime|endDateTime|address|location|groupId|icon';
   }
 
   public convertToDateString(dateTime: Date): string {

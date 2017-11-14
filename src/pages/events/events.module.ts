@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
 import { IonicPageModule } from 'ionic-angular';
 
 import { EventsPage } from './events';
@@ -10,7 +9,6 @@ import { EventsPage } from './events';
   ],
   imports: [
     IonicPageModule.forChild(EventsPage),
-    TranslateModule.forChild()
   ],
   exports: [
     EventsPage

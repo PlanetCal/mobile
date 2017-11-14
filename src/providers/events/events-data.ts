@@ -17,17 +17,17 @@ export class EventsData {
   private FAVORITE_EVENTS = 'favoriteEvents';
 
   constructor(
-    public user: UserProvider,
-    public api: ApiProvider,
-    public utils: UtilsProvider,
-    public storage: Storage
+    private user: UserProvider,
+    private api: ApiProvider,
+    private utils: UtilsProvider,
+    private storage: Storage
   ) {
     this.storage.get(this.FAVORITE_EVENTS).then((value) => {
       this._favoriteEvents = value ? value : [];
     });
   }
 
-  load(): any {
+  private load(): any {
     if (this.eventsGroupedByDate) {
       return Observable.of(this.eventsGroupedByDate);
     } else {
@@ -36,7 +36,7 @@ export class EventsData {
     }
   }
 
-  getEventsDataFromServer(accountInfo: any) {
+  private getEventsDataFromServer(accountInfo: any) {
     let endpoint = '';
     let token = null;
     if (this.user._user) {
@@ -53,7 +53,7 @@ export class EventsData {
     return this.api.get(endpoint, null, reqOpts).share();
   }
 
-  addToFavoriteEvents(eventId: string) {
+  public addToFavoriteEvents(eventId: string) {
     let index = this._favoriteEvents.indexOf(eventId);
     if (index < 0) {
       this._favoriteEvents.push(eventId);
@@ -61,7 +61,7 @@ export class EventsData {
     }
   }
 
-  removeFromFavoriteEvents(eventId: string) {
+  public removeFromFavoriteEvents(eventId: string) {
     let index = this._favoriteEvents.indexOf(eventId);
     if (index >= 0) {
       this._favoriteEvents.splice(index, 1);
@@ -69,13 +69,13 @@ export class EventsData {
     }
   }
 
-  isFavoriteEvent(eventId: string) {
+  public isFavoriteEvent(eventId: string) {
     let index = this._favoriteEvents.indexOf(eventId);
     return index >= 0;
   }
 
 
-  processDataFromServer(data: any) {
+  private processDataFromServer(data: any) {
     //{ visibleGroups: number, groups: Array<{ date: string, hide: boolean, events: Array<{ any }> }> };
     this.eventsGroupedByDate = { visibleGroups: 0, groups: [] };
 
@@ -94,7 +94,7 @@ export class EventsData {
     return this.eventsGroupedByDate;
   }
 
-  getTimeline(queryText = '', segment = 'all') {
+  public getTimeline(queryText = '', segment = 'all') {
     return this.load().map((data: { visibleGroups: number, groups: Array<{ date: string, hide: boolean, events: Array<{ any }> }> }) => {
       data.visibleGroups = 0;
 
@@ -119,7 +119,7 @@ export class EventsData {
     });
   }
 
-  filterEvent(event: any, queryWords: string[], segment: string) {
+  private filterEvent(event: any, queryWords: string[], segment: string) {
     let matchesQueryText = false;
     if (queryWords.length) {
       // of any query word is in the event name than it passes the query test

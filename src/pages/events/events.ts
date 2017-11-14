@@ -74,31 +74,32 @@ export class EventsPage {
     } else {
       // remember this event as a user favorite
       this.eventsDataProvider.addToFavoriteEvents(eventData.id);
+
+      // create an alert instance
+      let alert = this.alertCtrl.create({
+        title: 'Favorite Added',
+        buttons: [{
+          text: 'OK',
+          handler: () => {
+            // close the sliding item
+            slidingItem.close();
+          }
+        }]
+      });
+      // now present the alert on top of all other content
+      alert.present();
     }
-    // create an alert instance
-    let alert = this.alertCtrl.create({
-      title: 'Favorite Added',
-      buttons: [{
-        text: 'OK',
-        handler: () => {
-          // close the sliding item
-          slidingItem.close();
-        }
-      }]
-    });
-    // now present the alert on top of all other content
-    alert.present();
   }
 
   public removeFavorite(slidingItem: ItemSliding, eventData: any, title: string) {
     let alert = this.alertCtrl.create({
       title: title,
-      message: 'Would you like to remove this session from your favorites?',
+      message: 'Would you like to remove this event from your favorites?',
       buttons: [
         {
           text: 'Cancel',
           handler: () => {
-            // they clicked the cancel button, do not remove the session
+            // they clicked the cancel button, do not remove the event
             // close the sliding item and hide the option buttons
             slidingItem.close();
           }
@@ -106,7 +107,7 @@ export class EventsPage {
         {
           text: 'Remove',
           handler: () => {
-            // they want to remove this session from their favorites
+            // they want to remove this event from their favorites
             this.eventsDataProvider.removeFromFavoriteEvents(eventData.id);
             this.updateEvents();
 

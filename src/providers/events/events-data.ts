@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { UserProvider } from '../../providers/user/user';
 import { ApiProvider } from '../api/api';
 import { UtilsProvider } from '../utils/utils';
+import { Storage } from '@ionic/storage';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -11,13 +12,20 @@ import 'rxjs/add/observable/of';
 
 @Injectable()
 export class EventsData {
-  eventsGroupedByDate: { visibleGroups: number, groups: Array<{ date: string, hide: boolean, events: Array<{ any }> }> };
+  private eventsGroupedByDate: { visibleGroups: number, groups: Array<{ date: string, hide: boolean, events: Array<{ any }> }> };
+  private _favoriteEvents: Array<string>;
+  private FAVORITE_EVENTS = 'favoriteEvents';
 
   constructor(
     public user: UserProvider,
     public api: ApiProvider,
     public utils: UtilsProvider,
-  ) { }
+    public storage: Storage
+  ) {
+    this.storage.get(this.FAVORITE_EVENTS).then((value) => {
+      this._favoriteEvents = value ? value : [];
+    });
+  }
 
   load(): any {
     if (this.eventsGroupedByDate) {
@@ -44,6 +52,28 @@ export class EventsData {
     endpoint += queryParams;
     return this.api.get(endpoint, null, reqOpts).share();
   }
+
+  addToFavoriteEvents(eventId: string) {
+    let index = this._favoriteEvents.indexOf(eventId);
+    if (index < 0) {
+      this._favoriteEvents.push(eventId);
+      this.storage.set(this.FAVORITE_EVENTS, this._favoriteEvents);
+    }
+  }
+
+  removeFromFavoriteEvents(eventId: string) {
+    let index = this._favoriteEvents.indexOf(eventId);
+    if (index >= 0) {
+      this._favoriteEvents.splice(index, 1);
+      this.storage.set(this.FAVORITE_EVENTS, this._favoriteEvents);
+    }
+  }
+
+  isFavoriteEvent(eventId: string) {
+    let index = this._favoriteEvents.indexOf(eventId);
+    return index >= 0;
+  }
+
 
   processDataFromServer(data: any) {
     //{ visibleGroups: number, groups: Array<{ date: string, hide: boolean, events: Array<{ any }> }> };
@@ -107,9 +137,9 @@ export class EventsData {
     // then this session does not pass the segment test
     let matchesSegment = false;
     if (segment === 'favorites') {
-      // if (this.user.hasFavorite(event.name)) {
-      //   matchesSegment = true;
-      // }
+      if (this.isFavoriteEvent(event.id)) {
+        matchesSegment = true;
+      }
     } else {
       matchesSegment = true;
     }

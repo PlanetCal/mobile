@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, AlertController, App, ItemSliding, List, NavController } from 'ionic-angular';
+import { IonicPage, AlertController, ToastController, LoadingController, App, ItemSliding, List, NavController } from 'ionic-angular';
 
 import { UserProvider } from '../../providers/user';
 import { EventsData } from '../../providers/events-data';
@@ -30,6 +30,8 @@ export class EventsPage {
     private alertCtrl: AlertController,
     private navCtrl: NavController,
     private app: App,
+    public toastCtrl: ToastController,
+    private loadingCtrl: LoadingController,
     private user: UserProvider,
     private utils: UtilsProvider,
 
@@ -50,10 +52,25 @@ export class EventsPage {
     // Close any open sliding items when the schedule updates
     this.eventList && this.eventList.closeSlidingItems();
 
+    let loading = this.loadingCtrl.create({
+      content: `Fetching evens.`
+    });
+    loading.present();
+
     this.eventsDataProvider.getTimeline(this.queryText, this.segment)
       .subscribe((data: { visibleGroups: number, groups: Array<{ date: string, hide: boolean, events: Array<{ any }> }> }) => {
         this.shownEvents = data.visibleGroups;
         this.groups = data.groups;
+        loading.dismiss();
+      }, (err) => {
+        // Unable to log in
+        let toast = this.toastCtrl.create({
+          message: 'Could not fetch the events',
+          duration: 3000,
+          position: 'top'
+        });
+        loading.dismiss();
+        toast.present();
       });
   }
 

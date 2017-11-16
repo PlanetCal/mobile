@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
-import { IonicPage, NavController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, ToastController, LoadingController } from 'ionic-angular';
 import { MainPage } from '../pages';
 import { UserProvider } from '../../providers/user';
 
@@ -25,9 +25,10 @@ export class SignupPage {
 
 
   constructor(
-    public navCtrl: NavController,
-    public toastCtrl: ToastController,
-    public user: UserProvider) {
+    private navCtrl: NavController,
+    private toastCtrl: ToastController,
+    private loadingCtrl: LoadingController,
+    private user: UserProvider) {
     this.signupSuccessMessage = '';
     this.signupSuccessToast = "Signup request submitted."
     this.signupErrorToast = "Signup failed. Check if account already exists!";
@@ -36,7 +37,10 @@ export class SignupPage {
   // Attempt to signup in through our User service
   onSignup(form: NgForm) {
     this.submitted = true;
-
+    let loading = this.loadingCtrl.create({
+      content: `Registering`
+    });
+    loading.present();
     if (form.valid) {
       this.user.signup(this.account).subscribe((resp) => {
         let toast = this.toastCtrl.create({
@@ -44,6 +48,7 @@ export class SignupPage {
           duration: 3000,
           position: 'top'
         });
+        loading.dismiss();
         toast.present();
         this.signupSuccessMessage = 'Emailed you the validation link. Please follow the steps in your email. Login afterwards!';
       }, (err) => {
@@ -53,6 +58,7 @@ export class SignupPage {
           duration: 3000,
           position: 'top'
         });
+        loading.dismiss();
         toast.present();
       });
     }

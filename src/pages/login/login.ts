@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
-import { IonicPage, NavController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, ToastController, LoadingController } from 'ionic-angular';
 import { MainPage } from '../pages';
 import { UserProvider } from '../../providers/user';
 
@@ -23,9 +23,10 @@ export class LoginPage {
   private resetPasswordSuccessString: string;
 
   constructor(
-    public navCtrl: NavController,
-    public toastCtrl: ToastController,
-    public user: UserProvider) {
+    private navCtrl: NavController,
+    private toastCtrl: ToastController,
+    private loadingCtrl: LoadingController,
+    private user: UserProvider) {
     this.resetPasswordSuccessString = "Password reset request submitted."
     this.loginErrorString = "Login failed. Please check your username/password, or register yourself.";
   }
@@ -33,9 +34,14 @@ export class LoginPage {
   // Attempt to login in through our User service
   onLogin(form: NgForm) {
     this.submitted = true;
+    let loading = this.loadingCtrl.create({
+      content: `Logging in`
+    });
+    loading.present();
 
     if (form.valid) {
       this.user.login(this.account).subscribe((resp) => {
+        loading.dismiss();
         this.navCtrl.setRoot(MainPage);
       }, (err) => {
         // Unable to log in
@@ -44,6 +50,7 @@ export class LoginPage {
           duration: 3000,
           position: 'top'
         });
+        loading.dismiss();
         toast.present();
       });
     }

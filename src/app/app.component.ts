@@ -81,10 +81,6 @@ export class MyApp {
     });
   }
 
-  openWelcome() {
-    this.nav.setRoot(WelcomePage);
-  }
-
   listenToLoginEvents() {
     this.events.subscribe('user:login', () => {
       this.enableMenu(true);

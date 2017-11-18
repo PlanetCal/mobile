@@ -3,10 +3,10 @@ import { IonicPage, NavParams } from 'ionic-angular';
 
 @IonicPage()
 @Component({
-  selector: 'page-groups-content',
-  templateUrl: 'groups-content.html'
+  selector: 'page-groups-list',
+  templateUrl: 'groups-list.html'
 })
-export class GroupsContentPage {
+export class GroupsListPage {
 
   public data: string;
 

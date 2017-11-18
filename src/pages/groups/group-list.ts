@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavParams, ActionSheet, ActionSheetController, ActionSheetOptions, Config, NavController } from 'ionic-angular';
+import { GroupsData } from '../../providers/groups-data';
+
 //import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 // TODO remove
@@ -26,7 +28,7 @@ export class GroupListPage {
     private actionSheetCtrl: ActionSheetController,
     private navCtrl: NavController,
     navParams: NavParams,
-    //private confData: ConferenceData,
+    private groupsData: GroupsData,
     private config: Config
     //private inAppBrowser: InAppBrowser
   ) {
@@ -34,19 +36,9 @@ export class GroupListPage {
   }
 
   ionViewDidLoad() {
-    this.groups = [
-      {
-        name: "sachin",
-        profilePic: "../../assets/imgs/time-zones.png"
-      },
-      {
-        name: "sachin2",
-        profilePic: "../../assets/imgs/time-zones.png"
-      }
-    ]
-    // this.confData.getGroups().subscribe((groups: any[]) => {
-    //this.groups = groups;
-    //});
+    this.groupsData.getGroups(this.data).subscribe((groups: any[]) => {
+      this.groups = groups;
+    });
   }
 
   // goToSessionDetail(session: any) {

@@ -33,12 +33,12 @@ export class EventsData {
     if (this.eventsGroupedByDate) {
       return Observable.of(this.eventsGroupedByDate);
     } else {
-      return this.getEventsDataFromServer(null)
+      return this.getEventsDataFromServer()
         .map(this.processDataFromServer, this);
     }
   }
 
-  private getEventsDataFromServer(accountInfo: any) {
+  private getEventsDataFromServer() {
     let endpoint = '';
     let token = null;
     let userInfo = this.user.getLoggedInUser();

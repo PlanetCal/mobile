@@ -10,6 +10,6 @@ export const AboutPage = 'AboutPage';
 export const SupportPage = 'SupportPage';
 export const SignupPage = 'SignupPage';
 export const EventDetailPage = 'EventDetailPage';
-export const GroupsListPage = 'GroupsListPage';
+export const GroupListPage = 'GroupListPage';
 
 

@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
 import { NavParams } from 'ionic-angular';
-
-import { GroupsListPage } from '../pages';
+import { GroupListPage } from '../pages';
 
 @IonicPage()
 @Component({
@@ -15,9 +14,9 @@ export class GroupsPage {
   params2: string = 'Owned';
   params3: string = 'Administered';
 
-  tab1Root: any = GroupsListPage;
-  tab2Root: any = GroupsListPage;
-  tab3Root: any = GroupsListPage;
+  tab1Root: any = GroupListPage;
+  tab2Root: any = GroupListPage;
+  tab3Root: any = GroupListPage;
 
   mySelectedIndex: number;
 

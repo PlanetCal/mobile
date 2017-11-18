@@ -21,7 +21,6 @@ import { GroupsData } from '../../providers/groups-data';
 export class GroupListPage {
   actionSheet: ActionSheet;
   groups: any[] = [];
-
   private data: string;
 
   constructor(
@@ -32,6 +31,7 @@ export class GroupListPage {
     private config: Config
     //private inAppBrowser: InAppBrowser
   ) {
+    //this.groups = [];
     this.data = navParams.data;
   }
 

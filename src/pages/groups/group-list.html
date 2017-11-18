@@ -8,10 +8,10 @@
 </ion-header>
 
 <ion-content class="outer-content group-list">
-  <ion-list [virtualScroll]="groups">
-    <ion-grid fixed>
+  <ion-list>
+    <ion-grid>
       <ion-row align-items-stretch>
-        <ion-col col-12 col-md-6 align-self-stretch align-self-center *virtualItem="let group" approxItemHeight="457px">
+        <ion-col col-12 col-md-6 align-self-stretch align-self-center *ngFor="let group of groups" approxItemHeight="457px">
           <ion-card class="group-card">
             <ion-card-header>
               <button ion-item detail-none (click)="goToGroupDetail(group)">
@@ -21,7 +21,6 @@
                 {{group.name}}
               </button>
             </ion-card-header>
-
             <ion-card-content class="outer-content">
               <button ion-item (click)="goToGroupDetail(group)">
                   <h3>About {{group.name}}</h3>

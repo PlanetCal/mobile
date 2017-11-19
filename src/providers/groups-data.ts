@@ -154,7 +154,7 @@ export class GroupsData {
       return this.api.get(endpoint, null, reqOpts).share();
     }
     else {
-      return null;
+      return Observable.of([]);
     }
   }
 

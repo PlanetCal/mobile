@@ -9,22 +9,20 @@ page-group-list {
     flex-direction: column;
 
     ion-card-content {
-      flex: 1 1 auto;
-    }
-  }
-
-  // Todo: remove when this issue https://github.com/ionic-team/ionic/issues/11212 is fixed
-  @media(min-width: 769px) {
-    .group-card {
-      height: 370px;
+      flex: 0 0 auto;
     }
   }
 
   .group-card ion-card-header .item {
-    padding: 4px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 4px;
+    padding-right: 0px;
   }
 
   .group-card ion-card-content {
+    padding-top: 0px;
+    padding-bottom: 0px;
     padding-left: 4px;
     padding-right: 0px;
   }

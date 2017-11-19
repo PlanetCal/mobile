@@ -11,7 +11,7 @@
   <ion-list>
     <ion-grid>
       <ion-row align-items-stretch>
-        <ion-col col-12 col-md-6 align-self-stretch align-self-center *ngFor="let group of groups" approxItemHeight="457px">
+        <ion-col col-12 col-md-6 col-lg-4 col-xl-3 align-self-stretch align-self-center *ngFor="let group of groups">
           <ion-card class="group-card">
             <ion-card-header>
               <button ion-item detail-none (click)="goToGroupDetail(group)">

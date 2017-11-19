@@ -32,9 +32,22 @@ export class GroupsData {
         profilePic: "../assets/imgs/time-zones.png"
       },
       {
-        name: "sachin2",
+        name: "sachin3",
+        profilePic: "../assets/imgs/time-zones.png"
+      },
+      {
+        name: "sachin4",
+        profilePic: "../assets/imgs/time-zones.png"
+      },
+      {
+        name: "sachin3",
+        profilePic: "../assets/imgs/time-zones.png"
+      },
+      {
+        name: "sachin4",
         profilePic: "../assets/imgs/time-zones.png"
       }
+
 
     ];
   }

@@ -3,8 +3,8 @@ export const WelcomePage = 'WelcomePage';
 
 // The main page the user will see as they use the app over a long period of time.
 // Change this if not using tabs
-export const MainPage = 'GroupsPage';
-//export const MainPage = 'EventsPage';
+//export const MainPage = 'GroupsPage';
+export const MainPage = 'EventsPage';
 export const LogoutPage = 'LogoutPage';
 export const AboutPage = 'AboutPage';
 export const SupportPage = 'SupportPage';

@@ -8,11 +8,6 @@ import { GroupListPage } from '../pages';
   templateUrl: 'groups.html'
 })
 export class GroupsPage {
-
-  params1: string = 'Subscribed';
-  params2: string = 'Owned';
-  params3: string = 'Administered';
-
   tab1Root: any = GroupListPage;
   tab2Root: any = GroupListPage;
   tab3Root: any = GroupListPage;
@@ -21,6 +16,11 @@ export class GroupsPage {
 
   constructor(navParams: NavParams) {
     this.mySelectedIndex = navParams.data.tabIndex || 0;
+  }
+
+  getParams(value: string) {
+    //console.log('param value is ' + value);
+    return { param: value };
   }
 
 }

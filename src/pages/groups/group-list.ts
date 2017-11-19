@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavParams, ToastController, LoadingController, ActionSheet, ActionSheetController, ActionSheetOptions, Config, NavController } from 'ionic-angular';
+import { IonicPage, NavParams, ToastController, LoadingController, ActionSheetOptions, Config, NavController } from 'ionic-angular';
 import { GroupsData } from '../../providers/groups-data';
 import { GroupDetailPage } from '../pages';
 
@@ -9,12 +9,10 @@ import { GroupDetailPage } from '../pages';
   templateUrl: 'group-list.html'
 })
 export class GroupListPage {
-  actionSheet: ActionSheet;
   groups: any[] = [];
   private data: string;
 
   public constructor(
-    private actionSheetCtrl: ActionSheetController,
     private navCtrl: NavController,
     navParams: NavParams,
     public toastCtrl: ToastController,
@@ -22,7 +20,9 @@ export class GroupListPage {
     private groupsData: GroupsData,
     private config: Config
   ) {
-    this.data = navParams.data;
+    if (navParams.data && navParams.data.param) {
+      this.data = navParams.data.param;
+    }
   }
 
   private ionViewDidLoad() {
@@ -34,6 +34,10 @@ export class GroupListPage {
   }
 
   private fetchData(refreshFromServer: boolean = false) {
+    if (!this.data) {
+      return;
+    }
+
     let loading = this.loadingCtrl.create({
       content: `Fetching groups.`
     });

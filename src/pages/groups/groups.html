@@ -1,5 +1,5 @@
-<ion-tabs [selectedIndex]="mySelectedIndex" name="conference">
-  <ion-tab [root]="tab1Root" tabTitle="Subscribed" tabIcon="logo-codepen" [rootParams]="params1"></ion-tab>
-  <ion-tab [root]="tab2Root" tabTitle="Owned" tabIcon="contacts" [rootParams]="params2"></ion-tab>
-  <ion-tab [root]="tab3Root" tabTitle="Administered" tabIcon="people" [rootParams]="params3"></ion-tab>
+<ion-tabs name="groups">
+  <ion-tab [root]="tab1Root" tabTitle="Subscribed" tabIcon="logo-codepen" [rootParams]="getParams('Subscribed')"></ion-tab>
+  <ion-tab [root]="tab2Root" tabTitle="Owned" tabIcon="contacts" [rootParams]="getParams('Owned')"></ion-tab>
+  <ion-tab [root]="tab3Root" tabTitle="Administered" tabIcon="people" [rootParams]="getParams('Administered')"></ion-tab>
 </ion-tabs>

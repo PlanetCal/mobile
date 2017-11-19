@@ -7,9 +7,6 @@
 <ion-content padding>
   <div *ngIf="event">
     <h1>{{event.name}}</h1>
-    <!--<h4 *ngFor="let speaker of event?.speakers">
-      {{speaker.name}}
-    </h4>-->
     <p>
       Start: {{utils.convertToFriendlyDateFromDateString(event.startDateTime)}}
     </p>

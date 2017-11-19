@@ -29,16 +29,16 @@ export class EventsData {
     });
   }
 
-  private load(): any {
-    if (this.eventsGroupedByDate) {
+  private load(refreshFromServer: boolean): any {
+    if (!refreshFromServer && this.eventsGroupedByDate) {
       return Observable.of(this.eventsGroupedByDate);
     } else {
-      return this.getEventsDataFromServer(null)
+      return this.getEventsDataFromServer()
         .map(this.processDataFromServer, this);
     }
   }
 
-  private getEventsDataFromServer(accountInfo: any) {
+  private getEventsDataFromServer() {
     let endpoint = '';
     let token = null;
     let userInfo = this.user.getLoggedInUser();
@@ -97,8 +97,8 @@ export class EventsData {
     return this.eventsGroupedByDate;
   }
 
-  public getTimeline(queryText = '', segment = 'all') {
-    return this.load().map((data: { visibleGroups: number, groups: Array<{ date: string, hide: boolean, events: Array<{ any }> }> }) => {
+  public getTimeline(refreshFromServer: boolean, queryText: string = '', segment: string = 'all') {
+    return this.load(refreshFromServer).map((data: { visibleGroups: number, groups: Array<{ date: string, hide: boolean, events: Array<{ any }> }> }) => {
       data.visibleGroups = 0;
 
       queryText = queryText.toLowerCase().replace(/,|\.|-/g, ' ');

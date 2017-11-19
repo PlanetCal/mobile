@@ -52,8 +52,8 @@ export class GroupsData {
     ];
   }
 
-  private load(groupType: string): any {
-    if (this.groups) {
+  private load(refreshFromServer: boolean, groupType: string): any {
+    if (!refreshFromServer && this.groups) {
       return Observable.of(this.groups);
     } else {
       return this.getGroupDataFromServer(groupType);
@@ -67,19 +67,19 @@ export class GroupsData {
     if (userInfo) {
       endpoint = 'events';
       token = userInfo.token;
+      let reqOpts = this.utils.getHttpHeaders(token);
+      let queryParams = '?filter=endDateTime>=' + this.utils.convertToDateString(new Date());
+      queryParams += '&' + this.constants.eventsFields;
+      endpoint += queryParams;
+      return this.api.get(endpoint, null, reqOpts).share();
     }
     else {
-      endpoint = 'eventsanonymous';
+      return null;
     }
-    let reqOpts = this.utils.getHttpHeaders(token);
-    let queryParams = '?filter=endDateTime>=' + this.utils.convertToDateString(new Date());
-    queryParams += '&' + this.constants.eventsFields;
-    endpoint += queryParams;
-    return this.api.get(endpoint, null, reqOpts).share();
   }
 
-  public getGroups(groupType: string) {
-    return this.load(groupType).map((data: { visibleGroups: number, groups: Array<any> }) => {
+  public getGroups(refreshFromServer: boolean, groupType: string) {
+    return this.load(refreshFromServer, groupType).map((data: { visibleGroups: number, groups: Array<any> }) => {
       return data;
     });
   }

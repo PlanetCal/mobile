@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController } from 'ionic-angular';
-import { NavParams } from 'ionic-angular';
+import { IonicPage, NavParams } from 'ionic-angular';
 import { GroupListPage } from '../pages';
 
 @IonicPage()

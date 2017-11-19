@@ -48,16 +48,16 @@ export class EventsPage {
     this.updateEvents();
   }
 
-  private updateEvents() {
+  private updateEvents(refreshFromServer: boolean = false) {
     // Close any open sliding items when the schedule updates
     this.eventList && this.eventList.closeSlidingItems();
 
     let loading = this.loadingCtrl.create({
-      content: `Fetching evens.`
+      content: `Fetching events.`
     });
     loading.present();
 
-    this.eventsDataProvider.getTimeline(this.queryText, this.segment)
+    this.eventsDataProvider.getTimeline(refreshFromServer, this.queryText, this.segment)
       .subscribe((data: { visibleGroups: number, groups: Array<{ date: string, hide: boolean, events: Array<{ any }> }> }) => {
         this.shownEvents = data.visibleGroups;
         this.groups = data.groups;

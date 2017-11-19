@@ -25,40 +25,29 @@
               <button ion-item (click)="goToGroupDetail(group)">
                   <h3>About {{group.name}}</h3>
                 </button>
-              <!--<ion-list>
-                <button ion-item *ngFor="let session of group.sessions" (click)="goToSessionDetail(session)">
-                  <h3>{{session.name}}</h3>
-                </button>
-
-                <button ion-item (click)="goToGroupDetail(group)">
+              <button ion-item (click)="goToGroupDetail(group)">
                   <h3>About {{group.name}}</h3>
                 </button>
-              </ion-list>-->
             </ion-card-content>
 
-            <!--<ion-row no-padding>
-              <ion-col col-12 col-lg-auto text-center text-lg-left>
+            <ion-row no-padding>
+              <ion-col col-4 col-lg-auto text-center text-lg-left>
                 <button ion-button clear small color="primary" icon-start (click)="goToGroupTwitter(group)">
                   <ion-icon name="logo-twitter"></ion-icon>
-                  Tweet
                 </button>
               </ion-col>
-              <ion-col col-12 col-lg-auto text-center>
+              <ion-col col-4 col-lg-auto text-center>
                 <button ion-button clear small color="primary" icon-start (click)="openGroupShare(group)">
                   <ion-icon name='share-alt'></ion-icon>
-                  Share
                 </button>
               </ion-col>
-              <ion-col col-12 col-lg-auto text-center text-lg-right>
+              <ion-col col-4 col-lg-auto text-center text-lg-right>
                 <button ion-button clear small color="primary" icon-start (click)="openContact(group)">
                   <ion-icon name='chatboxes'></ion-icon>
-                  Contact
                 </button>
               </ion-col>
             </ion-row>
--->
           </ion-card>
-
         </ion-col>
       </ion-row>
     </ion-grid>

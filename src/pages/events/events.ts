@@ -75,6 +75,7 @@ export class EventsPage {
   }
 
   public presentFilter() {
+
   }
 
   public goToEventDetail(eventData: any) {

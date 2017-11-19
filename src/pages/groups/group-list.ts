@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavParams, ToastController, LoadingController, ActionSheetOptions, Config, NavController } from 'ionic-angular';
+import { IonicPage, NavParams, ToastController, LoadingController, Config, NavController } from 'ionic-angular';
 import { GroupsData } from '../../providers/groups-data';
 import { GroupDetailPage } from '../pages';
+import { Constants } from '../../providers/constants';
 
 @IonicPage()
 @Component({
@@ -10,7 +11,7 @@ import { GroupDetailPage } from '../pages';
 })
 export class GroupListPage {
   groups: any[] = [];
-  private data: string;
+  private data: any;
 
   public constructor(
     private navCtrl: NavController,
@@ -18,10 +19,13 @@ export class GroupListPage {
     public toastCtrl: ToastController,
     private loadingCtrl: LoadingController,
     private groupsData: GroupsData,
-    private config: Config
+    private constants: Constants
   ) {
     if (navParams.data && navParams.data.param) {
       this.data = navParams.data.param;
+      constants.groupTabName = this.data;
+    } else {
+      this.data = constants.groupTabName;
     }
   }
 

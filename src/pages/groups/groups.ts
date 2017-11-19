@@ -14,14 +14,11 @@ export class GroupsPage {
 
   mySelectedIndex: number;
 
-  constructor(navParams: NavParams) {
-    this.mySelectedIndex = navParams.data.tabIndex || 0;
+  constructor() {
   }
 
   getParams(value: string) {
-    //console.log('param value is ' + value);
     return { param: value };
   }
-
 }
 

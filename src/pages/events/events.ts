@@ -60,8 +60,8 @@ export class EventsPage {
     this.eventsDataProvider.getTimeline(refreshFromServer, this.queryText, this.segment)
       .subscribe((data: { visibleGroups: number, groups: Array<{ date: string, hide: boolean, events: Array<{ any }> }> }) => {
         this.shownEvents = data.visibleGroups;
-        this.groups = data.groups;
         loading.dismiss();
+        this.groups = data.groups;
       }, (err) => {
         // Unable to log in
         let toast = this.toastCtrl.create({

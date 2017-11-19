@@ -40,8 +40,8 @@ export class GroupListPage {
     loading.present();
 
     this.groupsData.getGroups(refreshFromServer, this.data).subscribe((groups: any[]) => {
-      this.groups = groups;
       loading.dismiss();
+      this.groups = groups;
     }, (err) => {
       // Unable to log in
       let toast = this.toastCtrl.create({

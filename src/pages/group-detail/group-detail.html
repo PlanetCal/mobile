@@ -1,0 +1,12 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Group Details</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div *ngIf="group">
+    <h1>{{group.name}}</h1>
+    <p>{{group.description}}</p>
+  </div>
+</ion-content>

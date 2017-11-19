@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavParams, ActionSheet, ActionSheetController, ActionSheetOptions, Config, NavController } from 'ionic-angular';
 import { GroupsData } from '../../providers/groups-data';
+import { GroupDetailPage } from '../pages';
 
 //import { InAppBrowser } from '@ionic-native/in-app-browser';
 
@@ -41,13 +42,9 @@ export class GroupListPage {
     });
   }
 
-  // goToSessionDetail(session: any) {
-  //   //this.navCtrl.push(SessionDetailPage, { sessionId: session.id });
-  // }
-
-  // goToGroup(group: any) {
-  //   this.navCtrl.push(GroupPage, { groupId: group.id });
-  // }
+  goToGroupDetail(group: any) {
+    this.navCtrl.push(GroupDetailPage, { group: group });
+  }
 
   // goToGroupTwitter(group: any) {
   //   this.inAppBrowser.create(

@@ -40,11 +40,11 @@ export class GroupsData {
         profilePic: "../assets/imgs/time-zones.png"
       },
       {
-        name: "sachin3",
+        name: "sachi53",
         profilePic: "../assets/imgs/time-zones.png"
       },
       {
-        name: "sachin4",
+        name: "sachin6",
         profilePic: "../assets/imgs/time-zones.png"
       }
 

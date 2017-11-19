@@ -22,94 +22,96 @@ export class GroupsData {
     private constants: Constants,
     private storage: Storage
   ) {
-    this.groups = [
-      {
-        groupType: 'Subscribed',
-        groupList: [
-          {
-            name: "sachin_Subscribed",
-            profilePic: "../assets/imgs/time-zones.png"
-          },
-          {
-            name: "sachin2",
-            profilePic: "../assets/imgs/time-zones.png"
-          },
-          {
-            name: "sachin3_Subscribed",
-            profilePic: "../assets/imgs/time-zones.png"
-          },
-          {
-            name: "sachin4",
-            profilePic: "../assets/imgs/time-zones.png"
-          },
-          {
-            name: "sachi53_Subscribed",
-            profilePic: "../assets/imgs/time-zones.png"
-          },
-          {
-            name: "sachin6_Subscribed",
-            profilePic: "../assets/imgs/time-zones.png"
-          }
-        ]
-      },
-      {
-        groupType: 'Owned',
-        groupList: [
-          {
-            name: "sachin_Owned",
-            profilePic: "../assets/imgs/time-zones.png"
-          },
-          {
-            name: "sachin2",
-            profilePic: "../assets/imgs/time-zones.png"
-          },
-          {
-            name: "sachin3",
-            profilePic: "../assets/imgs/time-zones.png"
-          },
-          {
-            name: "sachin4_Owned",
-            profilePic: "../assets/imgs/time-zones.png"
-          },
-          {
-            name: "sachi53",
-            profilePic: "../assets/imgs/time-zones.png"
-          },
-          {
-            name: "sachin6_Owned",
-            profilePic: "../assets/imgs/time-zones.png"
-          }
-        ]
-      }, {
-        groupType: 'Administered',
-        groupList: [
-          {
-            name: "sachin_Administered",
-            profilePic: "../assets/imgs/time-zones.png"
-          },
-          {
-            name: "sachin2",
-            profilePic: "../assets/imgs/time-zones.png"
-          },
-          {
-            name: "sachin3_Administered",
-            profilePic: "../assets/imgs/time-zones.png"
-          },
-          {
-            name: "sachin4",
-            profilePic: "../assets/imgs/time-zones.png"
-          },
-          {
-            name: "sachi53_Administered",
-            profilePic: "../assets/imgs/time-zones.png"
-          },
-          {
-            name: "sachin6",
-            profilePic: "../assets/imgs/time-zones.png"
-          }
-        ]
-      }
-    ];
+    this.groups = [];
+
+    // this.groups = [
+    //   {
+    //     groupType: 'Subscribed',
+    //     groupList: [
+    //       {
+    //         name: "sachin_Subscribed",
+    //         profilePic: "../assets/imgs/time-zones.png"
+    //       },
+    //       {
+    //         name: "sachin2",
+    //         profilePic: "../assets/imgs/time-zones.png"
+    //       },
+    //       {
+    //         name: "sachin3_Subscribed",
+    //         profilePic: "../assets/imgs/time-zones.png"
+    //       },
+    //       {
+    //         name: "sachin4",
+    //         profilePic: "../assets/imgs/time-zones.png"
+    //       },
+    //       {
+    //         name: "sachi53_Subscribed",
+    //         profilePic: "../assets/imgs/time-zones.png"
+    //       },
+    //       {
+    //         name: "sachin6_Subscribed",
+    //         profilePic: "../assets/imgs/time-zones.png"
+    //       }
+    //     ]
+    //   },
+    //   {
+    //     groupType: 'Owned',
+    //     groupList: [
+    //       {
+    //         name: "sachin_Owned",
+    //         profilePic: "../assets/imgs/time-zones.png"
+    //       },
+    //       {
+    //         name: "sachin2",
+    //         profilePic: "../assets/imgs/time-zones.png"
+    //       },
+    //       {
+    //         name: "sachin3",
+    //         profilePic: "../assets/imgs/time-zones.png"
+    //       },
+    //       {
+    //         name: "sachin4_Owned",
+    //         profilePic: "../assets/imgs/time-zones.png"
+    //       },
+    //       {
+    //         name: "sachi53",
+    //         profilePic: "../assets/imgs/time-zones.png"
+    //       },
+    //       {
+    //         name: "sachin6_Owned",
+    //         profilePic: "../assets/imgs/time-zones.png"
+    //       }
+    //     ]
+    //   }, {
+    //     groupType: 'Administered',
+    //     groupList: [
+    //       {
+    //         name: "sachin_Administered",
+    //         profilePic: "../assets/imgs/time-zones.png"
+    //       },
+    //       {
+    //         name: "sachin2",
+    //         profilePic: "../assets/imgs/time-zones.png"
+    //       },
+    //       {
+    //         name: "sachin3_Administered",
+    //         profilePic: "../assets/imgs/time-zones.png"
+    //       },
+    //       {
+    //         name: "sachin4",
+    //         profilePic: "../assets/imgs/time-zones.png"
+    //       },
+    //       {
+    //         name: "sachi53_Administered",
+    //         profilePic: "../assets/imgs/time-zones.png"
+    //       },
+    //       {
+    //         name: "sachin6",
+    //         profilePic: "../assets/imgs/time-zones.png"
+    //       }
+    //     ]
+    //   }
+    // ];
   }
 
   private load(refreshFromServer: boolean, groupType: string): any {
@@ -145,12 +147,21 @@ export class GroupsData {
     let token = null;
     let userInfo = this.user.getLoggedInUser();
     if (userInfo) {
-      endpoint = 'groups';
+
+      switch (groupType) {
+        case ('Administered'):
+          endpoint = 'groups?' + this.constants.groupFieldsForAdmin + '&administeredByMe=true';
+          break;
+        case ('Owned'):
+          endpoint = 'groups?' + this.constants.groupFieldsForAdmin + '&filter=createdBy=' + userInfo.id;
+          break;
+        case ('Subscribed'):
+          endpoint = 'userdetails/' + userInfo.id + '/followinggroups?' + this.constants.groupFieldsForSubscriber;
+          break;
+      }
+
       token = userInfo.token;
       let reqOpts = this.utils.getHttpHeaders(token);
-      let queryParams = '?filter=endDateTime>=' + this.utils.convertToDateString(new Date());
-      queryParams += '&' + this.constants.eventsFields;
-      endpoint += queryParams;
       return this.api.get(endpoint, null, reqOpts).share();
     }
     else {

@@ -5,6 +5,7 @@ import { UserProvider } from '../../providers/user';
 import { EventsData } from '../../providers/events-data';
 import { UtilsProvider } from '../../providers/utils';
 import { EventDetailPage } from '../pages';
+import { MapPage } from '../pages';
 
 @IonicPage()
 @Component({
@@ -74,8 +75,8 @@ export class EventsPage {
       });
   }
 
-  public presentFilter() {
-
+  public showMap() {
+    this.navCtrl.push(MapPage);
   }
 
   public goToEventDetail(eventData: any) {

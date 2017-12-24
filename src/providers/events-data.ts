@@ -14,6 +14,7 @@ import 'rxjs/add/observable/of';
 @Injectable()
 export class EventsData {
   private eventsGroupedByDate: { visibleGroups: number, groups: Array<{ date: string, hide: boolean, events: Array<{ any }> }> };
+  private eventsMap: any;
   private _favoriteEvents: Array<string>;
   private FAVORITE_EVENTS = 'favoriteEvents';
 
@@ -36,6 +37,10 @@ export class EventsData {
       return this.getEventsDataFromServer()
         .map(this.processDataFromServer, this);
     }
+  }
+
+  public getEventsMap(refreshFromServer: boolean): any {
+    return Observable.of(this.eventsMap);
   }
 
   private getEventsDataFromServer() {
@@ -81,8 +86,18 @@ export class EventsData {
   private processDataFromServer(data: any) {
     //{ visibleGroups: number, groups: Array<{ date: string, hide: boolean, events: Array<{ any }> }> };
     this.eventsGroupedByDate = { visibleGroups: 0, groups: [] };
-
+    this.eventsMap = [];
     data.forEach((event: any) => {
+      if (event.geoLocation) {
+        this.eventsMap.push({
+          name: event.name,
+          lat: event.geoLocation.lat,
+          lng: event.geoLocation.lng,
+          startDateTime: event.startDateTime,
+          endDateTime: event.endDateTime
+        })
+      }
+
       let date = this.utils.convertToFriendlyDate(new Date(event.startDateTime));
 
       let eventsForThisDay = this.eventsGroupedByDate.groups.find(event => event.date === date);

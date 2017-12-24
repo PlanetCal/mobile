@@ -5,6 +5,7 @@ import { UserProvider } from '../../providers/user';
 import { EventsData } from '../../providers/events-data';
 import { UtilsProvider } from '../../providers/utils';
 import { EventDetailPage } from '../pages';
+import { MapPage } from '../pages';
 
 @IonicPage()
 @Component({
@@ -34,7 +35,6 @@ export class EventsPage {
     private loadingCtrl: LoadingController,
     private user: UserProvider,
     private utils: UtilsProvider,
-
     private eventsDataProvider: EventsData) {
 
     let userInfo = this.user.getLoggedInUser();
@@ -55,8 +55,9 @@ export class EventsPage {
     let loading = this.loadingCtrl.create({
       content: `Fetching events.`
     });
-    loading.present();
-
+    if (refreshFromServer) {
+      loading.present();
+    }
     this.eventsDataProvider.getTimeline(refreshFromServer, this.queryText, this.segment)
       .subscribe((data: { visibleGroups: number, groups: Array<{ date: string, hide: boolean, events: Array<{ any }> }> }) => {
         this.shownEvents = data.visibleGroups;
@@ -74,8 +75,8 @@ export class EventsPage {
       });
   }
 
-  public presentFilter() {
-
+  public showMap() {
+    this.navCtrl.push(MapPage);
   }
 
   public goToEventDetail(eventData: any) {

@@ -14,8 +14,8 @@
     </ion-segment>
 
     <ion-buttons end>
-      <button ion-button icon-only (click)="presentFilter()">
-        <ion-icon ios="ios-options-outline" md="md-options"></ion-icon>
+      <button ion-button icon-only (click)="showMap()">
+        <ion-icon name="map" md="md-options"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -37,10 +37,9 @@
         <button ion-item (click)="goToEventDetail(event)">
           <h3>{{event.name}}</h3>
           <p>
-            {{utils.convertToTime(event.startDateTime)}} &mdash;
-            {{utils.convertToTime(event.endDateTime)}}
+            {{utils.convertToTime(event.startDateTime)}} &mdash; {{utils.convertToTime(event.endDateTime)}}
           </p>
-          <p>            
+          <p>
             {{event.location}}
           </p>
         </button>
@@ -62,6 +61,8 @@
     No Events Found
   </ion-list-header>
   <ion-fab bottom right #fab>
-    <button ion-fab color="danger" (click)="updateEvents(true)"><ion-icon name="refresh"></ion-icon></button>
+    <button ion-fab color="danger" (click)="updateEvents(true)">
+      <ion-icon name="refresh"></ion-icon>
+    </button>
   </ion-fab>
 </ion-content>

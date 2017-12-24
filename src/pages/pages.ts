@@ -12,5 +12,6 @@ export const SignupPage = 'SignupPage';
 export const EventDetailPage = 'EventDetailPage';
 export const GroupListPage = 'GroupListPage';
 export const GroupDetailPage = 'GroupDetailPage';
+export const MapPage = 'MapPage';
 
 

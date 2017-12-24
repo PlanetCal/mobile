@@ -9,7 +9,7 @@ export class Constants {
   public readonly productName = 'PlanetCal';
 
   public groupTabName: string = null;
-  public readonly eventsFields = 'fields=name|description|startDateTime|endDateTime|address|location|groupId|icon';
+  public readonly eventsFields = 'fields=name|description|startDateTime|endDateTime|address|location|geoLocation|groupId|icon';
   public readonly groupFieldsForOwner = 'fields=name|description|privacy|icon|category|createdBy|administrators|members|location|address|contact|webSite|modifiedBy';
   public readonly groupFieldsForAdmin = 'fields=name|description|privacy|icon|category|createdBy|administrators|members|location|address|contact|webSite|modifiedBy';
   public readonly groupFieldsForSubscriber = 'fields=name|description|privacy|icon|category|createdBy|members|location|address|contact|webSite|modifiedBy';

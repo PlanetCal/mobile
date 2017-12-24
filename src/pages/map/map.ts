@@ -32,9 +32,9 @@ export class MapPage {
         mapData = [];
 
         let map1 = {
-          name: "Ionic HQ",
-          lat: 43.074395,
-          lng: -89.381056,
+          name: "Sachin Kumar Home",
+          lat: 47.6305235,
+          lng: -122.1372419,
           center: true
         };
         let map2 = {

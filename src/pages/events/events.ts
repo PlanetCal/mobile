@@ -55,8 +55,9 @@ export class EventsPage {
     let loading = this.loadingCtrl.create({
       content: `Fetching events.`
     });
-    loading.present();
-
+    if (refreshFromServer) {
+      loading.present();
+    }
     this.eventsDataProvider.getTimeline(refreshFromServer, this.queryText, this.segment)
       .subscribe((data: { visibleGroups: number, groups: Array<{ date: string, hide: boolean, events: Array<{ any }> }> }) => {
         this.shownEvents = data.visibleGroups;

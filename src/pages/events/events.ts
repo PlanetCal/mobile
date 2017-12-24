@@ -35,7 +35,6 @@ export class EventsPage {
     private loadingCtrl: LoadingController,
     private user: UserProvider,
     private utils: UtilsProvider,
-
     private eventsDataProvider: EventsData) {
 
     let userInfo = this.user.getLoggedInUser();

@@ -26,33 +26,13 @@ export class MapPage {
 
     let refreshFromServer = false;
     let segment = 'all';
-    this.eventsDataProvider.getTimeline(refreshFromServer, '', segment)
+    this.eventsDataProvider.getEventsMap(refreshFromServer)
       .subscribe((mapData: any) => {
 
-        mapData = [];
-
-        let map1 = {
-          name: "Sachin Kumar Home",
-          lat: 47.6305235,
-          lng: -122.1372419,
-          center: true
-        };
-        let map2 = {
-          name: "Monona Terrace Convention Center",
-          lat: 43.071584,
-          lng: -89.380120,
-          center: false
-        };
-        let map3 = {
-          name: "Afterparty - Brocach Irish Pub",
-          lat: 43.07336,
-          lng: -89.38335,
-          center: false
-        };
-
-        mapData.push(map1);
-        mapData.push(map2);
-        mapData.push(map3);
+        if (!mapData || mapData.length <= 0) {
+          return;
+        }
+        mapData[0].center = true;
 
         let mapElement = this.mapElementment.nativeElement;
 
@@ -62,8 +42,16 @@ export class MapPage {
         });
 
         mapData.forEach((markerData: any) => {
+
+          let startDateTime = this.utils.convertToFriendlyDateFromDateString(markerData.startDateTime);
+          let endDateTime = this.utils.convertToFriendlyDateFromDateString(markerData.endDateTime);
           let infoWindow = new google.maps.InfoWindow({
-            content: `<h5>${markerData.name}</h5>`
+            content:
+              `<div>
+                <h4>${markerData.name}</h4>
+                <h5>start: ${startDateTime}</h5>
+                <h5>end: ${endDateTime}</h5>
+                </div>`,
           });
 
           let marker = new google.maps.Marker({

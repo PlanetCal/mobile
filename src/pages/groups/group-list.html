@@ -16,15 +16,16 @@
             <ion-card-header>
               <button ion-item detail-none (click)="goToGroupDetail(group)">
                 <ion-avatar item-start>
-                  <img [src]="group.profilePic" alt="Group profile pic">
+                  <img [src]="utils.getGroupIcon(group)" alt="Group's profile pic">
+                  <!-- <img [src]="group.profilePic" alt="Group profile pic"> -->
                 </ion-avatar>
                 {{group.name}}
               </button>
             </ion-card-header>
             <ion-card-content class="outer-content">
               <button ion-item (click)="goToGroupDetail(group)">
-                  <h3>About {{group.name}}</h3>
-                </button>
+                <h3>About {{group.name}}</h3>
+              </button>
             </ion-card-content>
 
             <ion-row no-padding>
@@ -54,6 +55,8 @@
   </ion-list-header>
 
   <ion-fab bottom right #fab>
-    <button ion-fab color="danger" (click)="fetchData(true)"><ion-icon name="refresh"></ion-icon></button>
+    <button ion-fab color="danger" (click)="fetchData(true)">
+      <ion-icon name="refresh"></ion-icon>
+    </button>
   </ion-fab>
 </ion-content>

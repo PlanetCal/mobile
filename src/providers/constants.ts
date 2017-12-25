@@ -15,4 +15,5 @@ export class Constants {
   public readonly groupFieldsForOwner = 'fields=name|description|privacy|icon|category|createdBy|administrators|members|location|address|contact|webSite|modifiedBy';
   public readonly groupFieldsForAdmin = 'fields=name|description|privacy|icon|category|createdBy|administrators|members|location|address|contact|webSite|modifiedBy';
   public readonly groupFieldsForSubscriber = 'fields=name|description|privacy|icon|category|createdBy|members|location|address|contact|webSite|modifiedBy';
+  public readonly defaultGroupIcon = 'assets/imgs/defaultGroupIcon.jpg';
 }

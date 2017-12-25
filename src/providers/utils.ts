@@ -42,6 +42,10 @@ export class UtilsProvider {
     return (event.icon) ? event.icon : this.constants.defaultEventIcon;
   }
 
+  public getGroupIcon(group: any) {
+    return (group.icon) ? group.icon : this.constants.defaultGroupIcon;
+  }
+
   public getHttpHeaders(authToken: string = null) {
     if (authToken) {
       return {

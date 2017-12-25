@@ -16,8 +16,8 @@ export class GroupListPage {
 
   public constructor(
     private navCtrl: NavController,
-    navParams: NavParams,
-    public toastCtrl: ToastController,
+    private navParams: NavParams,
+    private toastCtrl: ToastController,
     private loadingCtrl: LoadingController,
     private groupsData: GroupsData,
     private constants: Constants,

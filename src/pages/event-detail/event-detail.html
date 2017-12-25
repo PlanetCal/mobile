@@ -14,7 +14,12 @@
     <p>
       End: {{utils.convertToFriendlyDateFromDateString(event.endDateTime)}}
     </p>
-    <p>{{event.location}}</p>
-    <p>{{event.description}}</p>
+    <p>Location: {{event.location}}</p>
+    <p>Description: {{event.description}}</p>
+    <ion-row responsive-sm>
+      <ion-col>
+        <button ion-button (click)='browseToGroup(event.groupId)' block>Group Info</button>
+      </ion-col>
+    </ion-row>
   </div>
 </ion-content>

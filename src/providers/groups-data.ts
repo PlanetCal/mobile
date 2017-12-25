@@ -144,7 +144,6 @@ export class GroupsData {
 
   private getGroupDataFromServer(groupType: string): any {
     let endpoint = '';
-    let token = null;
     let userInfo = this.user.getLoggedInUser();
     if (userInfo) {
 
@@ -160,12 +159,25 @@ export class GroupsData {
           break;
       }
 
-      token = userInfo.token;
+      let token = userInfo.token;
       let reqOpts = this.utils.getHttpHeaders(token);
       return this.api.get(endpoint, null, reqOpts).share();
     }
     else {
       return Observable.of([]);
+    }
+  }
+
+  public getGroup(groupId) {
+    let userInfo = this.user.getLoggedInUser();
+    if (userInfo) {
+      let endpoint = 'groups/' + groupId + '?' + this.constants.groupFieldsForSubscriber;
+      let token = userInfo.token;
+      let reqOpts = this.utils.getHttpHeaders(token);
+      return this.api.get(endpoint, null, reqOpts).share();
+    }
+    else {
+      return Observable.of(null);
     }
   }
 

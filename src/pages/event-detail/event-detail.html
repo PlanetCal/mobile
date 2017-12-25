@@ -8,14 +8,15 @@
   <div *ngIf="event">
     <h1>{{event.name}}</h1>
     <img [src]="utils.getEventIcon(event)" alt="Event's profile pic">
+    <p>{{event.description}}</p>
     <p>
       Start: {{utils.convertToFriendlyDateFromDateString(event.startDateTime)}}
     </p>
     <p>
       End: {{utils.convertToFriendlyDateFromDateString(event.endDateTime)}}
     </p>
+    <p>Address: {{event.address}}</p>
     <p>Location: {{event.location}}</p>
-    <p>Description: {{event.description}}</p>
     <ion-row responsive-sm>
       <ion-col>
         <button ion-button (click)='browseToGroup(event.groupId)' block>Group Info</button>

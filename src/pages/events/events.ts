@@ -86,10 +86,6 @@ export class EventsPage {
     this.navCtrl.push(EventDetailPage, { eventData: eventData });
   }
 
-  public getIcon(eventData: any) {
-    return (eventData.icon) ? eventData.icon : this.constants.defaultEventIcon;
-  }
-
   public addFavorite(slidingItem: ItemSliding, eventData: any) {
 
     if (this.eventsDataProvider.isFavoriteEvent(eventData.id)) {

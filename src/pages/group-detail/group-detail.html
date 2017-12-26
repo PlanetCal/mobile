@@ -7,6 +7,11 @@
 <ion-content padding>
   <div *ngIf="group">
     <h1>{{group.name}}</h1>
+    <img [src]='utils.getGroupIcon(group)' alt='Group profile pic'>
     <p>{{group.description}}</p>
+    <p>Address: {{group.address}}</p>
+    <p>Category: {{group.category}}</p>
+    <p>Website: {{group.website}}</p>
+    <p>Privacy: {{group.privacy}}</p>
   </div>
 </ion-content>

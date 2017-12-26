@@ -35,6 +35,9 @@
 
       <ion-item-sliding *ngFor="let event of group.events" #slidingItem [hidden]="event.hide">
         <button ion-item (click)="goToEventDetail(event)">
+          <ion-avatar item-start>
+            <img [src]="utils.getEventIcon(event)" alt="Event's profile pic">
+          </ion-avatar>
           <h3>{{event.name}}</h3>
           <p>
             {{utils.convertToTime(event.startDateTime)}} &mdash; {{utils.convertToTime(event.endDateTime)}}

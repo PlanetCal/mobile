@@ -4,6 +4,8 @@ import { IonicPage, AlertController, ToastController, LoadingController, App, It
 import { UserProvider } from '../../providers/user';
 import { EventsData } from '../../providers/events-data';
 import { UtilsProvider } from '../../providers/utils';
+import { Constants } from '../../providers/constants';
+
 import { EventDetailPage } from '../pages';
 import { MapPage } from '../pages';
 
@@ -35,6 +37,7 @@ export class EventsPage {
     private loadingCtrl: LoadingController,
     private user: UserProvider,
     private utils: UtilsProvider,
+    private constants: Constants,
     private eventsDataProvider: EventsData) {
 
     let userInfo = this.user.getLoggedInUser();

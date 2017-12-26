@@ -1,12 +1,15 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Constants } from './constants';
 
 /**
  * Utils is for utilities
  */
 @Injectable()
 export class UtilsProvider {
-  public constructor() {
+  public constructor(
+    private constants: Constants
+  ) {
   }
 
   public convertToDateString(dateTime: Date): string {
@@ -34,6 +37,14 @@ export class UtilsProvider {
   //   let startDate = new Date(startDatetime);
   //   let endDate = new Date(endDateTime);
   // }
+
+  public getEventIcon(event: any) {
+    return (event.icon) ? event.icon : this.constants.defaultEventIcon;
+  }
+
+  public getGroupIcon(group: any) {
+    return (group.icon) ? group.icon : this.constants.defaultGroupIcon;
+  }
 
   public getHttpHeaders(authToken: string = null) {
     if (authToken) {

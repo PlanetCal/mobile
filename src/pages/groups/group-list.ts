@@ -3,6 +3,7 @@ import { IonicPage, NavParams, ToastController, LoadingController, Config, NavCo
 import { GroupsData } from '../../providers/groups-data';
 import { GroupDetailPage } from '../pages';
 import { Constants } from '../../providers/constants';
+import { UtilsProvider } from '../../providers/utils';
 
 @IonicPage()
 @Component({
@@ -15,11 +16,12 @@ export class GroupListPage {
 
   public constructor(
     private navCtrl: NavController,
-    navParams: NavParams,
-    public toastCtrl: ToastController,
+    private navParams: NavParams,
+    private toastCtrl: ToastController,
     private loadingCtrl: LoadingController,
     private groupsData: GroupsData,
-    private constants: Constants
+    private constants: Constants,
+    public utils: UtilsProvider
   ) {
     if (navParams.data && navParams.data.param) {
       this.data = navParams.data.param;

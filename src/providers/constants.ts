@@ -10,7 +10,10 @@ export class Constants {
 
   public groupTabName: string = null;
   public readonly eventsFields = 'fields=name|description|startDateTime|endDateTime|address|location|geoLocation|groupId|icon';
+  public readonly defaultEventIcon = 'assets/imgs/defaultEventIcon.jpg';
+
   public readonly groupFieldsForOwner = 'fields=name|description|privacy|icon|category|createdBy|administrators|members|location|address|contact|webSite|modifiedBy';
   public readonly groupFieldsForAdmin = 'fields=name|description|privacy|icon|category|createdBy|administrators|members|location|address|contact|webSite|modifiedBy';
   public readonly groupFieldsForSubscriber = 'fields=name|description|privacy|icon|category|createdBy|members|location|address|contact|webSite|modifiedBy';
+  public readonly defaultGroupIcon = 'assets/imgs/defaultGroupIcon.jpg';
 }

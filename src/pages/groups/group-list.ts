@@ -12,7 +12,7 @@ import { UtilsProvider } from '../../providers/utils';
 })
 export class GroupListPage {
   groups: any[] = [];
-  private data: any;
+  private groupType: any;
 
   public constructor(
     private navCtrl: NavController,
@@ -23,15 +23,15 @@ export class GroupListPage {
     private constants: Constants,
     public utils: UtilsProvider
   ) {
-    if (navParams.data && navParams.data.param) {
-      this.data = navParams.data.param;
-      constants.groupTabName = this.data;
-    } else {
-      this.data = constants.groupTabName;
-    }
   }
 
-  private ionViewDidLoad() {
+  private ionViewDidEnter() {
+    if (this.navParams.data && this.navParams.data.param) {
+      this.groupType = this.navParams.data.param;
+      this.constants.groupTabName = this.groupType;
+    } else {
+      this.groupType = this.constants.groupTabName;
+    }
     this.fetchData();
   }
 
@@ -40,7 +40,7 @@ export class GroupListPage {
   }
 
   private fetchData(refreshFromServer: boolean = false) {
-    if (!this.data) {
+    if (!this.groupType) {
       return;
     }
 
@@ -49,7 +49,7 @@ export class GroupListPage {
     });
     loading.present();
 
-    this.groupsData.getGroups(refreshFromServer, this.data).subscribe((groups: any[]) => {
+    this.groupsData.getGroups(refreshFromServer, this.groupType).subscribe((groups: any[]) => {
       loading.dismiss();
       this.groups = groups;
     }, (err) => {

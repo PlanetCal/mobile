@@ -8,11 +8,6 @@ import { GroupListPage } from '../pages';
   templateUrl: 'groups.html'
 })
 export class GroupsPage {
-  tab1Root: any = GroupListPage;
-  tab2Root: any = GroupListPage;
-  tab3Root: any = GroupListPage;
-
-  mySelectedIndex: number;
 
   constructor() {
   }

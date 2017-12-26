@@ -14,6 +14,7 @@ import 'rxjs/add/observable/of';
 @Injectable()
 export class GroupsData {
   private groups: Array<{ groupType: string, groupList: Array<any> }>;
+  private currentGroupType: string;
 
   constructor(
     private user: UserProvider,
@@ -23,99 +24,10 @@ export class GroupsData {
     private storage: Storage
   ) {
     this.groups = [];
-
-    // this.groups = [
-    //   {
-    //     groupType: 'Subscribed',
-    //     groupList: [
-    //       {
-    //         name: "sachin_Subscribed",
-    //         profilePic: "../assets/imgs/time-zones.png"
-    //       },
-    //       {
-    //         name: "sachin2",
-    //         profilePic: "../assets/imgs/time-zones.png"
-    //       },
-    //       {
-    //         name: "sachin3_Subscribed",
-    //         profilePic: "../assets/imgs/time-zones.png"
-    //       },
-    //       {
-    //         name: "sachin4",
-    //         profilePic: "../assets/imgs/time-zones.png"
-    //       },
-    //       {
-    //         name: "sachi53_Subscribed",
-    //         profilePic: "../assets/imgs/time-zones.png"
-    //       },
-    //       {
-    //         name: "sachin6_Subscribed",
-    //         profilePic: "../assets/imgs/time-zones.png"
-    //       }
-    //     ]
-    //   },
-    //   {
-    //     groupType: 'Owned',
-    //     groupList: [
-    //       {
-    //         name: "sachin_Owned",
-    //         profilePic: "../assets/imgs/time-zones.png"
-    //       },
-    //       {
-    //         name: "sachin2",
-    //         profilePic: "../assets/imgs/time-zones.png"
-    //       },
-    //       {
-    //         name: "sachin3",
-    //         profilePic: "../assets/imgs/time-zones.png"
-    //       },
-    //       {
-    //         name: "sachin4_Owned",
-    //         profilePic: "../assets/imgs/time-zones.png"
-    //       },
-    //       {
-    //         name: "sachi53",
-    //         profilePic: "../assets/imgs/time-zones.png"
-    //       },
-    //       {
-    //         name: "sachin6_Owned",
-    //         profilePic: "../assets/imgs/time-zones.png"
-    //       }
-    //     ]
-    //   }, {
-    //     groupType: 'Administered',
-    //     groupList: [
-    //       {
-    //         name: "sachin_Administered",
-    //         profilePic: "../assets/imgs/time-zones.png"
-    //       },
-    //       {
-    //         name: "sachin2",
-    //         profilePic: "../assets/imgs/time-zones.png"
-    //       },
-    //       {
-    //         name: "sachin3_Administered",
-    //         profilePic: "../assets/imgs/time-zones.png"
-    //       },
-    //       {
-    //         name: "sachin4",
-    //         profilePic: "../assets/imgs/time-zones.png"
-    //       },
-    //       {
-    //         name: "sachi53_Administered",
-    //         profilePic: "../assets/imgs/time-zones.png"
-    //       },
-    //       {
-    //         name: "sachin6",
-    //         profilePic: "../assets/imgs/time-zones.png"
-    //       }
-    //     ]
-    //   }
-    // ];
   }
 
   private load(refreshFromServer: boolean, groupType: string): any {
-
+    this.currentGroupType = groupType;
     let groupsOfThisGroupType = this.groups.find(x => x.groupType === groupType);
     let groupList = null;
     if (groupsOfThisGroupType) {
@@ -126,18 +38,17 @@ export class GroupsData {
       return Observable.of(groupList);
     } else {
       return this.getGroupDataFromServer(groupType)
-        .map(this.processDataFromServer, this, groupType);
+        .map(this.processDataFromServer, this);
     }
   }
 
-  private processDataFromServer(data: any, groupType: string) {
-
-    let groupsOfThisGroupType = this.groups.find(x => x.groupType === groupType);
+  private processDataFromServer(data: any) {
+    let groupsOfThisGroupType = this.groups.find(x => x.groupType === this.currentGroupType);
     if (groupsOfThisGroupType) {
       groupsOfThisGroupType.groupList = data;
     }
     else {
-      this.groups.push({ groupType: groupType, groupList: data });
+      this.groups.push({ groupType: this.currentGroupType, groupList: data });
     }
     return data;
   }

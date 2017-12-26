@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavParams, ToastController, LoadingController } from 'ionic-angular';
 import { GroupsData } from '../../providers/groups-data';
+import { UtilsProvider } from '../../providers/utils';
 
 @IonicPage()
 @Component({
@@ -12,6 +13,7 @@ export class GroupDetailPage {
   group: any;
 
   constructor(
+    public utils: UtilsProvider,
     private toastCtrl: ToastController,
     private loadingCtrl: LoadingController,
     private groupsData: GroupsData,
@@ -27,7 +29,7 @@ export class GroupDetailPage {
     else if (groupId) {
       //fetch group data from backend.
       let loading = this.loadingCtrl.create({
-        content: `Fetching groups.`
+        content: `Fetching the group information.`
       });
       loading.present();
 

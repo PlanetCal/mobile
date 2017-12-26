@@ -5,7 +5,9 @@ import { Injectable } from '@angular/core';
  */
 @Injectable()
 export class Constants {
-  public readonly serviceUrl = 'http://localhost:1337';
+  public readonly serviceUrl = 'http://calapisvc.azurewebsites.net';
+  //public readonly serviceUrl = 'http://localhost:1337';
+
   public readonly productName = 'PlanetCal';
 
   public groupTabName: string = null;

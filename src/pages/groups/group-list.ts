@@ -39,6 +39,10 @@ export class GroupListPage {
     this.navCtrl.push(GroupDetailPage, { group: group });
   }
 
+  private hideNoGroupsMessage() {
+    return (this.groups.length > 0);
+  }
+
   private fetchData(refreshFromServer: boolean = false) {
     if (!this.groupType) {
       return;
@@ -47,7 +51,10 @@ export class GroupListPage {
     let loading = this.loadingCtrl.create({
       content: `Fetching groups.`
     });
-    loading.present();
+
+    if (refreshFromServer) {
+      loading.present();
+    }
 
     this.groupsData.getGroups(refreshFromServer, this.groupType).subscribe((groups: any[]) => {
       loading.dismiss();

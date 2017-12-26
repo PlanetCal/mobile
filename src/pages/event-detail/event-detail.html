@@ -15,8 +15,11 @@
     <p>
       End: {{utils.convertToFriendlyDateFromDateString(event.endDateTime)}}
     </p>
-    <p>Address: {{event.address}}</p>
-    <p>Location: {{event.location}}</p>
+    <p>{{event.location}}</p>
+    <button [hidden]='!event.address' ion-button clear small color="primary" icon-start (click)="utils.navigateTo(event.address)">
+      <ion-icon name="pin"></ion-icon>
+      {{event.address}}
+    </button>
     <ion-row responsive-sm>
       <ion-col>
         <button ion-button (click)='browseToGroup(event.groupId)' block>Group Info</button>

@@ -21,6 +21,16 @@ export class UtilsProvider {
     return dateTime.toDateString();
   }
 
+  public navigateTo(address: string) {
+    var mapLink = 'https://www.google.com/maps/place/';
+    var normalizedAddress = address.replace(/ /g, '+');
+    this.browseTo(mapLink + normalizedAddress);
+  }
+
+  public browseTo(website: string) {
+    window.location.href = website;
+  }
+
   public convertToFriendlyDateFromDateString(dateTime: string): string {
     let date = new Date(dateTime);
     let returnString = date.toLocaleDateString('en-us') + ' ' +

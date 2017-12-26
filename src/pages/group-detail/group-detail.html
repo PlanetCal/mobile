@@ -9,9 +9,15 @@
     <h1>{{group.name}}</h1>
     <img [src]='utils.getGroupIcon(group)' alt='Group profile pic'>
     <p>{{group.description}}</p>
-    <p>Address: {{group.address}}</p>
+    <button [hidden]='!group.address' ion-button clear small color="primary" icon-start (click)='utils.navigateTo(group.address)'>
+      <ion-icon name="pin"></ion-icon>
+      {{group.address}}
+    </button>
     <p>Category: {{group.category}}</p>
-    <p>Website: {{group.website}}</p>
+    <button [hidden]='!group.webSite' ion-button clear small color="primary" icon-start (click)='utils.browseTo(group.webSite)'>
+      <ion-icon name="laptop"></ion-icon>
+      {{group.webSite}}
+    </button>
     <p>Privacy: {{group.privacy}}</p>
   </div>
 </ion-content>

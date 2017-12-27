@@ -3,6 +3,7 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 import { MyApp } from './app.component';
 
@@ -34,6 +35,7 @@ import { Constants } from '../providers/constants';
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     ApiProvider,
+    InAppBrowser,
     UserProvider,
     UtilsProvider,
     EventsData,

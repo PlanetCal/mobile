@@ -1,6 +1,7 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Constants } from './constants';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 /**
  * Utils is for utilities
@@ -8,6 +9,7 @@ import { Constants } from './constants';
 @Injectable()
 export class UtilsProvider {
   public constructor(
+    private inAppBrowser: InAppBrowser,
     private constants: Constants
   ) {
   }
@@ -21,6 +23,16 @@ export class UtilsProvider {
     return dateTime.toDateString();
   }
 
+  public navigateTo(address: string) {
+    var mapLink = 'https://www.google.com/maps/place/';
+    var normalizedAddress = address.replace(/ /g, '+');
+    this.browseTo(mapLink + normalizedAddress);
+  }
+
+  public browseTo(url: string) {
+    this.inAppBrowser.create(url, '_system');
+  }
+
   public convertToFriendlyDateFromDateString(dateTime: string): string {
     let date = new Date(dateTime);
     let returnString = date.toLocaleDateString('en-us') + ' ' +
@@ -32,11 +44,6 @@ export class UtilsProvider {
     let returnString = new Date(dateTime).toLocaleTimeString('en-US');
     return returnString;
   }
-
-  // getDuration(startDatetime: string, endDateTime: string): string {
-  //   let startDate = new Date(startDatetime);
-  //   let endDate = new Date(endDateTime);
-  // }
 
   public getEventIcon(event: any) {
     return (event.icon) ? event.icon : this.constants.defaultEventIcon;

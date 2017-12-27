@@ -4,6 +4,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { Geolocation } from '@ionic-native/geolocation';
 
 import { MyApp } from './app.component';
 
@@ -36,6 +37,7 @@ import { Constants } from '../providers/constants';
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     ApiProvider,
     InAppBrowser,
+    Geolocation,
     UserProvider,
     UtilsProvider,
     EventsData,

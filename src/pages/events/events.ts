@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, AlertController, ToastController, LoadingController, App, ItemSliding, List, NavController } from 'ionic-angular';
+//import { Geolocation } from '@ionic-native/geolocation';
 
 import { UserProvider } from '../../providers/user';
 import { EventsData } from '../../providers/events-data';
@@ -38,6 +39,7 @@ export class EventsPage {
     private user: UserProvider,
     private utils: UtilsProvider,
     private constants: Constants,
+    //    private geolocation: Geolocation,
     private eventsDataProvider: EventsData) {
 
     let userInfo = this.user.getLoggedInUser();
@@ -49,6 +51,12 @@ export class EventsPage {
   ionViewDidLoad() {
     this.app.setTitle('Event');
     this.updateEvents();
+    // this.geolocation.getCurrentPosition().then((resp) => {
+    //   var lat = resp.coords.latitude;
+    //   var lng = resp.coords.longitude;
+    // }).catch((error) => {
+    //   console.log('Error getting location', error);
+    // });
   }
 
   private updateEvents(refreshFromServer: boolean = false) {

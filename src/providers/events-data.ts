@@ -88,11 +88,13 @@ export class EventsData {
     this.eventsGroupedByDate = { visibleGroups: 0, groups: [] };
     this.eventsMap = [];
     data.forEach((event: any) => {
-      if (event.geoLocation) {
+      if (event.geoLocation &&
+        event.geoLocation.coordinates &&
+        event.geoLocation.coordinates.length === 2) {
         this.eventsMap.push({
           name: event.name,
-          lat: event.geoLocation.lat,
-          lng: event.geoLocation.lng,
+          lat: event.geoLocation.coordinates[1],
+          lng: event.geoLocation.coordinates[0],
           startDateTime: event.startDateTime,
           endDateTime: event.endDateTime
         })

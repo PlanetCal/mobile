@@ -23,6 +23,8 @@ export class EventsPage {
 
   private queryText = '';
 
+  private phone = '360-689-2862';
+
   // the list is a child of the schedule page
   // @ViewChild('scheduleList') gets a reference to the list
   // with the variable #scheduleList, `read: List` tells it to return

@@ -33,6 +33,12 @@ export class UtilsProvider {
     this.inAppBrowser.create(url, '_system');
   }
 
+  // phoneCallTo(phone: string) {
+  // }
+
+  // emailTo(email: string) {
+  // }
+
   public convertToFriendlyDateFromDateString(dateTime: string): string {
     let date = new Date(dateTime);
     let returnString = date.toLocaleDateString('en-us') + ' ' +

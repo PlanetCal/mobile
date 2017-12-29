@@ -79,7 +79,7 @@ export class GroupsData {
     }
   }
 
-  public hideDeleteGroupButton(group: any, groupType: string) {
+  public hideDeleteGroupButton(group: any, groupType: string): boolean {
     if (groupType == 'Owned') {
       return false;
     }
@@ -92,12 +92,24 @@ export class GroupsData {
     return true;
   }
 
-  public hideSubscibeButton(group: any, groupType: string) {
-    return true;
+  public hideSubscibeButton(group: any, groupType: string): boolean {
+    if (groupType === 'Subscribed') {
+      return true;
+    }
+    var hide = false;
+    let subscribedGroups = this.groups.find(x => x.groupType === 'Subscribed').groupList;
+    if (subscribedGroups) {
+      subscribedGroups.forEach(element => {
+        if (element.id === group.id) {
+          hide = true;
+        }
+      });
+    }
+    return hide;
   }
 
-  public hideUnsubscibeButton(group: any, groupType: string) {
-    return false;
+  public hideUnsubscibeButton(group: any, groupType: string): boolean {
+    return !this.hideSubscibeButton(group, groupType);
   }
 
   public getGroup(groupId) {

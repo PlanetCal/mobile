@@ -43,6 +43,10 @@ export class GroupListPage {
     return (this.groups.length > 0);
   }
 
+  private deleteGroup(group: any) {
+
+  }
+
   private fetchData(refreshFromServer: boolean = false) {
     if (!this.groupType) {
       return;

@@ -53,6 +53,11 @@
                   <ion-icon name='chatboxes'></ion-icon>
                 </button>
               </ion-col>
+              <ion-col col-2 col-lg-auto text-center text-lg-left>
+                <button [hidden]='groupsData.hideDeleteGroupButton(group, groupType)' ion-button clear small color="primary" icon-start (click)='deleteGroup(group)'>
+                  <ion-icon name="trash"></ion-icon>
+                </button>
+              </ion-col>
             </ion-row>
           </ion-card>
         </ion-col>

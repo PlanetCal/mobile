@@ -79,6 +79,21 @@ export class GroupsData {
     }
   }
 
+  public hideDeleteGroupButton(group: any, groupType: string) {
+    if (groupType == 'Owned') {
+      return false;
+    }
+
+    let userInfo = this.user.getLoggedInUser();
+    if (userInfo) {
+      if (group.createdBy === userInfo.id || group.modifiedBy === userInfo.id) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+
   public getGroup(groupId) {
     let userInfo = this.user.getLoggedInUser();
     if (userInfo) {

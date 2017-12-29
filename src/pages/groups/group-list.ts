@@ -47,6 +47,19 @@ export class GroupListPage {
 
   }
 
+  private subscibe(group: any) {
+
+  }
+
+  private unsubscibe(group: any) {
+
+  }
+
+  private showEvents(group: any) {
+
+  }
+
+
   private fetchData(refreshFromServer: boolean = false) {
     if (!this.groupType) {
       return;

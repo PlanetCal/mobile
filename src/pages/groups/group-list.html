@@ -17,18 +17,31 @@
               <button ion-item detail-none (click)="goToGroupDetail(group)">
                 <ion-avatar item-start>
                   <img [src]="utils.getGroupIcon(group)" alt="Group's profile pic">
-                  <!-- <img [src]="group.profilePic" alt="Group profile pic"> -->
                 </ion-avatar>
                 {{group.name}}
+                <ion-icon [name]='utils.getPrivacyIcon(group.privacy)'> </ion-icon>
+                <ion-icon name='md-arrow-dropright'></ion-icon>
               </button>
             </ion-card-header>
-            <ion-card-content class="outer-content">
-              <button ion-item (click)="goToGroupDetail(group)">
-                <ion-icon [name]='utils.getPrivacyIcon(group.privacy)'> {{utils.getPrivacyMessage(group.privacy)}}</ion-icon>
-              </button>
-            </ion-card-content>
-            <ion-row no-padding>
 
+            <ion-row no-padding>
+              <ion-col col-4 col-lg-auto text-center text-lg-left>
+                <button [hidden]='groupsData.hideSubscibeButton(group, groupType)' ion-button clear small color="primary" icon-start (click)='subscibe(group)'>
+                  Follow
+                </button>
+                <button [hidden]='groupsData.hideUnsubscibeButton(group, groupType)' ion-button clear small color="primary" icon-start (click)='unsubscibe(group)'>
+                  Un-follow
+                </button>
+              </ion-col>
+              <ion-col col-1 col-lg-auto text-center text-lg-left>
+              </ion-col>
+              <ion-col col-4 col-lg-auto text-center text-lg-left>
+                <button ion-button clear small color="primary" icon-start (click)='showEvents(group)'>
+                  Show group's events
+                </button>
+              </ion-col>
+            </ion-row>
+            <ion-row no-padding>
               <ion-col col-2 col-lg-auto text-center text-lg-left>
                 <button [hidden]='!group.address' ion-button clear small color="primary" icon-start (click)='utils.navigateTo(group.address)'>
                   <ion-icon name="pin"></ion-icon>
@@ -46,7 +59,7 @@
               </ion-col>
               <ion-col col-2 col-lg-auto text-center>
                 <button ion-button clear small color="primary" icon-start (click)="openGroupShare(group)">
-                  <ion-icon name='share-alt'></ion-icon>
+                  <ion-icon name='md-share'></ion-icon>
                 </button>
               </ion-col>
               <ion-col col-2 col-lg-auto text-center text-lg-right>
@@ -68,7 +81,6 @@
   <ion-list-header [hidden]='hideNoGroupsMessage()'>
     No {{data}} Group Found
   </ion-list-header>
-
   <ion-fab bottom right #fab>
     <button ion-fab color="danger" (click)="fetchData(true)">
       <ion-icon name="refresh"></ion-icon>

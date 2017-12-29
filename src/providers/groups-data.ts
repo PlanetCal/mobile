@@ -83,7 +83,6 @@ export class GroupsData {
     if (groupType == 'Owned') {
       return false;
     }
-
     let userInfo = this.user.getLoggedInUser();
     if (userInfo) {
       if (group.createdBy === userInfo.id || group.modifiedBy === userInfo.id) {
@@ -93,6 +92,13 @@ export class GroupsData {
     return true;
   }
 
+  public hideSubscibeButton(group: any, groupType: string) {
+    return true;
+  }
+
+  public hideUnsubscibeButton(group: any, groupType: string) {
+    return false;
+  }
 
   public getGroup(groupId) {
     let userInfo = this.user.getLoggedInUser();

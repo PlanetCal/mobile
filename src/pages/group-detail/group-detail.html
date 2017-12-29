@@ -12,16 +12,18 @@
     <p>{{group.description}}</p>
     <p>Privacy: {{group.privacy}}</p>
 
-    <a href='tel:{{group.contact.phone}}'>
+    <a href='tel: {{group.contact.phone}}'>
       <button [hidden]='!group.contact || !group.contact.phone' ion-button clear small color="primary" icon-start>
         <ion-icon name="call"></ion-icon>
         {{group.contact.phone}}
       </button>
     </a>
-    <button [hidden]='!group.contact || !group.contact.email' ion-button clear small color="primary" icon-start (click)='utils.emailTo(group.contact.email)'>
-      <ion-icon name="mail"></ion-icon>
-      {{group.contact.email}}
-    </button>
+    <a href='mailto: {{group.contact.phone}}'>
+      <button [hidden]='!group.contact || !group.contact.email' ion-button clear small color="primary" icon-start>
+        <ion-icon name="mail"></ion-icon>
+        {{group.contact.email}}
+      </button>
+    </a>
     <button [hidden]='!group.address' ion-button clear small color="primary" icon-start (click)='utils.navigateTo(group.address)'>
       <ion-icon name="pin"></ion-icon>
       {{group.address}}

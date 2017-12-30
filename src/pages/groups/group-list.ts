@@ -48,14 +48,14 @@ export class GroupListPage {
     this.groupsData.deleteGroup(group, groupType).subscribe((groupId: any) => {
       let toast = this.toastCtrl.create({
         message: 'Deleted the group',
-        duration: 3000,
+        duration: this.constants.toastDuration,
         position: 'top'
       });
       toast.present();
     }, (err) => {
       let toast = this.toastCtrl.create({
         message: 'Could not delete the group',
-        duration: 3000,
+        duration: this.constants.toastDuration,
         position: 'top'
       });
       toast.present();
@@ -67,14 +67,14 @@ export class GroupListPage {
     this.groupsData.updateSubscription(group, groupType).subscribe((groupId: any) => {
       let toast = this.toastCtrl.create({
         message: 'Updated the subscription',
-        duration: 3000,
+        duration: this.constants.toastDuration,
         position: 'top'
       });
       toast.present();
     }, (err) => {
       let toast = this.toastCtrl.create({
         message: 'Could not update subscription',
-        duration: 3000,
+        duration: this.constants.toastDuration,
         position: 'top'
       });
       toast.present();
@@ -105,7 +105,7 @@ export class GroupListPage {
       // Unable to log in
       let toast = this.toastCtrl.create({
         message: 'Could not fetch the groups',
-        duration: 3000,
+        duration: this.constants.toastDuration,
         position: 'top'
       });
       loading.dismiss();

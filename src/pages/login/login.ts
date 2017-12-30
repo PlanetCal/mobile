@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { IonicPage, NavController, ToastController, LoadingController } from 'ionic-angular';
 import { MainPage } from '../pages';
 import { UserProvider } from '../../providers/user';
+import { Constants } from '../../providers/constants';
 
 @IonicPage()
 @Component({
@@ -26,6 +27,7 @@ export class LoginPage {
     private navCtrl: NavController,
     private toastCtrl: ToastController,
     private loadingCtrl: LoadingController,
+    private constants: Constants,
     private user: UserProvider) {
     this.resetPasswordSuccessString = "Password reset request submitted."
     this.loginErrorString = "Login failed. Please check your username/password, or register yourself.";
@@ -47,7 +49,7 @@ export class LoginPage {
         // Unable to log in
         let toast = this.toastCtrl.create({
           message: this.loginErrorString,
-          duration: 3000,
+          duration: this.constants.toastDuration,
           position: 'top'
         });
         loading.dismiss();
@@ -62,7 +64,7 @@ export class LoginPage {
       this.user.resetPassword(this.account).subscribe((resp) => {
         let toast = this.toastCtrl.create({
           message: this.resetPasswordSuccessString,
-          duration: 3000,
+          duration: this.constants.toastDuration,
           position: 'top'
         });
         toast.present();
@@ -71,7 +73,7 @@ export class LoginPage {
         // Unable to log in
         let toast = this.toastCtrl.create({
           message: this.loginErrorString,
-          duration: 3000,
+          duration: this.constants.toastDuration,
           position: 'top'
         });
         toast.present();

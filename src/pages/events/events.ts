@@ -78,7 +78,7 @@ export class EventsPage {
         // Unable to log in
         let toast = this.toastCtrl.create({
           message: 'Could not fetch the events',
-          duration: 3000,
+          duration: this.constants.toastDuration,
           position: 'top'
         });
         loading.dismiss();

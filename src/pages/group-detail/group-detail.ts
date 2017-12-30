@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavParams, ToastController, LoadingController } from 'ionic-angular';
 import { GroupsData } from '../../providers/groups-data';
 import { UtilsProvider } from '../../providers/utils';
+import { Constants } from '../../providers/constants';
 
 @IonicPage()
 @Component({
@@ -17,6 +18,7 @@ export class GroupDetailPage {
     private toastCtrl: ToastController,
     private loadingCtrl: LoadingController,
     private groupsData: GroupsData,
+    private constants: Constants,
     private navParams: NavParams) {
   }
 
@@ -40,7 +42,7 @@ export class GroupDetailPage {
         // Unable to log in
         let toast = this.toastCtrl.create({
           message: 'Could not fetch the group',
-          duration: 3000,
+          duration: this.constants.toastDuration,
           position: 'top'
         });
         loading.dismiss();

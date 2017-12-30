@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { IonicPage, NavController, ToastController, LoadingController } from 'ionic-angular';
 import { MainPage } from '../pages';
 import { UserProvider } from '../../providers/user';
+import { Constants } from '../../providers/constants';
 
 @IonicPage()
 @Component({
@@ -28,6 +29,7 @@ export class SignupPage {
     private navCtrl: NavController,
     private toastCtrl: ToastController,
     private loadingCtrl: LoadingController,
+    private constants: Constants,
     private user: UserProvider) {
     this.signupSuccessMessage = '';
     this.signupSuccessToast = "Signup request submitted."
@@ -45,7 +47,7 @@ export class SignupPage {
       this.user.signup(this.account).subscribe((resp) => {
         let toast = this.toastCtrl.create({
           message: this.signupSuccessToast,
-          duration: 3000,
+          duration: this.constants.toastDuration,
           position: 'top'
         });
         loading.dismiss();
@@ -55,7 +57,7 @@ export class SignupPage {
         // Unable to log in
         let toast = this.toastCtrl.create({
           message: this.signupErrorToast,
-          duration: 3000,
+          duration: this.constants.toastDuration,
           position: 'top'
         });
         loading.dismiss();

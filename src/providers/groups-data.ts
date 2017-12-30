@@ -10,7 +10,6 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
 
-
 @Injectable()
 export class GroupsData {
   private groups: Array<{ groupType: string, groupList: Array<any> }>;
@@ -76,6 +75,84 @@ export class GroupsData {
     }
     else {
       return Observable.of([]);
+    }
+  }
+
+  public hideDeleteGroupButton(group: any, groupType: string): boolean {
+    if (groupType == 'Owned') {
+      return false;
+    }
+    let userInfo = this.user.getLoggedInUser();
+    if (userInfo) {
+      if (group.createdBy === userInfo.id || group.modifiedBy === userInfo.id) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  public getSubsciptionUpdateText(group: any, groupType: string): string {
+    return this.hideSubscibeButton(group, groupType) ? 'Un-follow' : 'Follow';
+  }
+
+  private hideSubscibeButton(group: any, groupType: string): boolean {
+    if (groupType === 'Subscribed') {
+      return true;
+    }
+
+    var hide = false;
+    let subscribedGroups = this.groups.find(x => x.groupType === 'Subscribed').groupList;
+    if (subscribedGroups) {
+      var currentGroup = subscribedGroups.find(element => element.id === group.id);
+      hide = currentGroup;
+    }
+    return hide;
+  }
+
+  public deleteGroup(group: any, groupType: string): any {
+    let userInfo = this.user.getLoggedInUser();
+    if (userInfo) {
+      var endpoint = 'groups/' + group.id;
+      let token = userInfo.token;
+      let reqOpts = this.utils.getHttpHeaders(token);
+      this.updateGroupsCache(groupType, group, false);
+      return this.api.delete(endpoint, reqOpts).share();
+    }
+    else {
+      //this should never hit.
+      return Observable.of('');
+    }
+  }
+
+  public updateSubscription(group: any, groupType: string): any {
+    var subscribe = !this.hideSubscibeButton(group, groupType);
+    let userInfo = this.user.getLoggedInUser();
+    if (userInfo) {
+      var endpoint = 'userdetails/' + userInfo.id + '/followingGroups/' + group.id;
+      let token = userInfo.token;
+      let reqOpts = this.utils.getHttpHeaders(token);
+
+      this.updateGroupsCache('Subscribed', group, subscribe);
+      return subscribe ? this.api.post(endpoint, null, reqOpts).share() :
+        this.api.delete(endpoint, reqOpts).share();
+    }
+    else {
+      //this should never hit.
+      return Observable.of('');
+    }
+  }
+
+  private updateGroupsCache(groupType: string, group: any, add: boolean) {
+    let groupsList = this.groups.find(x => x.groupType === groupType).groupList;
+    if (groupsList) {
+      if (add) {
+        groupsList.push(group);
+      } else {
+        var index = groupsList.findIndex(element => element.id === group.id);
+        if (index > -1) {
+          groupsList.splice(index, 1);
+        }
+      }
     }
   }
 

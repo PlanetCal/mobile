@@ -45,11 +45,25 @@ export class UtilsProvider {
     return returnString;
   }
 
-  public getEventIcon(event: any) {
+  public getPrivacyIcon(privacySetting: string): string {
+    if (privacySetting && privacySetting === 'Closed') {
+      return 'ios-lock-outline';
+    }
+    return 'ios-open-outline';
+  }
+
+  public getPrivacyMessage(privacySetting: string): string {
+    if (privacySetting && privacySetting === 'Closed') {
+      return 'Not visible to others';
+    }
+    return 'Visible to others';
+  }
+
+  public getEventIcon(event: any): string {
     return (event.icon) ? event.icon : this.constants.defaultEventIcon;
   }
 
-  public getGroupIcon(group: any) {
+  public getGroupIcon(group: any): string {
     return (group.icon) ? group.icon : this.constants.defaultGroupIcon;
   }
 

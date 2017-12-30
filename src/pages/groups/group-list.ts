@@ -2,8 +2,10 @@ import { Component } from '@angular/core';
 import { IonicPage, NavParams, ToastController, LoadingController, Config, NavController } from 'ionic-angular';
 import { GroupsData } from '../../providers/groups-data';
 import { GroupDetailPage } from '../pages';
+import { EventsPage } from '../pages';
 import { Constants } from '../../providers/constants';
 import { UtilsProvider } from '../../providers/utils';
+import { Subscriber } from 'rxjs/Subscriber';
 
 @IonicPage()
 @Component({
@@ -43,6 +45,47 @@ export class GroupListPage {
     return (this.groups.length > 0);
   }
 
+  private deleteGroup(group: any, groupType: string) {
+    this.groupsData.deleteGroup(group, groupType).subscribe((groupId: any) => {
+      let toast = this.toastCtrl.create({
+        message: 'Deleted the group',
+        duration: this.constants.toastDuration,
+        position: 'top'
+      });
+      toast.present();
+    }, (err) => {
+      let toast = this.toastCtrl.create({
+        message: 'Could not delete the group',
+        duration: this.constants.toastDuration,
+        position: 'top'
+      });
+      toast.present();
+    });
+
+  }
+
+  private updateSubscription(group: any, groupType: string) {
+    this.groupsData.updateSubscription(group, groupType).subscribe((groupId: any) => {
+      let toast = this.toastCtrl.create({
+        message: 'Updated the subscription',
+        duration: this.constants.toastDuration,
+        position: 'top'
+      });
+      toast.present();
+    }, (err) => {
+      let toast = this.toastCtrl.create({
+        message: 'Could not update subscription',
+        duration: this.constants.toastDuration,
+        position: 'top'
+      });
+      toast.present();
+    });
+  }
+
+  private showEvents(group: any) {
+    this.navCtrl.push(EventsPage, { group: group });
+  }
+
   private fetchData(refreshFromServer: boolean = false) {
     if (!this.groupType) {
       return;
@@ -63,7 +106,7 @@ export class GroupListPage {
       // Unable to log in
       let toast = this.toastCtrl.create({
         message: 'Could not fetch the groups',
-        duration: 3000,
+        duration: this.constants.toastDuration,
         position: 'top'
       });
       loading.dismiss();

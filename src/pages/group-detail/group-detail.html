@@ -7,17 +7,30 @@
 <ion-content padding>
   <div *ngIf="group">
     <h1>{{group.name}}</h1>
-    <img [src]='utils.getGroupIcon(group)' alt='Group profile pic'>
+    <p>Category: {{group.category}}</p>
+    <img [hidden]='!group.icon' [src]='group.icon'>
+    <ion-icon [name]='utils.getPrivacyIcon(group.privacy)'> {{utils.getPrivacyMessage(group.privacy)}}</ion-icon>
     <p>{{group.description}}</p>
+
+    <a href='tel: {{group.contact.phone}}'>
+      <button [hidden]='!group.contact || !group.contact.phone' ion-button clear small color="primary" icon-start>
+        <ion-icon name="call"></ion-icon>
+        {{group.contact.phone}}
+      </button>
+    </a>
+    <a href='mailto: {{group.contact.phone}}'>
+      <button [hidden]='!group.contact || !group.contact.email' ion-button clear small color="primary" icon-start>
+        <ion-icon name="mail"></ion-icon>
+        {{group.contact.email}}
+      </button>
+    </a>
     <button [hidden]='!group.address' ion-button clear small color="primary" icon-start (click)='utils.navigateTo(group.address)'>
-      <ion-icon name="pin"></ion-icon>
+      <ion-icon name="navigate"></ion-icon>
       {{group.address}}
     </button>
-    <p>Category: {{group.category}}</p>
     <button [hidden]='!group.webSite' ion-button clear small color="primary" icon-start (click)='utils.browseTo(group.webSite)'>
       <ion-icon name="ios-globe"></ion-icon>
       {{group.webSite}}
     </button>
-    <p>Privacy: {{group.privacy}}</p>
   </div>
 </ion-content>

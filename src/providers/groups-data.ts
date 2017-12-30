@@ -116,13 +116,9 @@ export class GroupsData {
       let token = userInfo.token;
       let reqOpts = this.utils.getHttpHeaders(token);
 
-      if (subscribe) {
-
-        return this.api.post(endpoint, null, reqOpts).share();
-      }
-      else {
-        return this.api.delete(endpoint, reqOpts).share();
-      }
+      this.updateSubscribedList(group, subscribe);
+      return subscribe ? this.api.post(endpoint, null, reqOpts).share() :
+        this.api.delete(endpoint, reqOpts).share();
     }
     else {
       //this should never hit.
@@ -130,8 +126,18 @@ export class GroupsData {
     }
   }
 
-  public addToSubscribedList(group: any) {
-
+  private updateSubscribedList(group: any, add: boolean) {
+    let subscribedGroups = this.groups.find(x => x.groupType === 'Subscribed').groupList;
+    if (subscribedGroups) {
+      if (add) {
+        subscribedGroups.push(group);
+      } else {
+        var index = subscribedGroups.findIndex(element => element.id === group.id);
+        if (index > -1) {
+          subscribedGroups.splice(index, 1);
+        }
+      }
+    }
   }
 
   public getGroup(groupId) {

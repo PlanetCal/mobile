@@ -109,6 +109,21 @@ export class GroupsData {
     return hide;
   }
 
+  public deleteGroup(group: any, groupType: string): any {
+    let userInfo = this.user.getLoggedInUser();
+    if (userInfo) {
+      var endpoint = 'groups/' + group.id;
+      let token = userInfo.token;
+      let reqOpts = this.utils.getHttpHeaders(token);
+      this.updateGroupsCache(groupType, group, false);
+      return this.api.delete(endpoint, reqOpts).share();
+    }
+    else {
+      //this should never hit.
+      return Observable.of('');
+    }
+  }
+
   public updateSubscription(group: any, groupType: string): any {
     var subscribe = !this.hideSubscibeButton(group, groupType);
     let userInfo = this.user.getLoggedInUser();
@@ -117,7 +132,7 @@ export class GroupsData {
       let token = userInfo.token;
       let reqOpts = this.utils.getHttpHeaders(token);
 
-      this.updateSubscribedList(group, subscribe);
+      this.updateGroupsCache('Subscribed', group, subscribe);
       return subscribe ? this.api.post(endpoint, null, reqOpts).share() :
         this.api.delete(endpoint, reqOpts).share();
     }
@@ -127,15 +142,15 @@ export class GroupsData {
     }
   }
 
-  private updateSubscribedList(group: any, add: boolean) {
-    let subscribedGroups = this.groups.find(x => x.groupType === 'Subscribed').groupList;
-    if (subscribedGroups) {
+  private updateGroupsCache(groupType: string, group: any, add: boolean) {
+    let groupsList = this.groups.find(x => x.groupType === groupType).groupList;
+    if (groupsList) {
       if (add) {
-        subscribedGroups.push(group);
+        groupsList.push(group);
       } else {
-        var index = subscribedGroups.findIndex(element => element.id === group.id);
+        var index = groupsList.findIndex(element => element.id === group.id);
         if (index > -1) {
-          subscribedGroups.splice(index, 1);
+          groupsList.splice(index, 1);
         }
       }
     }

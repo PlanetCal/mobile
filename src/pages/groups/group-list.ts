@@ -44,12 +44,27 @@ export class GroupListPage {
     return (this.groups.length > 0);
   }
 
-  private deleteGroup(group: any) {
+  private deleteGroup(group: any, groupType: string) {
+    this.groupsData.deleteGroup(group, groupType).subscribe((groupId: any) => {
+      let toast = this.toastCtrl.create({
+        message: 'Deleted the group',
+        duration: 3000,
+        position: 'top'
+      });
+      toast.present();
+    }, (err) => {
+      let toast = this.toastCtrl.create({
+        message: 'Could not delete the group',
+        duration: 3000,
+        position: 'top'
+      });
+      toast.present();
+    });
 
   }
 
-  private updateSubscription(group: any, subscribe) {
-    this.groupsData.updateSubscription(group, subscribe).subscribe((groupId: any) => {
+  private updateSubscription(group: any, groupType: string) {
+    this.groupsData.updateSubscription(group, groupType).subscribe((groupId: any) => {
       let toast = this.toastCtrl.create({
         message: 'Updated the subscription',
         duration: 3000,
@@ -64,10 +79,6 @@ export class GroupListPage {
       });
       toast.present();
     });
-  }
-
-  private unsubscibe(group: any) {
-
   }
 
   private showEvents(group: any) {

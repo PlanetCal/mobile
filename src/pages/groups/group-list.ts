@@ -4,6 +4,7 @@ import { GroupsData } from '../../providers/groups-data';
 import { GroupDetailPage } from '../pages';
 import { Constants } from '../../providers/constants';
 import { UtilsProvider } from '../../providers/utils';
+import { Subscriber } from 'rxjs/Subscriber';
 
 @IonicPage()
 @Component({
@@ -47,8 +48,22 @@ export class GroupListPage {
 
   }
 
-  private subscibe(group: any) {
-
+  private updateSubscription(group: any, subscribe) {
+    this.groupsData.updateSubscription(group, subscribe).subscribe((groupId: any) => {
+      let toast = this.toastCtrl.create({
+        message: 'Updated the subscription',
+        duration: 3000,
+        position: 'top'
+      });
+      toast.present();
+    }, (err) => {
+      let toast = this.toastCtrl.create({
+        message: 'Could not update subscription',
+        duration: 3000,
+        position: 'top'
+      });
+      toast.present();
+    });
   }
 
   private unsubscibe(group: any) {
@@ -58,7 +73,6 @@ export class GroupListPage {
   private showEvents(group: any) {
 
   }
-
 
   private fetchData(refreshFromServer: boolean = false) {
     if (!this.groupType) {

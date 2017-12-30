@@ -10,7 +10,6 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
 
-
 @Injectable()
 export class GroupsData {
   private groups: Array<{ groupType: string, groupList: Array<any> }>;
@@ -96,20 +95,43 @@ export class GroupsData {
     if (groupType === 'Subscribed') {
       return true;
     }
+
     var hide = false;
     let subscribedGroups = this.groups.find(x => x.groupType === 'Subscribed').groupList;
     if (subscribedGroups) {
-      subscribedGroups.forEach(element => {
-        if (element.id === group.id) {
-          hide = true;
-        }
-      });
+      var currentGroup = subscribedGroups.find(element => element.id === group.id);
+      hide = currentGroup;
     }
     return hide;
   }
 
   public hideUnsubscibeButton(group: any, groupType: string): boolean {
     return !this.hideSubscibeButton(group, groupType);
+  }
+
+  public updateSubscription(group: any, subscribe: boolean): any {
+    let userInfo = this.user.getLoggedInUser();
+    if (userInfo) {
+      var endpoint = 'userdetails/' + userInfo.id + '/followingGroups/' + group.id;
+      let token = userInfo.token;
+      let reqOpts = this.utils.getHttpHeaders(token);
+
+      if (subscribe) {
+
+        return this.api.post(endpoint, null, reqOpts).share();
+      }
+      else {
+        return this.api.delete(endpoint, reqOpts).share();
+      }
+    }
+    else {
+      //this should never hit.
+      return Observable.of('');
+    }
+  }
+
+  public addToSubscribedList(group: any) {
+
   }
 
   public getGroup(groupId) {

@@ -26,10 +26,10 @@
 
             <ion-row no-padding>
               <ion-col col-4 col-lg-auto text-center text-lg-left>
-                <button [hidden]='groupsData.hideSubscibeButton(group, groupType)' ion-button clear small color="primary" icon-start (click)='subscibe(group)'>
+                <button [hidden]='groupsData.hideSubscibeButton(group, groupType)' ion-button clear small color="primary" icon-start (click)='updateSubscription(group, true)'>
                   Follow
                 </button>
-                <button [hidden]='groupsData.hideUnsubscibeButton(group, groupType)' ion-button clear small color="primary" icon-start (click)='unsubscibe(group)'>
+                <button [hidden]='groupsData.hideUnsubscibeButton(group, groupType)' ion-button clear small color="primary" icon-start (click)='updateSubscription(group, false)'>
                   Un-follow
                 </button>
               </ion-col>

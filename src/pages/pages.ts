@@ -5,6 +5,7 @@ export const WelcomePage = 'WelcomePage';
 // Change this if not using tabs
 //export const MainPage = 'GroupsPage';
 export const MainPage = 'EventsPage';
+export const EventsPage = 'EventsPage';
 export const LogoutPage = 'LogoutPage';
 export const AboutPage = 'AboutPage';
 export const SupportPage = 'SupportPage';

@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, AlertController, ToastController, LoadingController, App, ItemSliding, List, NavController } from 'ionic-angular';
+import { IonicPage, AlertController, ToastController, LoadingController, App, ItemSliding, List, NavController, NavParams } from 'ionic-angular';
 //import { Geolocation } from '@ionic-native/geolocation';
 
 import { UserProvider } from '../../providers/user';
@@ -21,6 +21,8 @@ export class EventsPage {
   private shownEvents: any = [];
   private groups: any = [];
 
+  private parentGroup;
+
   private queryText = '';
 
   // the list is a child of the schedule page
@@ -38,6 +40,7 @@ export class EventsPage {
     private loadingCtrl: LoadingController,
     private user: UserProvider,
     private utils: UtilsProvider,
+    private navParams: NavParams,
     private constants: Constants,
     //    private geolocation: Geolocation,
     private eventsDataProvider: EventsData) {
@@ -48,9 +51,15 @@ export class EventsPage {
     }
   }
 
-  ionViewDidLoad() {
+  private isSegmentHidden(): boolean {
+    return (this.parentGroup);
+  }
+
+  private ionViewDidLoad() {
+    this.parentGroup = this.navParams.data.group;
     this.app.setTitle('Event');
-    this.updateEvents();
+    let refreshFromServer: boolean = this.parentGroup && this.parentGroup.id;
+    this.updateEvents(this.parentGroup, refreshFromServer);
     // this.geolocation.getCurrentPosition().then((resp) => {
     //   var lat = resp.coords.latitude;
     //   var lng = resp.coords.longitude;
@@ -59,7 +68,7 @@ export class EventsPage {
     // });
   }
 
-  private updateEvents(refreshFromServer: boolean = false) {
+  public updateEvents(parentGroup: any = null, refreshFromServer: boolean = false) {
     // Close any open sliding items when the schedule updates
     this.eventList && this.eventList.closeSlidingItems();
 
@@ -69,7 +78,7 @@ export class EventsPage {
     if (refreshFromServer) {
       loading.present();
     }
-    this.eventsDataProvider.getTimeline(refreshFromServer, this.queryText, this.segment)
+    this.eventsDataProvider.getTimeline(parentGroup, refreshFromServer, this.queryText, this.segment)
       .subscribe((data: { visibleGroups: number, groups: Array<{ date: string, hide: boolean, events: Array<{ any }> }> }) => {
         this.shownEvents = data.visibleGroups;
         loading.dismiss();

@@ -15,6 +15,7 @@ import 'rxjs/add/observable/of';
 export class EventsData {
   private eventsGroupedByDate: { visibleGroups: number, groups: Array<{ date: string, hide: boolean, events: Array<{ any }> }> };
   private eventsMap: any;
+  private parentGroup: any;
   private _favoriteEvents: Array<string>;
   private FAVORITE_EVENTS = 'favoriteEvents';
 
@@ -55,9 +56,14 @@ export class EventsData {
       endpoint = 'eventsanonymous';
     }
     let reqOpts = this.utils.getHttpHeaders(token);
-    let queryParams = '?filter=endDateTime>=' + this.utils.convertToDateString(new Date());
-    queryParams += '&' + this.constants.eventsFields;
+    let queryParams = '?' + this.constants.eventsFields;
     endpoint += queryParams;
+    if (this.parentGroup && this.parentGroup.id) {
+      endpoint += '&groupids=' + this.parentGroup.id;
+    }
+    else {
+      endpoint += '&filter=endDateTime>=' + this.utils.convertToDateString(new Date());
+    }
     return this.api.get(endpoint, null, reqOpts).share();
   }
 
@@ -84,14 +90,16 @@ export class EventsData {
 
 
   private processDataFromServer(data: any) {
-    //{ visibleGroups: number, groups: Array<{ date: string, hide: boolean, events: Array<{ any }> }> };
-    this.eventsGroupedByDate = { visibleGroups: 0, groups: [] };
-    this.eventsMap = [];
+    let parentGroup = this.parentGroup;
+    this.parentGroup = null;
+
+    let eventsGroupedByDate = { visibleGroups: 0, groups: [] };
+    let eventsMap = [];
     data.forEach((event: any) => {
       if (event.geoLocation &&
         event.geoLocation.coordinates &&
         event.geoLocation.coordinates.length === 2) {
-        this.eventsMap.push({
+        eventsMap.push({
           name: event.name,
           lat: event.geoLocation.coordinates[1],
           lng: event.geoLocation.coordinates[0],
@@ -102,19 +110,26 @@ export class EventsData {
 
       let date = this.utils.convertToFriendlyDate(new Date(event.startDateTime));
 
-      let eventsForThisDay = this.eventsGroupedByDate.groups.find(event => event.date === date);
+      let eventsForThisDay = eventsGroupedByDate.groups.find(event => event.date === date);
       if (eventsForThisDay) {
         eventsForThisDay.events.push(event);
       }
       else {
-        this.eventsGroupedByDate.groups.push({ date: date, hide: false, events: [event] });
+        eventsGroupedByDate.groups.push({ date: date, hide: false, events: [event] });
       }
     }
     );
-    return this.eventsGroupedByDate;
+
+    if (!parentGroup) {
+      this.eventsGroupedByDate = eventsGroupedByDate;
+      this.eventsMap = eventsMap;
+    }
+
+    return eventsGroupedByDate;
   }
 
-  public getTimeline(refreshFromServer: boolean, queryText: string = '', segment: string = 'all') {
+  public getTimeline(parentGroup: any, refreshFromServer: boolean, queryText: string = '', segment: string = 'all') {
+    this.parentGroup = parentGroup;
     return this.load(refreshFromServer).map((data: { visibleGroups: number, groups: Array<{ date: string, hide: boolean, events: Array<{ any }> }> }) => {
       data.visibleGroups = 0;
 

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavParams, ToastController, LoadingController, Config, NavController } from 'ionic-angular';
 import { GroupsData } from '../../providers/groups-data';
 import { GroupDetailPage } from '../pages';
+import { EventsPage } from '../pages';
 import { Constants } from '../../providers/constants';
 import { UtilsProvider } from '../../providers/utils';
 import { Subscriber } from 'rxjs/Subscriber';
@@ -82,7 +83,7 @@ export class GroupListPage {
   }
 
   private showEvents(group: any) {
-
+    this.navCtrl.push(EventsPage, { group: group });
   }
 
   private fetchData(refreshFromServer: boolean = false) {

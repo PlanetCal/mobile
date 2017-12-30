@@ -1,0 +1,88 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{groupCategory}}: Available groups</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="outer-content group-list">
+  <ion-list [hidden]="groups.length === 0">
+    <ion-grid>
+      <ion-row align-items-stretch>
+        <ion-col col-12 col-md-6 col-lg-4 col-xl-3 align-self-stretch align-self-center *ngFor="let group of groups">
+          <ion-card class="group-card">
+            <ion-card-header>
+              <button ion-item detail-none (click)="goToGroupDetail(group)">
+                <ion-avatar item-start>
+                  <img [src]="utils.getGroupIcon(group)" alt="Group's profile pic">
+                </ion-avatar>
+                {{group.name}}
+                <ion-icon [name]='utils.getPrivacyIcon(group.privacy)'> </ion-icon>
+                <ion-buttons end>
+                  <ion-icon name="arrow-forward"></ion-icon>
+                </ion-buttons>
+              </button>
+            </ion-card-header>
+
+            <ion-row no-padding>
+              <ion-col col-4 col-lg-auto text-center text-lg-left>
+                <button ion-button clear small color="primary" icon-start (click)='updateSubscription(group, groupType)'>
+                  {{groupsData.getSubsciptionUpdateText(group, groupType)}}
+                </button>
+              </ion-col>
+              <ion-col col-1 col-lg-auto text-center text-lg-left>
+              </ion-col>
+              <ion-col col-4 col-lg-auto text-center text-lg-left>
+                <button ion-button clear small color="primary" icon-start (click)='showEvents(group)'>
+                  Group's events
+                </button>
+              </ion-col>
+            </ion-row>
+            <ion-row no-padding>
+              <ion-col col-2 col-lg-auto text-center text-lg-left>
+                <button [hidden]='!group.address' ion-button clear small color="primary" icon-start (click)='utils.navigateTo(group.address)'>
+                  <ion-icon name="pin"></ion-icon>
+                </button>
+              </ion-col>
+              <ion-col col-2 col-lg-auto text-center text-lg-left>
+                <button [hidden]='!group.webSite' ion-button clear small color="primary" icon-start (click)='utils.browseTo(group.webSite)'>
+                  <ion-icon name="ios-globe"></ion-icon>
+                </button>
+              </ion-col>
+              <ion-col col-2 col-lg-auto text-center text-lg-left>
+                <button ion-button clear small color="primary" icon-start (click)="goToGroupTwitter(group)">
+                  <ion-icon name="logo-twitter"></ion-icon>
+                </button>
+              </ion-col>
+              <ion-col col-2 col-lg-auto text-center>
+                <button ion-button clear small color="primary" icon-start (click)="openGroupShare(group)">
+                  <ion-icon name='md-share'></ion-icon>
+                </button>
+              </ion-col>
+              <ion-col col-2 col-lg-auto text-center text-lg-right>
+                <button ion-button clear small color="primary" icon-start (click)="openContact(group)">
+                  <ion-icon name='chatboxes'></ion-icon>
+                </button>
+              </ion-col>
+              <ion-col col-2 col-lg-auto text-center text-lg-left>
+                <button [hidden]='groupsData.hideDeleteGroupButton(group, groupType)' ion-button clear small color="primary" icon-start (click)='deleteGroup(group, groupType)'>
+                  <ion-icon name="trash"></ion-icon>
+                </button>
+              </ion-col>
+            </ion-row>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-list>
+  <ion-list-header [hidden]='hideNoGroupsMessage()'>
+    No {{data}} Group Found
+  </ion-list-header>
+  <ion-fab bottom right #fab>
+    <button ion-fab color="danger" (click)="fetchData(true)">
+      <ion-icon name="refresh"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-content>

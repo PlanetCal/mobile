@@ -9,12 +9,12 @@ import { Subscriber } from 'rxjs/Subscriber';
 
 @IonicPage()
 @Component({
-  selector: 'page-group-list',
-  templateUrl: 'group-list.html'
+  selector: 'page-follow-list',
+  templateUrl: 'follow-list.html'
 })
-export class GroupListPage {
+export class FollowListPage {
   groups: any[] = [];
-  private groupType: any;
+  private groupCategory: any;
 
   public constructor(
     private navCtrl: NavController,
@@ -29,10 +29,10 @@ export class GroupListPage {
 
   private ionViewDidEnter() {
     if (this.navParams.data && this.navParams.data.param) {
-      this.groupType = this.navParams.data.param;
-      this.constants.groupTabName = this.groupType;
+      this.groupCategory = this.navParams.data.param;
+      this.constants.followTabName = this.groupCategory;
     } else {
-      this.groupType = this.constants.groupTabName;
+      this.groupCategory = this.constants.followTabName;
     }
     this.fetchData();
   }
@@ -45,8 +45,14 @@ export class GroupListPage {
     return (this.groups.length > 0);
   }
 
-  private deleteGroup(group: any, groupType: string) {
-    this.groupsData.deleteGroup(group, groupType).subscribe((groupId: any) => {
+  private deleteGroup(group: any, groupCategory: string) {
+    this.groupsData.deleteGroup(group, groupCategory).subscribe((groupId: any) => {
+      let toast = this.toastCtrl.create({
+        message: 'Deleted the group',
+        duration: this.constants.toastDuration,
+        position: 'top'
+      });
+      toast.present();
     }, (err) => {
       let toast = this.toastCtrl.create({
         message: 'Could not delete the group',
@@ -58,8 +64,14 @@ export class GroupListPage {
 
   }
 
-  private updateSubscription(group: any, groupType: string) {
-    this.groupsData.updateSubscription(group, groupType).subscribe((groupId: any) => {
+  private updateSubscription(group: any, groupCategory: string) {
+    this.groupsData.updateSubscription(group, groupCategory).subscribe((groupId: any) => {
+      let toast = this.toastCtrl.create({
+        message: 'Updated the subscription',
+        duration: this.constants.toastDuration,
+        position: 'top'
+      });
+      toast.present();
     }, (err) => {
       let toast = this.toastCtrl.create({
         message: 'Could not update subscription',
@@ -75,7 +87,7 @@ export class GroupListPage {
   }
 
   private fetchData(refreshFromServer: boolean = false) {
-    if (!this.groupType) {
+    if (!this.groupCategory) {
       return;
     }
 
@@ -87,7 +99,7 @@ export class GroupListPage {
       loading.present();
     }
 
-    this.groupsData.getGroups(refreshFromServer, this.groupType).subscribe((groups: any[]) => {
+    this.groupsData.getGroups(refreshFromServer, this.groupCategory).subscribe((groups: any[]) => {
       loading.dismiss();
       this.groups = groups;
     }, (err) => {

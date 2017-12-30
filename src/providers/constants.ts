@@ -10,6 +10,7 @@ export class Constants {
 
   public readonly productName: string = 'PlanetCal';
 
+  public followTabName: string = null;
   public groupTabName: string = null;
   public readonly eventsFields: string = 'fields=name|description|startDateTime|endDateTime|address|location|geoLocation|groupId|icon';
   public readonly defaultEventIcon: string = 'assets/imgs/defaultEventIcon.jpg';

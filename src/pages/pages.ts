@@ -14,5 +14,6 @@ export const EventDetailPage = 'EventDetailPage';
 export const GroupListPage = 'GroupListPage';
 export const GroupDetailPage = 'GroupDetailPage';
 export const MapPage = 'MapPage';
-
+export const FollowTabsPage = 'FollowTabsPage';
+export const FollowListPage = 'FollowListPage';
 

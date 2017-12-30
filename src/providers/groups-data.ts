@@ -91,7 +91,11 @@ export class GroupsData {
     return true;
   }
 
-  public hideSubscibeButton(group: any, groupType: string): boolean {
+  public getSubsciptionUpdateText(group: any, groupType: string): string {
+    return this.hideSubscibeButton(group, groupType) ? 'Un-follow' : 'Follow';
+  }
+
+  private hideSubscibeButton(group: any, groupType: string): boolean {
     if (groupType === 'Subscribed') {
       return true;
     }
@@ -105,11 +109,8 @@ export class GroupsData {
     return hide;
   }
 
-  public hideUnsubscibeButton(group: any, groupType: string): boolean {
-    return !this.hideSubscibeButton(group, groupType);
-  }
-
-  public updateSubscription(group: any, subscribe: boolean): any {
+  public updateSubscription(group: any, groupType: string): any {
+    var subscribe = !this.hideSubscibeButton(group, groupType);
     let userInfo = this.user.getLoggedInUser();
     if (userInfo) {
       var endpoint = 'userdetails/' + userInfo.id + '/followingGroups/' + group.id;

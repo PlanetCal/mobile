@@ -20,6 +20,8 @@
                 </ion-avatar>
                 {{group.name}}
                 <ion-icon [name]='utils.getPrivacyIcon(group.privacy)'> </ion-icon>
+                <p>Category: {{group.category}}</p>
+
                 <ion-buttons end>
                   <ion-icon name="arrow-forward"></ion-icon>
                 </ion-buttons>
@@ -29,10 +31,9 @@
             <ion-row no-padding>
               <ion-col col-4 col-lg-auto text-center text-lg-left>
                 <button ion-button clear small color="primary" icon-start (click)='updateSubscription(group, groupType)'>
+                  <ion-icon [name]="groupsData.getSubsciptionUpdateIcon(group, groupType)"></ion-icon>
                   {{groupsData.getSubsciptionUpdateText(group, groupType)}}
                 </button>
-              </ion-col>
-              <ion-col col-1 col-lg-auto text-center text-lg-left>
               </ion-col>
               <ion-col col-4 col-lg-auto text-center text-lg-left>
                 <button ion-button clear small color="primary" icon-start (click)='showEvents(group)'>

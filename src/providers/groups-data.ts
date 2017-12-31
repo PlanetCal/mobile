@@ -91,6 +91,10 @@ export class GroupsData {
     return true;
   }
 
+  public getSubsciptionUpdateIcon(group: any, groupType: string): string {
+    return this.hideSubscibeButton(group, groupType) ? 'md-remove-circle' : 'md-add-circle';
+  }
+
   public getSubsciptionUpdateText(group: any, groupType: string): string {
     return this.hideSubscibeButton(group, groupType) ? 'Un-follow' : 'Follow';
   }

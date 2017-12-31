@@ -12,25 +12,36 @@
     <ion-icon [name]='utils.getPrivacyIcon(group.privacy)'> {{utils.getPrivacyMessage(group.privacy)}}</ion-icon>
     <p>{{group.description}}</p>
 
+    <br>
+    <button ion-button clear small color="primary" icon-start (click)='updateSubscription(group, groupType)'>
+      <ion-icon [name]="groupsData.getSubsciptionUpdateIcon(group, groupType)"></ion-icon>
+      {{groupsData.getSubsciptionUpdateText(group, groupType)}}
+    </button>
+    <br>
     <a href='tel: {{group.contact?group.contact.phone:""}}'>
       <button [hidden]='!group.contact || !group.contact.phone' ion-button clear small color="primary" icon-start>
         <ion-icon name="call"></ion-icon>
         {{group.contact?group.contact.phone:""}}
       </button>
     </a>
+    <br>
     <a href='mailto: {{group.contact?group.contact.email:""}}'>
       <button [hidden]='!group.contact || !group.contact.email' ion-button clear small color="primary" icon-start>
         <ion-icon name="mail"></ion-icon>
         {{group.contact?group.contact.email:""}}
       </button>
     </a>
+    <br>
     <button [hidden]='!group.address' ion-button clear small color="primary" icon-start (click)='utils.navigateTo(group.address)'>
       <ion-icon name="navigate"></ion-icon>
       {{group.address}}
     </button>
+    <br>
     <button [hidden]='!group.webSite' ion-button clear small color="primary" icon-start (click)='utils.browseTo(group.webSite)'>
       <ion-icon name="ios-globe"></ion-icon>
       {{group.webSite}}
     </button>
+    <br>
+
   </div>
 </ion-content>

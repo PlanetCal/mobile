@@ -56,7 +56,7 @@ export class FollowData {
   private getGroupDataFromServer(groupCategory: string): any {
     let userInfo = this.user.getLoggedInUser();
     if (userInfo) {
-      let endpoint = 'groups?fields=name|icon|childGroups|parentGroup&filter=category=' + groupCategory;
+      let endpoint = 'groups?fields=name|icon|category|childGroups|parentGroup&filter=category=' + groupCategory;
       let token = userInfo.token;
       let reqOpts = this.utils.getHttpHeaders(token);
       let result = this.api.get(endpoint, null, reqOpts).share();

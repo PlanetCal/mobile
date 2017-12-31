@@ -51,4 +51,16 @@ export class GroupDetailPage {
 
     }
   }
+
+  private updateSubscription(group: any, groupType: string) {
+    this.groupsData.updateSubscription(group, groupType).subscribe((groupId: any) => {
+    }, (err) => {
+      let toast = this.toastCtrl.create({
+        message: 'Could not update subscription',
+        duration: this.constants.toastDuration,
+        position: 'top'
+      });
+      toast.present();
+    });
+  }
 }  

@@ -4,7 +4,7 @@ import { Storage } from '@ionic/storage';
 import { UserProvider } from './user';
 import { ApiProvider } from './api';
 import { UtilsProvider } from './utils';
-import { Constants } from '../providers/constants';
+import { Constants } from './constants';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';

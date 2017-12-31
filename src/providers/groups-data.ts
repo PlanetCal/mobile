@@ -4,7 +4,7 @@ import { Storage } from '@ionic/storage';
 import { UserProvider } from './user';
 import { ApiProvider } from './api';
 import { UtilsProvider } from './utils';
-import { Constants } from '../providers/constants';
+import { Constants } from './constants';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -101,10 +101,13 @@ export class GroupsData {
     }
 
     var hide = false;
-    let subscribedGroups = this.groups.find(x => x.groupType === 'Subscribed').groupList;
+    let subscribedGroups = this.groups.find(x => x.groupType === 'Subscribed');
     if (subscribedGroups) {
-      var currentGroup = subscribedGroups.find(element => element.id === group.id);
-      hide = currentGroup;
+      let subscribedGroupsList = subscribedGroups.groupList;
+      if (subscribedGroupsList) {
+        var currentGroup = subscribedGroupsList.find(element => element.id === group.id);
+        hide = currentGroup;
+      }
     }
     return hide;
   }

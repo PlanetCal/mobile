@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavParams, ToastController, LoadingController, Config, NavController } from 'ionic-angular';
 import { FollowData } from '../../providers/follow-data';
+import { GroupsData } from '../../providers/groups-data';
+
 import { EventsPage } from '../pages';
 import { Constants } from '../../providers/constants';
 import { UtilsProvider } from '../../providers/utils';
@@ -22,6 +24,7 @@ export class FollowListPage {
     private toastCtrl: ToastController,
     private loadingCtrl: LoadingController,
     private followData: FollowData,
+    private groupsData: GroupsData,
     private constants: Constants,
     public utils: UtilsProvider
   ) {
@@ -41,23 +44,17 @@ export class FollowListPage {
     return (this.groups.length > 0);
   }
 
-  // private updateSubscription(group: any, groupCategory: string) {
-  //   this.followData.updateSubscription(group, groupCategory).subscribe((groupId: any) => {
-  //     let toast = this.toastCtrl.create({
-  //       message: 'Updated the subscription',
-  //       duration: this.constants.toastDuration,
-  //       position: 'top'
-  //     });
-  //     toast.present();
-  //   }, (err) => {
-  //     let toast = this.toastCtrl.create({
-  //       message: 'Could not update subscription',
-  //       duration: this.constants.toastDuration,
-  //       position: 'top'
-  //     });
-  //     toast.present();
-  //   });
-  // }
+  private updateSubscription(group: any, groupCategory: string) {
+    this.groupsData.updateSubscription(group, groupCategory).subscribe((groupId: any) => {
+    }, (err) => {
+      let toast = this.toastCtrl.create({
+        message: 'Could not update subscription',
+        duration: this.constants.toastDuration,
+        position: 'top'
+      });
+      toast.present();
+    });
+  }
 
   private showEvents(group: any) {
     this.navCtrl.push(EventsPage, { group: group });

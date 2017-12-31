@@ -4,6 +4,8 @@
       <ion-icon name="menu"></ion-icon>
     </button>
 
+    <ion-title [hidden]='!isSegmentHidden()'>Group's events</ion-title>
+
     <ion-segment [hidden]='isSegmentHidden()' [(ngModel)]="segment" (ionChange)="updateEvents()">
       <ion-segment-button value="all">
         All

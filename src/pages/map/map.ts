@@ -14,6 +14,8 @@ declare var google: any;
 })
 export class MapPage {
 
+  private mapData: Array<any>;
+
   @ViewChild('mapCanvas') mapElementment: ElementRef;
   constructor(
     public toastCtrl: ToastController,
@@ -28,7 +30,7 @@ export class MapPage {
     let segment = 'all';
     this.eventsDataProvider.getEventsMap(refreshFromServer)
       .subscribe((mapData: any) => {
-
+        this.mapData = mapData;
         if (!mapData || mapData.length <= 0) {
           return;
         }

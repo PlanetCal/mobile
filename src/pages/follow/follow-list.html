@@ -40,33 +40,6 @@
                 </button>
               </ion-col>
             </ion-row>
-            <ion-row no-padding>
-              <ion-col col-2 col-lg-auto text-center text-lg-left>
-                <button [hidden]='!group.address' ion-button clear small color="primary" icon-start (click)='utils.navigateTo(group.address)'>
-                  <ion-icon name="pin"></ion-icon>
-                </button>
-              </ion-col>
-              <ion-col col-2 col-lg-auto text-center text-lg-left>
-                <button [hidden]='!group.webSite' ion-button clear small color="primary" icon-start (click)='utils.browseTo(group.webSite)'>
-                  <ion-icon name="ios-globe"></ion-icon>
-                </button>
-              </ion-col>
-              <ion-col col-2 col-lg-auto text-center text-lg-left>
-                <button ion-button clear small color="primary" icon-start (click)="goToGroupTwitter(group)">
-                  <ion-icon name="logo-twitter"></ion-icon>
-                </button>
-              </ion-col>
-              <ion-col col-2 col-lg-auto text-center>
-                <button ion-button clear small color="primary" icon-start (click)="openGroupShare(group)">
-                  <ion-icon name='md-share'></ion-icon>
-                </button>
-              </ion-col>
-              <ion-col col-2 col-lg-auto text-center text-lg-right>
-                <button ion-button clear small color="primary" icon-start (click)="openContact(group)">
-                  <ion-icon name='chatboxes'></ion-icon>
-                </button>
-              </ion-col>
-            </ion-row>
           </ion-card>
         </ion-col>
       </ion-row>

@@ -44,18 +44,6 @@ export class FollowListPage {
     return (this.groups.length > 0);
   }
 
-  private updateSubscription(group: any, groupCategory: string) {
-    this.groupsData.updateSubscription(group, groupCategory).subscribe((groupId: any) => {
-    }, (err) => {
-      let toast = this.toastCtrl.create({
-        message: 'Could not update subscription',
-        duration: this.constants.toastDuration,
-        position: 'top'
-      });
-      toast.present();
-    });
-  }
-
   private showEvents(group: any) {
     this.navCtrl.push(EventsPage, { group: group });
   }

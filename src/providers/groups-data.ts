@@ -140,12 +140,12 @@ export class GroupsData {
       let reqOpts = this.utils.getHttpHeaders(token);
 
       this.updateGroupsCache('Subscribed', group, subscribe);
-      return subscribe ? this.api.post(endpoint, null, reqOpts).share() :
+      let observable = subscribe ? this.api.post(endpoint, null, reqOpts).share() :
         this.api.delete(endpoint, reqOpts).share();
-    }
-    else {
-      //this should never hit.
-      return Observable.of('');
+
+      observable.subscribe((groupId: any) => {
+      }, (err) => {
+      });
     }
   }
 

@@ -13,7 +13,7 @@
     <p>{{group.description}}</p>
 
     <br>
-    <button ion-button clear small color="primary" icon-start (click)='updateSubscription(group, groupType)'>
+    <button ion-button clear small color="primary" icon-start (click)='groupsData.updateSubscription(group, groupType)'>
       <ion-icon [name]="groupsData.getSubsciptionUpdateIcon(group, groupType)"></ion-icon>
       {{groupsData.getSubsciptionUpdateText(group, groupType)}}
     </button>

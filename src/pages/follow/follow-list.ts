@@ -63,10 +63,6 @@ export class FollowListPage {
     this.navCtrl.push(EventsPage, { group: group });
   }
 
-  private goToGroupDetail(group: any) {
-    this.navCtrl.push(GroupDetailPage, { group: group });
-  }
-
   private fetchData(refreshFromServer: boolean = false) {
     if (!this.groupCategory) {
       return;

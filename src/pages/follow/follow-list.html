@@ -14,15 +14,11 @@
         <ion-col col-12 col-md-6 col-lg-4 col-xl-3 align-self-stretch align-self-center *ngFor="let group of groups">
           <ion-card class="group-card">
             <ion-card-header>
-              <button ion-item detail-none (click)="goToGroupDetail(group)">
+              <button ion-item detail-none>
                 <ion-avatar item-start>
                   <img [src]="utils.getGroupIcon(group)" alt="Group's profile pic">
                 </ion-avatar>
                 {{group.name}}
-                <ion-icon [name]='utils.getPrivacyIcon(group.privacy)'> </ion-icon>
-                <ion-buttons end>
-                  <ion-icon name="arrow-forward"></ion-icon>
-                </ion-buttons>
               </button>
             </ion-card-header>
 

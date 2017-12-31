@@ -95,6 +95,9 @@ export class GroupsData {
     return this.hideSubscibeButton(group, groupType) ? 'md-remove-circle' : 'md-add-circle';
   }
 
+  public getSubsciptionUpdateButtonColor(group: any, groupType: string): string {
+    return this.hideSubscibeButton(group, groupType) ? 'danger' : 'secondary';
+  }
   public getSubsciptionUpdateText(group: any, groupType: string): string {
     return this.hideSubscibeButton(group, groupType) ? 'Un-follow' : 'Follow';
   }

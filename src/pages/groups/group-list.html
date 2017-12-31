@@ -30,13 +30,14 @@
 
             <ion-row no-padding>
               <ion-col col-4 col-lg-auto text-center text-lg-left>
-                <button ion-button clear small color="primary" icon-start (click)='groupsData.updateSubscription(group, groupType)'>
+                <button ion-button [color]='groupsData.getSubsciptionUpdateButtonColor(group, groupType)' clear small icon-start (click)='groupsData.updateSubscription(group, groupType)'>
                   <ion-icon [name]="groupsData.getSubsciptionUpdateIcon(group, groupType)"></ion-icon>
                   {{groupsData.getSubsciptionUpdateText(group, groupType)}}
                 </button>
               </ion-col>
               <ion-col col-4 col-lg-auto text-center text-lg-left>
                 <button ion-button clear small color="primary" icon-start (click)='showEvents(group)'>
+                  <ion-icon name='md-calendar'></ion-icon>
                   Group's events
                 </button>
               </ion-col>

@@ -12,6 +12,9 @@ export class FollowTabsPage {
   constructor() {
   }
 
+  getPage() {
+    return FollowListPage;
+  }
   getParams(value: string) {
     return { param: value };
   }

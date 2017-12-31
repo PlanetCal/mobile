@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavParams, ToastController, LoadingController, Config, NavController } from 'ionic-angular';
-import { GroupsData } from '../../providers/groups-data';
-import { GroupDetailPage } from '../pages';
+import { FollowData } from '../../providers/follow-data';
 import { EventsPage } from '../pages';
 import { Constants } from '../../providers/constants';
 import { UtilsProvider } from '../../providers/utils';
@@ -21,7 +20,7 @@ export class FollowListPage {
     private navParams: NavParams,
     private toastCtrl: ToastController,
     private loadingCtrl: LoadingController,
-    private groupsData: GroupsData,
+    private followData: FollowData,
     private constants: Constants,
     public utils: UtilsProvider
   ) {
@@ -37,50 +36,27 @@ export class FollowListPage {
     this.fetchData();
   }
 
-  private goToGroupDetail(group: any) {
-    this.navCtrl.push(GroupDetailPage, { group: group });
-  }
-
   private hideNoGroupsMessage() {
     return (this.groups.length > 0);
   }
 
-  private deleteGroup(group: any, groupCategory: string) {
-    this.groupsData.deleteGroup(group, groupCategory).subscribe((groupId: any) => {
-      let toast = this.toastCtrl.create({
-        message: 'Deleted the group',
-        duration: this.constants.toastDuration,
-        position: 'top'
-      });
-      toast.present();
-    }, (err) => {
-      let toast = this.toastCtrl.create({
-        message: 'Could not delete the group',
-        duration: this.constants.toastDuration,
-        position: 'top'
-      });
-      toast.present();
-    });
-
-  }
-
-  private updateSubscription(group: any, groupCategory: string) {
-    this.groupsData.updateSubscription(group, groupCategory).subscribe((groupId: any) => {
-      let toast = this.toastCtrl.create({
-        message: 'Updated the subscription',
-        duration: this.constants.toastDuration,
-        position: 'top'
-      });
-      toast.present();
-    }, (err) => {
-      let toast = this.toastCtrl.create({
-        message: 'Could not update subscription',
-        duration: this.constants.toastDuration,
-        position: 'top'
-      });
-      toast.present();
-    });
-  }
+  // private updateSubscription(group: any, groupCategory: string) {
+  //   this.followData.updateSubscription(group, groupCategory).subscribe((groupId: any) => {
+  //     let toast = this.toastCtrl.create({
+  //       message: 'Updated the subscription',
+  //       duration: this.constants.toastDuration,
+  //       position: 'top'
+  //     });
+  //     toast.present();
+  //   }, (err) => {
+  //     let toast = this.toastCtrl.create({
+  //       message: 'Could not update subscription',
+  //       duration: this.constants.toastDuration,
+  //       position: 'top'
+  //     });
+  //     toast.present();
+  //   });
+  // }
 
   private showEvents(group: any) {
     this.navCtrl.push(EventsPage, { group: group });
@@ -99,7 +75,7 @@ export class FollowListPage {
       loading.present();
     }
 
-    this.groupsData.getGroups(refreshFromServer, this.groupCategory).subscribe((groups: any[]) => {
+    this.followData.getGroups(refreshFromServer, this.groupCategory).subscribe((groups: any[]) => {
       loading.dismiss();
       this.groups = groups;
     }, (err) => {

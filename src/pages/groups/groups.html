@@ -1,4 +1,4 @@
-<ion-tabs name="groups">
+<ion-tabs name="groups" #groups primary>
   <ion-tab root="GroupListPage" tabTitle="Subscribed" tabIcon="logo-codepen" [rootParams]="getParams('Subscribed')"></ion-tab>
   <ion-tab root="GroupListPage" tabTitle="Owned" tabIcon="contacts" [rootParams]="getParams('Owned')"></ion-tab>
   <ion-tab root="GroupListPage" tabTitle="Administered" tabIcon="people" [rootParams]="getParams('Administered')"></ion-tab>

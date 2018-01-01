@@ -1,26 +1,29 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavParams, ToastController, LoadingController, Config, NavController } from 'ionic-angular';
+import { FollowData } from '../../providers/follow-data';
 import { GroupsData } from '../../providers/groups-data';
-import { GroupDetailPage } from '../pages';
+
 import { EventsPage } from '../pages';
 import { Constants } from '../../providers/constants';
 import { UtilsProvider } from '../../providers/utils';
 import { Subscriber } from 'rxjs/Subscriber';
+import { GroupDetailPage } from '../pages';
 
 @IonicPage()
 @Component({
-  selector: 'page-group-list',
-  templateUrl: 'group-list.html'
+  selector: 'page-follow-list',
+  templateUrl: 'follow-list.html'
 })
-export class GroupListPage {
+export class FollowListPage {
   groups: any[] = [];
-  private groupType: any;
+  private groupCategory: any;
 
   public constructor(
     private navCtrl: NavController,
     private navParams: NavParams,
     private toastCtrl: ToastController,
     private loadingCtrl: LoadingController,
+    private followData: FollowData,
     private groupsData: GroupsData,
     private constants: Constants,
     public utils: UtilsProvider
@@ -29,30 +32,14 @@ export class GroupListPage {
 
   private ionViewDidEnter() {
     if (this.navParams.data && this.navParams.data.param) {
-      this.groupType = this.navParams.data.param;
+      this.groupCategory = this.navParams.data.param;
     }
-    this.fetchData();
-  }
 
-  private goToGroupDetail(group: any) {
-    this.navCtrl.push(GroupDetailPage, { group: group });
+    this.fetchData();
   }
 
   private hideNoGroupsMessage() {
     return (this.groups.length > 0);
-  }
-
-  private deleteGroup(group: any, groupType: string) {
-    this.groupsData.deleteGroup(group, groupType).subscribe((groupId: any) => {
-    }, (err) => {
-      let toast = this.toastCtrl.create({
-        message: 'Could not delete the group',
-        duration: this.constants.toastDuration,
-        position: 'top'
-      });
-      toast.present();
-    });
-
   }
 
   private showEvents(group: any) {
@@ -60,7 +47,7 @@ export class GroupListPage {
   }
 
   private fetchData(refreshFromServer: boolean = false) {
-    if (!this.groupType) {
+    if (!this.groupCategory) {
       return;
     }
 
@@ -72,7 +59,7 @@ export class GroupListPage {
       loading.present();
     }
 
-    this.groupsData.getGroups(refreshFromServer, this.groupType).subscribe((groups: any[]) => {
+    this.followData.getGroups(refreshFromServer, this.groupCategory).subscribe((groups: any[]) => {
       loading.dismiss();
       this.groups = groups;
     }, (err) => {

@@ -4,7 +4,7 @@ import { Storage } from '@ionic/storage';
 import { UserProvider } from './user';
 import { ApiProvider } from './api';
 import { UtilsProvider } from './utils';
-import { Constants } from '../providers/constants';
+import { Constants } from './constants';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -91,6 +91,13 @@ export class GroupsData {
     return true;
   }
 
+  public getSubsciptionUpdateIcon(group: any, groupType: string): string {
+    return this.hideSubscibeButton(group, groupType) ? 'md-remove-circle' : 'md-add-circle';
+  }
+
+  public getSubsciptionUpdateButtonColor(group: any, groupType: string): string {
+    return this.hideSubscibeButton(group, groupType) ? 'danger' : 'secondary';
+  }
   public getSubsciptionUpdateText(group: any, groupType: string): string {
     return this.hideSubscibeButton(group, groupType) ? 'Un-follow' : 'Follow';
   }
@@ -101,10 +108,13 @@ export class GroupsData {
     }
 
     var hide = false;
-    let subscribedGroups = this.groups.find(x => x.groupType === 'Subscribed').groupList;
+    let subscribedGroups = this.groups.find(x => x.groupType === 'Subscribed');
     if (subscribedGroups) {
-      var currentGroup = subscribedGroups.find(element => element.id === group.id);
-      hide = currentGroup;
+      let subscribedGroupsList = subscribedGroups.groupList;
+      if (subscribedGroupsList) {
+        var currentGroup = subscribedGroupsList.find(element => element.id === group.id);
+        hide = currentGroup;
+      }
     }
     return hide;
   }
@@ -133,12 +143,12 @@ export class GroupsData {
       let reqOpts = this.utils.getHttpHeaders(token);
 
       this.updateGroupsCache('Subscribed', group, subscribe);
-      return subscribe ? this.api.post(endpoint, null, reqOpts).share() :
+      let observable = subscribe ? this.api.post(endpoint, null, reqOpts).share() :
         this.api.delete(endpoint, reqOpts).share();
-    }
-    else {
-      //this should never hit.
-      return Observable.of('');
+
+      observable.subscribe((groupId: any) => {
+      }, (err) => {
+      });
     }
   }
 

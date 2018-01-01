@@ -9,8 +9,6 @@ export class Constants {
   //public readonly serviceUrl: string = 'http://localhost:1337';
 
   public readonly productName: string = 'PlanetCal';
-
-  public groupTabName: string = null;
   public readonly eventsFields: string = 'fields=name|description|startDateTime|endDateTime|address|location|geoLocation|groupId|icon';
   public readonly defaultEventIcon: string = 'assets/imgs/defaultEventIcon.jpg';
 

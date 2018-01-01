@@ -4,6 +4,7 @@ import { IonicPage, AlertController, ToastController, LoadingController, App, It
 
 import { UserProvider } from '../../providers/user';
 import { EventsData } from '../../providers/events-data';
+import { GroupsData } from '../../providers/groups-data';
 import { UtilsProvider } from '../../providers/utils';
 import { Constants } from '../../providers/constants';
 
@@ -39,6 +40,7 @@ export class EventsPage {
     public toastCtrl: ToastController,
     private loadingCtrl: LoadingController,
     private user: UserProvider,
+    private groupsData: GroupsData,
     private utils: UtilsProvider,
     private navParams: NavParams,
     private constants: Constants,
@@ -49,6 +51,11 @@ export class EventsPage {
     if (userInfo && userInfo !== null) {
       this.username = 'for ' + userInfo.name;
     }
+
+    //It is a hack. We need the list of Subscibed groups so that we
+    //can populate the right label in the "follow groups" menu.
+    //For that it needs to be readily available.
+    this.groupsData.getGroups(false, 'Subscribed').subscribe();
   }
 
   private isSegmentHidden(): boolean {

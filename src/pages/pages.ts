@@ -7,12 +7,16 @@ export const WelcomePage = 'WelcomePage';
 export const MainPage = 'EventsPage';
 export const EventsPage = 'EventsPage';
 export const LogoutPage = 'LogoutPage';
+export const DummyPage = 'DummyPage';
 export const AboutPage = 'AboutPage';
 export const SupportPage = 'SupportPage';
 export const SignupPage = 'SignupPage';
 export const EventDetailPage = 'EventDetailPage';
+export const GroupsPage = 'GroupsPage';
 export const GroupListPage = 'GroupListPage';
 export const GroupDetailPage = 'GroupDetailPage';
 export const MapPage = 'MapPage';
+export const FollowTabsPage = 'FollowTabsPage';
+export const FollowListPage = 'FollowListPage';
 
 

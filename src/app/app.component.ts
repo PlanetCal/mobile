@@ -17,10 +17,10 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   rootPage: string;
-  appPages: Array<{ title: string, component: string, icon: string }>;
-  loggedInPages: Array<{ title: string, component: string, icon: string }>;
-  loggedOutPages: Array<{ title: string, component: string, icon: string }>;
-  conditionalPages: Array<{ title: string, component: string, icon: string }>;
+  appPages: Array<{ title: string, component: string, param: any, icon: string }>;
+  loggedInPages: Array<{ title: string, component: string, param: any, icon: string }>;
+  loggedOutPages: Array<{ title: string, component: string, param: any, icon: string }>;
+  conditionalPages: Array<{ title: string, component: string, param: any, icon: string }>;
 
   constructor(
     public events: Events,
@@ -31,21 +31,21 @@ export class MyApp {
     public userProvider: UserProvider
   ) {
     this.appPages = [
-      { title: 'Events', component: 'EventsPage', icon: 'calendar' },
-      { title: 'About', component: 'AboutPage', icon: 'information-circle' },
-      { title: 'Support', component: 'SupportPage', icon: 'help-circle' }
+      { title: 'Events', component: 'EventsPage', param: '', icon: 'calendar' },
+      { title: 'About', component: 'AboutPage', param: '', icon: 'information-circle' },
+      { title: 'Support', component: 'SupportPage', param: '', icon: 'help-circle' }
     ];
 
     this.loggedInPages = [
-      { title: 'My groups', component: 'GroupsPage', icon: 'people' },
-      { title: 'Follow groups', component: 'FollowTabsPage', icon: 'settings' },
-      { title: 'Logout', component: 'LogoutPage', icon: 'log-out' },
-      { title: 'Reset Password', component: 'LoginPage', icon: 'refresh' }
+      { title: 'My groups', component: 'DummyPage', param: 'showGroups', icon: 'people' },
+      { title: 'Follow groups', component: 'DummyPage', param: 'followGroups', icon: 'settings' },
+      { title: 'Logout', component: 'LogoutPage', param: '', icon: 'log-out' },
+      { title: 'Reset Password', component: 'LoginPage', param: '', icon: 'refresh' }
     ];
 
     this.loggedOutPages = [
-      { title: 'Login', component: 'LoginPage', icon: 'log-in' },
-      { title: 'Signup', component: 'SignupPage', icon: 'person-add' }
+      { title: 'Login', component: 'LoginPage', param: '', icon: 'log-in' },
+      { title: 'Signup', component: 'SignupPage', param: '', icon: 'person-add' }
     ];
 
     this.initializeApp();
@@ -111,7 +111,8 @@ export class MyApp {
   openPage(page) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component);
+    this.nav.setRoot(page.component, page.param);
+    //    this.nav.setRoot(page.component);
   }
 
   isActive(page) {

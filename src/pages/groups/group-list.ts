@@ -30,9 +30,6 @@ export class GroupListPage {
   private ionViewDidEnter() {
     if (this.navParams.data && this.navParams.data.param) {
       this.groupType = this.navParams.data.param;
-      this.constants.groupTabName = this.groupType;
-    } else {
-      this.groupType = this.constants.groupTabName;
     }
     this.fetchData();
   }

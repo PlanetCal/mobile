@@ -33,10 +33,8 @@ export class FollowListPage {
   private ionViewDidEnter() {
     if (this.navParams.data && this.navParams.data.param) {
       this.groupCategory = this.navParams.data.param;
-      this.constants.followTabName = this.groupCategory;
-    } else {
-      this.groupCategory = this.constants.followTabName;
     }
+
     this.fetchData();
   }
 

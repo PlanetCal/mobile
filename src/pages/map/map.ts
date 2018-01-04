@@ -24,6 +24,10 @@ export class MapPage {
     private utils: UtilsProvider,
     private eventsDataProvider: EventsData) {
   }
+
+  hideNoDataMessage(): boolean{
+    return this.mapData && this.mapData.length > 0;
+  }
   ionViewDidLoad() {
 
     let refreshFromServer = false;

@@ -16,7 +16,10 @@ export class UtilsProvider {
 
   public convertToDateString(dateTime: Date): string {
     let month = dateTime.getMonth() + 1;
-    return dateTime.getFullYear() + '-' + month + '-' + dateTime.getDate();
+    let day = dateTime.getDate();
+    let monthString = (month > 9) ? month.toString() : '0' + month.toString();
+    let dayString = (day > 9) ? day.toString() : '0' + day.toString();
+    return dateTime.getFullYear() + '-' + monthString + '-' + dayString;
   }
 
   public convertToFriendlyDate(dateTime: Date): string {

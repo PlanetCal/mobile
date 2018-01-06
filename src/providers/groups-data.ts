@@ -79,7 +79,7 @@ export class GroupsData {
   }
 
   public hideDeleteGroupButton(group: any, groupType: string): boolean {
-    if (groupType == 'Owned') {
+    if (groupType == 'Owned' || groupType == 'Administered') {
       return false;
     }
     let userInfo = this.user.getLoggedInUser();

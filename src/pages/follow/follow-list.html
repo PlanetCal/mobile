@@ -23,6 +23,14 @@
             </ion-card-header>
 
             <ion-row no-padding>
+              <button [hidden]='groupsData.hideChildGroupsLink(group)' ion-button clear small icon-start (click)='showChildGroups(group)'>
+                Child groups
+              </button>
+              <button [hidden]='groupsData.hideParentGroupLink(group)' ion-button clear small icon-start (click)='showParentGroup(group)'>
+                parent group
+              </button>
+            </ion-row>
+            <ion-row no-padding>
               <ion-col col-4 col-lg-auto text-center text-lg-left>
                 <button ion-button [color]='groupsData.getSubsciptionUpdateButtonColor(group, groupType)' clear small icon-start (click)='groupsData.updateSubscription(group, groupType)'>
                   <ion-icon [name]="groupsData.getSubsciptionUpdateIcon(group, groupType)"></ion-icon>

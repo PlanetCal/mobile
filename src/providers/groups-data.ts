@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Storage } from '@ionic/storage';
 
 import { UserProvider } from './user';
 import { ApiProvider } from './api';
@@ -14,13 +13,13 @@ import 'rxjs/add/observable/of';
 export class GroupsData {
   private groups: Array<{ groupType: string, groupList: Array<any> }>;
   private currentGroupType: string;
+  private parentGroup: any;
 
   constructor(
     private user: UserProvider,
     private api: ApiProvider,
     private utils: UtilsProvider,
-    private constants: Constants,
-    private storage: Storage
+    private constants: Constants
   ) {
     this.groups = [];
   }
@@ -42,12 +41,21 @@ export class GroupsData {
   }
 
   private processDataFromServer(data: any) {
-    let groupsOfThisGroupType = this.groups.find(x => x.groupType === this.currentGroupType);
-    if (groupsOfThisGroupType) {
-      groupsOfThisGroupType.groupList = data;
-    }
-    else {
-      this.groups.push({ groupType: this.currentGroupType, groupList: data });
+    let parentGroup = this.parentGroup;
+    this.parentGroup = null;
+    if (!parentGroup) {
+      //Don't filter the subscribed list. Otherwise, it causes wierd issues.
+      if (this.currentGroupType != this.constants.subscribedGroup) {
+        data = data.filter(x => !x.parentGroup);
+      }
+
+      let groupsOfThisGroupType = this.groups.find(x => x.groupType === this.currentGroupType);
+      if (groupsOfThisGroupType) {
+        groupsOfThisGroupType.groupList = data;
+      }
+      else {
+        this.groups.push({ groupType: this.currentGroupType, groupList: data });
+      }
     }
     return data;
   }
@@ -56,17 +64,22 @@ export class GroupsData {
     let endpoint = '';
     let userInfo = this.user.getLoggedInUser();
     if (userInfo) {
-
-      switch (groupType) {
-        case ('Administered'):
-          endpoint = 'groups?' + this.constants.groupFieldsForAdmin + '&administeredByMe=true';
-          break;
-        case ('Owned'):
-          endpoint = 'groups?' + this.constants.groupFieldsForAdmin + '&filter=createdBy=' + userInfo.id;
-          break;
-        case ('Subscribed'):
-          endpoint = 'userdetails/' + userInfo.id + '/followinggroups?' + this.constants.groupFieldsForSubscriber;
-          break;
+      if (this.parentGroup && this.parentGroup.id) {
+        endpoint = 'groups?' + this.constants.groupFieldsForAdmin +
+          '&filter=parentGroup=' + this.parentGroup.id;
+      }
+      else {
+        switch (groupType) {
+          case (this.constants.administeredGroup):
+            endpoint = 'groups?' + this.constants.groupFieldsForAdmin + '&administeredByMe=true';
+            break;
+          case (this.constants.ownedGroup):
+            endpoint = 'groups?' + this.constants.groupFieldsForAdmin + '&filter=createdBy=' + userInfo.id;
+            break;
+          case (this.constants.subscribedGroup):
+            endpoint = 'userdetails/' + userInfo.id + '/followinggroups?' + this.constants.groupFieldsForSubscriber;
+            break;
+        }
       }
 
       let token = userInfo.token;
@@ -79,7 +92,7 @@ export class GroupsData {
   }
 
   public hideDeleteGroupButton(group: any, groupType: string): boolean {
-    if (groupType == 'Owned' || groupType == 'Administered') {
+    if (groupType == this.constants.ownedGroup || groupType == this.constants.administeredGroup) {
       return false;
     }
     let userInfo = this.user.getLoggedInUser();
@@ -102,13 +115,21 @@ export class GroupsData {
     return this.hideSubscibeButton(group, groupType) ? 'Un-follow' : 'Follow';
   }
 
+  private hideChildGroupsLink(group: any) {
+    return !group.childGroups || group.childGroups.length <= 0;
+  }
+
+  private hideParentGroupLink(group: any) {
+    return !group.parentGroup;
+  }
+
   private hideSubscibeButton(group: any, groupType: string): boolean {
-    if (groupType === 'Subscribed') {
+    if (groupType === this.constants.subscribedGroup) {
       return true;
     }
 
     var hide = false;
-    let subscribedGroups = this.groups.find(x => x.groupType === 'Subscribed');
+    let subscribedGroups = this.groups.find(x => x.groupType === this.constants.subscribedGroup);
     if (subscribedGroups) {
       let subscribedGroupsList = subscribedGroups.groupList;
       if (subscribedGroupsList) {
@@ -119,13 +140,26 @@ export class GroupsData {
     return hide;
   }
 
-  public deleteGroup(group: any, groupType: string): any {
+  public deleteGroup(group: any, groupList: any, parentGroup: any): any {
     let userInfo = this.user.getLoggedInUser();
     if (userInfo) {
       var endpoint = 'groups/' + group.id;
       let token = userInfo.token;
       let reqOpts = this.utils.getHttpHeaders(token);
-      this.updateGroupsCache(groupType, group, false);
+
+      //update the list by removing the group from here.
+      var index = groupList.findIndex(element => element.id === group.id);
+      if (index > -1) {
+        groupList.splice(index, 1);
+      }
+
+      if (parentGroup && parentGroup.childGroups) {
+        var childListIndex = parentGroup.childGroups.findIndex(element => element === group.id);
+        if (childListIndex > -1) {
+          parentGroup.childGroups.splice(childListIndex, 1);
+        }
+      }
+
       return this.api.delete(endpoint, reqOpts).share();
     }
     else {
@@ -142,7 +176,7 @@ export class GroupsData {
       let token = userInfo.token;
       let reqOpts = this.utils.getHttpHeaders(token);
 
-      this.updateGroupsCache('Subscribed', group, subscribe);
+      this.updateGroupsCache(this.constants.subscribedGroup, group, subscribe);
       let observable = subscribe ? this.api.post(endpoint, null, reqOpts).share() :
         this.api.delete(endpoint, reqOpts).share();
 
@@ -153,6 +187,8 @@ export class GroupsData {
   }
 
   private updateGroupsCache(groupType: string, group: any, add: boolean) {
+    if (!groupType) return;
+
     let groupsList = this.groups.find(x => x.groupType === groupType).groupList;
     if (groupsList) {
       if (add) {
@@ -179,7 +215,8 @@ export class GroupsData {
     }
   }
 
-  public getGroups(refreshFromServer: boolean, groupType: string) {
+  public getGroups(parentGroup, refreshFromServer: boolean, groupType: string) {
+    this.parentGroup = parentGroup;
     return this.load(refreshFromServer, groupType).map((data: { visibleGroups: number, groups: Array<any> }) => {
       return data;
     });

@@ -55,7 +55,7 @@ export class EventsPage {
     //It is a hack. We need the list of Subscibed groups so that we
     //can populate the right label in the "follow groups" menu.
     //For that it needs to be readily available.
-    this.groupsData.getGroups(false, 'Subscribed').subscribe();
+    this.groupsData.getGroups(null, false, this.constants.subscribedGroup).subscribe();
   }
 
   private isSegmentHidden(): boolean {

@@ -12,10 +12,14 @@ export class Constants {
   public readonly eventsFields: string = 'fields=name|description|startDateTime|endDateTime|address|location|geoLocation|groupId|icon';
   public readonly defaultEventIcon: string = 'assets/imgs/defaultEventIcon.jpg';
 
-  public readonly groupFieldsForOwner: string = 'fields=name|description|privacy|icon|category|createdBy|administrators|members|location|address|contact|webSite|modifiedBy';
-  public readonly groupFieldsForAdmin: string = 'fields=name|description|privacy|icon|category|createdBy|administrators|members|location|address|contact|webSite|modifiedBy';
-  public readonly groupFieldsForSubscriber: string = 'fields=name|description|privacy|icon|category|createdBy|members|location|address|contact|webSite|modifiedBy';
+  public readonly groupFieldsForOwner: string = 'fields=name|description|privacy|icon|category|createdBy|administrators|members|location|address|contact|webSite|modifiedBy|childGroups|parentGroup';
+  public readonly groupFieldsForAdmin: string = 'fields=name|description|privacy|icon|category|createdBy|administrators|members|location|address|contact|webSite|modifiedBy|childGroups|parentGroup';
+  public readonly groupFieldsForSubscriber: string = 'fields=name|description|privacy|icon|category|createdBy|members|location|address|contact|webSite|modifiedBy|childGroups|parentGroup';
   public readonly defaultGroupIcon: string = 'assets/imgs/defaultGroupIcon.jpg';
 
   public readonly toastDuration: number = 3000;
+
+  public readonly subscribedGroup: string = 'Subscribed';
+  public readonly ownedGroup: string = 'Owned';
+  public readonly administeredGroup: string = 'Administered';
 }

@@ -18,4 +18,8 @@ export class Constants {
   public readonly defaultGroupIcon: string = 'assets/imgs/defaultGroupIcon.jpg';
 
   public readonly toastDuration: number = 3000;
+
+  public readonly subscribedGroup: string = 'Subscribed';
+  public readonly ownedGroup: string = 'Owned';
+  public readonly administeredGroup: string = 'Administered';
 }

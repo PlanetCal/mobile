@@ -1,5 +1,5 @@
-<ion-tabs name="groups" #groups primary>
-  <ion-tab root="GroupListPage" tabTitle="Subscribed" tabIcon="logo-codepen" [rootParams]="getParams('Subscribed')"></ion-tab>
-  <ion-tab root="GroupListPage" tabTitle="Owned" tabIcon="contacts" [rootParams]="getParams('Owned')"></ion-tab>
-  <ion-tab root="GroupListPage" tabTitle="Administered" tabIcon="people" [rootParams]="getParams('Administered')"></ion-tab>
+<ion-tabs name='groups' #groups primary>
+  <ion-tab root='GroupListPage' [tabTitle]='constants.subscribedGroup' tabIcon='logo-codepen' [rootParams]='getParams(constants.subscribedGroup)'></ion-tab>
+  <ion-tab root='GroupListPage' [tabTitle]='constants.ownedGroup' tabIcon='contacts' [rootParams]='getParams(constants.ownedGroup)'></ion-tab>
+  <ion-tab root='GroupListPage' [tabTitle]='constants.administeredGroup' tabIcon='people' [rootParams]='getParams(constants.administeredGroup)'></ion-tab>
 </ion-tabs>

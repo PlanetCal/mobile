@@ -45,7 +45,7 @@ export class GroupsData {
     this.parentGroup = null;
     if (!parentGroup) {
       //Don't filter the subscribed list. Otherwise, it causes wierd issues.
-      if (this.currentGroupType != 'Subscribed') {
+      if (this.currentGroupType != this.constants.subscribedGroup) {
         data = data.filter(x => !x.parentGroup);
       }
 
@@ -70,13 +70,13 @@ export class GroupsData {
       }
       else {
         switch (groupType) {
-          case ('Administered'):
+          case (this.constants.administeredGroup):
             endpoint = 'groups?' + this.constants.groupFieldsForAdmin + '&administeredByMe=true';
             break;
-          case ('Owned'):
+          case (this.constants.ownedGroup):
             endpoint = 'groups?' + this.constants.groupFieldsForAdmin + '&filter=createdBy=' + userInfo.id;
             break;
-          case ('Subscribed'):
+          case (this.constants.subscribedGroup):
             endpoint = 'userdetails/' + userInfo.id + '/followinggroups?' + this.constants.groupFieldsForSubscriber;
             break;
         }
@@ -92,7 +92,7 @@ export class GroupsData {
   }
 
   public hideDeleteGroupButton(group: any, groupType: string): boolean {
-    if (groupType == 'Owned' || groupType == 'Administered') {
+    if (groupType == this.constants.ownedGroup || groupType == this.constants.administeredGroup) {
       return false;
     }
     let userInfo = this.user.getLoggedInUser();
@@ -120,12 +120,12 @@ export class GroupsData {
   }
 
   private hideSubscibeButton(group: any, groupType: string): boolean {
-    if (groupType === 'Subscribed') {
+    if (groupType === this.constants.subscribedGroup) {
       return true;
     }
 
     var hide = false;
-    let subscribedGroups = this.groups.find(x => x.groupType === 'Subscribed');
+    let subscribedGroups = this.groups.find(x => x.groupType === this.constants.subscribedGroup);
     if (subscribedGroups) {
       let subscribedGroupsList = subscribedGroups.groupList;
       if (subscribedGroupsList) {
@@ -172,7 +172,7 @@ export class GroupsData {
       let token = userInfo.token;
       let reqOpts = this.utils.getHttpHeaders(token);
 
-      this.updateGroupsCache('Subscribed', group, subscribe);
+      this.updateGroupsCache(this.constants.subscribedGroup, group, subscribe);
       let observable = subscribe ? this.api.post(endpoint, null, reqOpts).share() :
         this.api.delete(endpoint, reqOpts).share();
 

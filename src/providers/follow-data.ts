@@ -43,6 +43,7 @@ export class FollowData {
   }
 
   private processDataFromServer(data: any) {
+    data = data.filter(x => !x.parentGroup);
     let groupsOfThisGroupCategory = this.groups.find(x => x.groupCategory === this.currentGroupCategory);
     if (groupsOfThisGroupCategory) {
       groupsOfThisGroupCategory.groupList = data;

@@ -60,17 +60,14 @@ export class GroupListPage {
 
   }
 
-  private hideChildGroupsLink(group: any) {
-    return !group.childGroups || group.childGroups.length <= 0;
+  private showChildGroups(group: any) {
+    this.navCtrl.push(GroupListPage, { group: group });
   }
 
   private showEvents(group: any) {
     this.navCtrl.push(EventsPage, { group: group });
   }
 
-  private showChildGroups(group: any) {
-    this.navCtrl.push(GroupListPage, { group: group });
-  }
 
   private isRefreshButtonHidden() {
     return (this.parentGroup);

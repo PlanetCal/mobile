@@ -115,6 +115,10 @@ export class GroupsData {
     return this.hideSubscibeButton(group, groupType) ? 'Un-follow' : 'Follow';
   }
 
+  private hideChildGroupsLink(group: any) {
+    return !group.childGroups || group.childGroups.length <= 0;
+  }
+
   private hideSubscibeButton(group: any, groupType: string): boolean {
     if (groupType === 'Subscribed') {
       return true;

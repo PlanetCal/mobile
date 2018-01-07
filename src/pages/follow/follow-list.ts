@@ -8,6 +8,7 @@ import { Constants } from '../../providers/constants';
 import { UtilsProvider } from '../../providers/utils';
 import { Subscriber } from 'rxjs/Subscriber';
 import { GroupDetailPage } from '../pages';
+import { GroupListPage } from '../pages';
 
 @IonicPage()
 @Component({
@@ -44,6 +45,10 @@ export class FollowListPage {
 
   private showEvents(group: any) {
     this.navCtrl.push(EventsPage, { group: group });
+  }
+
+  private showChildGroups(group: any) {
+    this.navCtrl.push(GroupListPage, { group: group });
   }
 
   private fetchData(refreshFromServer: boolean = false) {

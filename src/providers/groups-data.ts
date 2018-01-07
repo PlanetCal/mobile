@@ -170,6 +170,8 @@ export class GroupsData {
   }
 
   private updateGroupsCache(groupType: string, group: any, add: boolean) {
+    if (!groupType) return;
+
     let groupsList = this.groups.find(x => x.groupType === groupType).groupList;
     if (groupsList) {
       if (add) {

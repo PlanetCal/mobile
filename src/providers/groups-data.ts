@@ -13,6 +13,7 @@ import 'rxjs/add/observable/of';
 export class GroupsData {
   private groups: Array<{ groupType: string, groupList: Array<any> }>;
   private currentGroupType: string;
+  private parentGroup: any;
 
   constructor(
     private user: UserProvider,
@@ -40,13 +41,21 @@ export class GroupsData {
   }
 
   private processDataFromServer(data: any) {
-    data = data.filter(x => !x.parentGroup);
-    let groupsOfThisGroupType = this.groups.find(x => x.groupType === this.currentGroupType);
-    if (groupsOfThisGroupType) {
-      groupsOfThisGroupType.groupList = data;
-    }
-    else {
-      this.groups.push({ groupType: this.currentGroupType, groupList: data });
+    let parentGroup = this.parentGroup;
+    this.parentGroup = null;
+    if (!parentGroup) {
+      //Don't filter the subscribed list. Otherwise, it causes wierd issues.
+      if (this.currentGroupType != 'Subscribed') {
+        data = data.filter(x => !x.parentGroup);
+      }
+
+      let groupsOfThisGroupType = this.groups.find(x => x.groupType === this.currentGroupType);
+      if (groupsOfThisGroupType) {
+        groupsOfThisGroupType.groupList = data;
+      }
+      else {
+        this.groups.push({ groupType: this.currentGroupType, groupList: data });
+      }
     }
     return data;
   }
@@ -55,17 +64,22 @@ export class GroupsData {
     let endpoint = '';
     let userInfo = this.user.getLoggedInUser();
     if (userInfo) {
-
-      switch (groupType) {
-        case ('Administered'):
-          endpoint = 'groups?' + this.constants.groupFieldsForAdmin + '&administeredByMe=true';
-          break;
-        case ('Owned'):
-          endpoint = 'groups?' + this.constants.groupFieldsForAdmin + '&filter=createdBy=' + userInfo.id;
-          break;
-        case ('Subscribed'):
-          endpoint = 'userdetails/' + userInfo.id + '/followinggroups?' + this.constants.groupFieldsForSubscriber;
-          break;
+      if (this.parentGroup && this.parentGroup.id) {
+        endpoint = 'groups?' + this.constants.groupFieldsForAdmin +
+          '&filter=parentGroup=' + this.parentGroup.id;
+      }
+      else {
+        switch (groupType) {
+          case ('Administered'):
+            endpoint = 'groups?' + this.constants.groupFieldsForAdmin + '&administeredByMe=true';
+            break;
+          case ('Owned'):
+            endpoint = 'groups?' + this.constants.groupFieldsForAdmin + '&filter=createdBy=' + userInfo.id;
+            break;
+          case ('Subscribed'):
+            endpoint = 'userdetails/' + userInfo.id + '/followinggroups?' + this.constants.groupFieldsForSubscriber;
+            break;
+        }
       }
 
       let token = userInfo.token;
@@ -178,7 +192,8 @@ export class GroupsData {
     }
   }
 
-  public getGroups(refreshFromServer: boolean, groupType: string) {
+  public getGroups(parentGroup, refreshFromServer: boolean, groupType: string) {
+    this.parentGroup = parentGroup;
     return this.load(refreshFromServer, groupType).map((data: { visibleGroups: number, groups: Array<any> }) => {
       return data;
     });

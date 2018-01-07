@@ -13,8 +13,9 @@ import { Subscriber } from 'rxjs/Subscriber';
   templateUrl: 'group-list.html'
 })
 export class GroupListPage {
-  groups: any[] = [];
+  private groups: any[] = [];
   private groupType: any;
+  private parentGroup: any;
 
   public constructor(
     private navCtrl: NavController,
@@ -28,10 +29,14 @@ export class GroupListPage {
   }
 
   private ionViewDidEnter() {
-    if (this.navParams.data && this.navParams.data.param) {
-      this.groupType = this.navParams.data.param;
+    if (this.navParams.data && this.navParams.data.groupType) {
+      this.groupType = this.navParams.data.groupType;
+      this.fetchData(null);
     }
-    this.fetchData();
+    else {
+      this.parentGroup = this.navParams.data ? this.navParams.data.group : null;
+      this.fetchData(this.parentGroup, true);
+    }
   }
 
   private goToGroupDetail(group: any) {
@@ -63,8 +68,16 @@ export class GroupListPage {
     this.navCtrl.push(EventsPage, { group: group });
   }
 
-  private fetchData(refreshFromServer: boolean = false) {
-    if (!this.groupType) {
+  private showChildGroups(group: any) {
+    this.navCtrl.push(GroupListPage, { group: group });
+  }
+
+  private isRefreshButtonHidden() {
+    return (this.parentGroup);
+  }
+
+  private fetchData(parentGroup: any, refreshFromServer: boolean = false) {
+    if (!parentGroup && !this.groupType) {
       return;
     }
 
@@ -76,7 +89,7 @@ export class GroupListPage {
       loading.present();
     }
 
-    this.groupsData.getGroups(refreshFromServer, this.groupType).subscribe((groups: any[]) => {
+    this.groupsData.getGroups(parentGroup, refreshFromServer, this.groupType).subscribe((groups: any[]) => {
       loading.dismiss();
       this.groups = groups;
     }, (err) => {

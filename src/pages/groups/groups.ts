@@ -13,7 +13,7 @@ export class GroupsPage {
   }
 
   getParams(value: string) {
-    return { param: value };
+    return { groupType: value };
   }
 }
 

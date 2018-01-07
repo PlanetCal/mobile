@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Storage } from '@ionic/storage';
 
 import { UserProvider } from './user';
 import { ApiProvider } from './api';
@@ -19,8 +18,7 @@ export class GroupsData {
     private user: UserProvider,
     private api: ApiProvider,
     private utils: UtilsProvider,
-    private constants: Constants,
-    private storage: Storage
+    private constants: Constants
   ) {
     this.groups = [];
   }
@@ -42,6 +40,7 @@ export class GroupsData {
   }
 
   private processDataFromServer(data: any) {
+    data = data.filter(x => !x.parentGroup);
     let groupsOfThisGroupType = this.groups.find(x => x.groupType === this.currentGroupType);
     if (groupsOfThisGroupType) {
       groupsOfThisGroupType.groupList = data;

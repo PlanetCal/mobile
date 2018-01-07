@@ -55,6 +55,10 @@ export class GroupListPage {
 
   }
 
+  private hideChildGroupsLink(group: any) {
+    return !group.childGroups || group.childGroups.length <= 0;
+  }
+
   private showEvents(group: any) {
     this.navCtrl.push(EventsPage, { group: group });
   }

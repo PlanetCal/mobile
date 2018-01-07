@@ -27,7 +27,12 @@
                 </ion-buttons>
               </button>
             </ion-card-header>
-
+            <ion-row no-padding>
+              <button [hidden]='hideChildGroupsLink(group)' ion-button clear small icon-start (click)='test()'>
+                <ion-icon name="md-barcode"></ion-icon>
+                Show child groups
+              </button>
+            </ion-row>
             <ion-row no-padding>
               <ion-col col-4 col-lg-auto text-center text-lg-left>
                 <button ion-button [color]='groupsData.getSubsciptionUpdateButtonColor(group, groupType)' clear small icon-start (click)='groupsData.updateSubscription(group, groupType)'>

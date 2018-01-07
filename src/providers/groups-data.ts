@@ -119,6 +119,10 @@ export class GroupsData {
     return !group.childGroups || group.childGroups.length <= 0;
   }
 
+  private hideParentGroupLink(group: any) {
+    return !group.parentGroup;
+  }
+
   private hideSubscibeButton(group: any, groupType: string): boolean {
     if (groupType === this.constants.subscribedGroup) {
       return true;

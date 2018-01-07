@@ -51,6 +51,10 @@ export class FollowListPage {
     this.navCtrl.push(GroupListPage, { group: group });
   }
 
+  private showParentGroup(group: any) {
+    this.navCtrl.push(GroupDetailPage, { groupId: group.parentGroup });
+  }
+
   private fetchData(refreshFromServer: boolean = false) {
     if (!this.groupCategory) {
       return;

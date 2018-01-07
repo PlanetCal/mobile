@@ -32,6 +32,10 @@
                 <ion-icon name="md-barcode"></ion-icon>
                 Child groups
               </button>
+              <button [hidden]='groupsData.hideParentGroupLink(group)' ion-button clear small icon-start (click)='showParentGroup(group)'>
+                <ion-icon name="md-barcode"></ion-icon>
+                parent group
+              </button>
             </ion-row>
             <ion-row no-padding>
               <ion-col col-4 col-lg-auto text-center text-lg-left>

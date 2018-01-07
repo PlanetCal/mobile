@@ -43,6 +43,10 @@ export class GroupListPage {
     this.navCtrl.push(GroupDetailPage, { group: group });
   }
 
+  private showParentGroup(group: any) {
+    this.navCtrl.push(GroupDetailPage, { groupId: group.parentGroup });
+  }
+
   private hideNoGroupsMessage() {
     return (this.groups.length > 0);
   }

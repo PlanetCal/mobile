@@ -47,8 +47,8 @@ export class GroupListPage {
     return (this.groups.length > 0);
   }
 
-  private deleteGroup(group: any, groupType: string) {
-    this.groupsData.deleteGroup(group, groupType).subscribe((groupId: any) => {
+  private deleteGroup(group: any, groupList: any) {
+    this.groupsData.deleteGroup(group, groupList, this.parentGroup).subscribe((groupId: any) => {
     }, (err) => {
       let toast = this.toastCtrl.create({
         message: 'Could not delete the group',

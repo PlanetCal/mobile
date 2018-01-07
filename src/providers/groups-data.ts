@@ -136,13 +136,26 @@ export class GroupsData {
     return hide;
   }
 
-  public deleteGroup(group: any, groupType: string): any {
+  public deleteGroup(group: any, groupList: any, parentGroup: any): any {
     let userInfo = this.user.getLoggedInUser();
     if (userInfo) {
       var endpoint = 'groups/' + group.id;
       let token = userInfo.token;
       let reqOpts = this.utils.getHttpHeaders(token);
-      this.updateGroupsCache(groupType, group, false);
+
+      //update the list by removing the group from here.
+      var index = groupList.findIndex(element => element.id === group.id);
+      if (index > -1) {
+        groupList.splice(index, 1);
+      }
+
+      if (parentGroup && parentGroup.childGroups) {
+        var childListIndex = parentGroup.childGroups.findIndex(element => element === group.id);
+        if (childListIndex > -1) {
+          parentGroup.childGroups.splice(childListIndex, 1);
+        }
+      }
+
       return this.api.delete(endpoint, reqOpts).share();
     }
     else {

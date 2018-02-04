@@ -50,9 +50,9 @@ export class UtilsProvider {
 
   public getPrivacyIcon(privacySetting: string): string {
     if (privacySetting && privacySetting === 'Closed') {
-      return 'ios-lock-outline';
+      return 'md-lock';
     }
-    return 'ios-open-outline';
+    return 'md-unlock';
   }
 
   public getPrivacyMessage(privacySetting: string): string {

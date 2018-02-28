@@ -25,14 +25,12 @@ export class MapPage {
     private eventsDataProvider: EventsData) {
   }
 
-  hideNoDataMessage(): boolean{
+  hideNoDataMessage(): boolean {
     return this.mapData && this.mapData.length > 0;
   }
   ionViewDidLoad() {
-
-    let refreshFromServer = false;
     let segment = 'all';
-    this.eventsDataProvider.getEventsMap(refreshFromServer)
+    this.eventsDataProvider.getEventsMap()
       .subscribe((mapData: any) => {
         this.mapData = mapData;
         if (!mapData || mapData.length <= 0) {

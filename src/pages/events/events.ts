@@ -65,8 +65,7 @@ export class EventsPage {
   private ionViewDidLoad() {
     this.parentGroup = this.navParams.data.group;
     this.app.setTitle('Event');
-    let refreshFromServer: boolean = this.parentGroup && this.parentGroup.id;
-    this.updateEvents(this.parentGroup, refreshFromServer);
+    this.updateEvents(this.parentGroup);
     // this.geolocation.getCurrentPosition().then((resp) => {
     //   var lat = resp.coords.latitude;
     //   var lng = resp.coords.longitude;
@@ -75,17 +74,15 @@ export class EventsPage {
     // });
   }
 
-  public updateEvents(parentGroup: any = null, refreshFromServer: boolean = false) {
+  public updateEvents(parentGroup: any = null) {
     // Close any open sliding items when the schedule updates
     this.eventList && this.eventList.closeSlidingItems();
 
     let loading = this.loadingCtrl.create({
       content: `Fetching events.`
     });
-    if (refreshFromServer) {
-      loading.present();
-    }
-    this.eventsDataProvider.getTimeline(parentGroup, refreshFromServer, this.queryText, this.segment)
+    loading.present();
+    this.eventsDataProvider.getTimeline(parentGroup, this.queryText, this.segment)
       .subscribe((data: { visibleGroups: number, groups: Array<{ date: string, hide: boolean, events: Array<{ any }> }> }) => {
         this.shownEvents = data.visibleGroups;
         loading.dismiss();

@@ -14,6 +14,7 @@ import 'rxjs/add/observable/of';
 @Injectable()
 export class EventsData {
   private eventsGroupedByDate: { visibleGroups: number, groups: Array<{ date: string, hide: boolean, events: Array<{ any }> }> };
+  private lastFetchedTimeStamp: any;
   private eventsMap: any;
   private parentGroup: any;
   private _favoriteEvents: Array<string>;
@@ -31,8 +32,8 @@ export class EventsData {
     });
   }
 
-  private load(refreshFromServer: boolean): any {
-    if (!refreshFromServer && this.eventsGroupedByDate) {
+  private load(): any {
+    if (this.shouldUseCachedEvents()) {
       return Observable.of(this.eventsGroupedByDate);
     } else {
       return this.getEventsDataFromServer()
@@ -40,7 +41,30 @@ export class EventsData {
     }
   }
 
-  public getEventsMap(refreshFromServer: boolean): any {
+  private shouldUseCachedEvents(): boolean {
+    if (this.parentGroup && this.parentGroup.id) {
+      return false;
+    }
+
+    var toReturn = false;
+    var currentDateTime = new Date();
+    if (this.lastFetchedTimeStamp) {
+      var cacheExpiryDateTime = this.utils.addSeconds(this.lastFetchedTimeStamp, this.constants.cacheTimeoutInSeconds);
+      toReturn = cacheExpiryDateTime > currentDateTime;
+    }
+
+    if (!toReturn) {
+      this.lastFetchedTimeStamp = currentDateTime;
+    }
+
+    return toReturn;
+  }
+
+  public ClearEventCache(): void {
+    this.lastFetchedTimeStamp = null;
+  }
+
+  public getEventsMap(): any {
     return Observable.of(this.eventsMap);
   }
 
@@ -128,9 +152,9 @@ export class EventsData {
     return eventsGroupedByDate;
   }
 
-  public getTimeline(parentGroup: any, refreshFromServer: boolean, queryText: string = '', segment: string = 'all') {
+  public getTimeline(parentGroup: any, queryText: string = '', segment: string = 'all') {
     this.parentGroup = parentGroup;
-    return this.load(refreshFromServer).map((data: { visibleGroups: number, groups: Array<{ date: string, hide: boolean, events: Array<{ any }> }> }) => {
+    return this.load().map((data: { visibleGroups: number, groups: Array<{ date: string, hide: boolean, events: Array<{ any }> }> }) => {
       data.visibleGroups = 0;
 
       queryText = queryText.toLowerCase().replace(/,|\.|-/g, ' ');

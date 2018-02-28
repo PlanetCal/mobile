@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { IonicPage, NavController, ToastController, LoadingController } from 'ionic-angular';
 import { MainPage } from '../pages';
 import { UserProvider } from '../../providers/user';
+import { EventsData } from '../../providers/events-data';
 import { Constants } from '../../providers/constants';
 
 @IonicPage()
@@ -28,7 +29,8 @@ export class LoginPage {
     private toastCtrl: ToastController,
     private loadingCtrl: LoadingController,
     private constants: Constants,
-    private user: UserProvider) {
+    private user: UserProvider,
+    private eventsProvider: EventsData) {
     this.resetPasswordSuccessString = "Password reset request submitted."
     this.loginErrorString = "Login failed. Please check your username/password, or register yourself.";
   }
@@ -44,6 +46,7 @@ export class LoginPage {
     if (form.valid) {
       this.user.login(this.account).subscribe((resp) => {
         loading.dismiss();
+        this.eventsProvider.ClearEventCache();
         this.navCtrl.setRoot(MainPage);
       }, (err) => {
         // Unable to log in

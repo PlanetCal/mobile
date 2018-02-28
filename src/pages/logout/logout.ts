@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
 import { MainPage } from '../pages';
 import { UserProvider } from '../../providers/user';
+import { EventsData } from '../../providers/events-data';
 
 @IonicPage()
 @Component({
@@ -13,7 +14,9 @@ export class LogoutPage {
 
   constructor(
     public navCtrl: NavController,
-    public user: UserProvider) {
+    public user: UserProvider,
+    private eventsProvider: EventsData
+  ) {
 
     let userInfo = this.user.getLoggedInUser();
     if (userInfo && userInfo !== null) {
@@ -23,6 +26,7 @@ export class LogoutPage {
 
   onLogout() {
     this.user.logout();
+    this.eventsProvider.ClearEventCache();
     this.navCtrl.setRoot(MainPage);
   }
 

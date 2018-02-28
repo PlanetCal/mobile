@@ -18,6 +18,7 @@ export class Constants {
   public readonly defaultGroupIcon: string = 'assets/imgs/cal-group.png';
 
   public readonly toastDuration: number = 3000;
+  public readonly cacheTimeoutInSeconds: number = 60;
 
   public readonly subscribedGroup: string = 'Subscribed';
   public readonly ownedGroup: string = 'Owned';

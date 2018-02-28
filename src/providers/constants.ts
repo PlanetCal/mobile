@@ -15,9 +15,10 @@ export class Constants {
   public readonly groupFieldsForOwner: string = 'fields=name|description|privacy|icon|category|createdBy|administrators|members|location|address|contact|webSite|modifiedBy|childGroups|parentGroup';
   public readonly groupFieldsForAdmin: string = 'fields=name|description|privacy|icon|category|createdBy|administrators|members|location|address|contact|webSite|modifiedBy|childGroups|parentGroup';
   public readonly groupFieldsForSubscriber: string = 'fields=name|description|privacy|icon|category|createdBy|members|location|address|contact|webSite|modifiedBy|childGroups|parentGroup';
-  public readonly defaultGroupIcon: string = 'assets/imgs/defaultGroupIcon.jpg';
+  public readonly defaultGroupIcon: string = 'assets/imgs/cal-group.png';
 
   public readonly toastDuration: number = 3000;
+  public readonly cacheTimeoutInSeconds: number = 60;
 
   public readonly subscribedGroup: string = 'Subscribed';
   public readonly ownedGroup: string = 'Owned';

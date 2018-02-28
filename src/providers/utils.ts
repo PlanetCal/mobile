@@ -26,6 +26,10 @@ export class UtilsProvider {
     return dateTime.toDateString();
   }
 
+  public addSeconds(date, seconds): Date {
+    return new Date(date.getTime() + seconds * 1000);
+  }
+
   public navigateTo(address: string) {
     var mapLink = 'https://www.google.com/maps/place/';
     var normalizedAddress = address.replace(/ /g, '+');
@@ -50,9 +54,9 @@ export class UtilsProvider {
 
   public getPrivacyIcon(privacySetting: string): string {
     if (privacySetting && privacySetting === 'Closed') {
-      return 'ios-lock-outline';
+      return 'md-lock';
     }
-    return 'ios-open-outline';
+    return 'md-unlock';
   }
 
   public getPrivacyMessage(privacySetting: string): string {

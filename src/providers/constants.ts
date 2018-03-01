@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
  */
 @Injectable()
 export class Constants {
-  public readonly serviceUrl: string = 'http://calapisvc.azurewebsites.net';
+  public readonly serviceUrl: string = 'https://calapisvc.azurewebsites.net';
   //public readonly serviceUrl: string = 'http://localhost:1337';
 
   public readonly productName: string = 'PlanetCal';

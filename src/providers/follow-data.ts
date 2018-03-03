@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Storage } from '@ionic/storage';
 import { UserProvider } from './user';
 import { ApiProvider } from './api';
 import { UtilsProvider } from './utils';
@@ -14,27 +13,16 @@ import 'rxjs/add/observable/of';
 export class FollowData extends BaseGroupsData {
 
   constructor(
-    private user: UserProvider,
-    private api: ApiProvider,
+    protected user: UserProvider,
+    protected api: ApiProvider,
     protected utils: UtilsProvider,
     private groupsData: GroupsData,
-    protected constants: Constants,
-    private storage: Storage
+    protected constants: Constants
   ) {
-    super(utils, constants)
+    super(user, api, utils, constants)
   }
 
-  protected getGroupDataFromServer(groupCategory: string): any {
-    let userInfo = this.user.getLoggedInUser();
-    if (userInfo) {
-      let endpoint = 'groups?fields=name|icon|category|childGroups|parentGroup&filter=category=' + groupCategory;
-      let token = userInfo.token;
-      let reqOpts = this.utils.getHttpHeaders(token);
-      let result = this.api.get(endpoint, null, reqOpts).share();
-      return result;
-    }
-    else {
-      return Observable.of([]);
-    }
+  protected getRestCallEndpoint(groupCategory: string): string {
+    return 'groups?fields=name|icon|category|childGroups|parentGroup&filter=category=' + groupCategory;
   }
 }

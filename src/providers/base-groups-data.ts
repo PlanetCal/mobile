@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { UserProvider } from './user';
+import { ApiProvider } from './api';
 import { UtilsProvider } from './utils';
 import { Constants } from './constants';
 import { Observable } from 'rxjs/Observable';
@@ -7,12 +9,14 @@ import 'rxjs/add/observable/of';
 
 @Injectable()
 export class BaseGroupsData {
+  private lastFetchedTimeStamp: Map<string, Date>; // groupType to date dictionary.
   protected groups: Map<string, Array<any>>;// groupType to groupList dictionary.
-  protected lastFetchedTimeStamp: Map<string, Date>; // groupType to date dictionary.
   protected currentGroupType: string;
   protected parentGroup: any;
 
   constructor(
+    protected user: UserProvider,
+    protected api: ApiProvider,
     protected utils: UtilsProvider,
     protected constants: Constants
   ) {
@@ -20,7 +24,14 @@ export class BaseGroupsData {
     this.lastFetchedTimeStamp = new Map<string, Date>();
   }
 
-  protected shouldUseCachedGroups(groupType: string): boolean {
+  public getGroups(parentGroup, groupType: string) {
+    this.parentGroup = parentGroup;
+    return this.load(groupType).map((data: { visibleGroups: number, groups: Array<any> }) => {
+      return data;
+    });
+  }
+
+  private shouldUseCachedGroups(groupType: string): boolean {
     if (this.parentGroup && this.parentGroup.id) {
       return false;
     }
@@ -41,7 +52,7 @@ export class BaseGroupsData {
     return toReturn;
   }
 
-  protected load(groupType: string): any {
+  private load(groupType: string): any {
     this.currentGroupType = groupType;
     let groupList = this.groups[groupType];
     if (this.shouldUseCachedGroups(groupType)) {
@@ -52,14 +63,7 @@ export class BaseGroupsData {
     }
   }
 
-  public getGroups(parentGroup, groupType: string) {
-    this.parentGroup = parentGroup;
-    return this.load(groupType).map((data: { visibleGroups: number, groups: Array<any> }) => {
-      return data;
-    });
-  }
-
-  protected processDataFromServer(data: any) {
+  private processDataFromServer(data: any) {
     let parentGroup = this.parentGroup;
     this.parentGroup = null;
     if (!parentGroup) {
@@ -73,7 +77,25 @@ export class BaseGroupsData {
     return data;
   }
 
-  protected getGroupDataFromServer(groupType: string): any {
-    //abstract implmentation of these methods. Actual implementation is in base classes.
+  private getGroupDataFromServer(groupType: string): any {
+    let endpoint = '';
+    let userInfo = this.user.getLoggedInUser();
+    if (userInfo) {
+      let endpoint = this.parentGroup && this.parentGroup.id ?
+        'groups?' + this.constants.groupFieldsForAdmin + '&filter=parentGroup=' + this.parentGroup.id :
+        this.getRestCallEndpoint(groupType);
+
+      let token = userInfo.token;
+      let reqOpts = this.utils.getHttpHeaders(token);
+      return this.api.get(endpoint, null, reqOpts).share();
+    }
+    else {
+      return Observable.of([]);
+    }
+  }
+
+  //abstract implementation of a method
+  protected getRestCallEndpoint(groupCategory: string): string {
+    return null;
   }
 }

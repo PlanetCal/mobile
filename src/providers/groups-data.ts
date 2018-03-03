@@ -14,43 +14,29 @@ import 'rxjs/add/observable/of';
 export class GroupsData extends BaseGroupsData {
 
   constructor(
-    private user: UserProvider,
-    private api: ApiProvider,
+    protected user: UserProvider,
+    protected api: ApiProvider,
     protected utils: UtilsProvider,
     protected constants: Constants
   ) {
-    super(utils, constants);
+    super(user, api, utils, constants)
   }
 
-  protected getGroupDataFromServer(groupType: string): any {
-    let endpoint = '';
+  protected getRestCallEndpoint(groupType: string): string {
+    let endpoint = null;
     let userInfo = this.user.getLoggedInUser();
-    if (userInfo) {
-      if (this.parentGroup && this.parentGroup.id) {
-        endpoint = 'groups?' + this.constants.groupFieldsForAdmin +
-          '&filter=parentGroup=' + this.parentGroup.id;
-      }
-      else {
-        switch (groupType) {
-          case (this.constants.administeredGroup):
-            endpoint = 'groups?' + this.constants.groupFieldsForAdmin + '&administeredByMe=true';
-            break;
-          case (this.constants.ownedGroup):
-            endpoint = 'groups?' + this.constants.groupFieldsForAdmin + '&filter=createdBy=' + userInfo.id;
-            break;
-          case (this.constants.subscribedGroup):
-            endpoint = 'userdetails/' + userInfo.id + '/followinggroups?' + this.constants.groupFieldsForSubscriber;
-            break;
-        }
-      }
-
-      let token = userInfo.token;
-      let reqOpts = this.utils.getHttpHeaders(token);
-      return this.api.get(endpoint, null, reqOpts).share();
+    switch (groupType) {
+      case (this.constants.administeredGroup):
+        endpoint = 'groups?' + this.constants.groupFieldsForAdmin + '&administeredByMe=true';
+        break;
+      case (this.constants.ownedGroup):
+        endpoint = 'groups?' + this.constants.groupFieldsForAdmin + '&filter=createdBy=' + userInfo.id;
+        break;
+      case (this.constants.subscribedGroup):
+        endpoint = 'userdetails/' + userInfo.id + '/followinggroups?' + this.constants.groupFieldsForSubscriber;
+        break;
     }
-    else {
-      return Observable.of([]);
-    }
+    return endpoint;
   }
 
   public hideDeleteGroupButton(group: any, groupType: string): boolean {

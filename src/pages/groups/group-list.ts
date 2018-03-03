@@ -77,14 +77,7 @@ export class GroupListPage {
       return;
     }
 
-    // let loading = this.loadingCtrl.create({
-    //   content: `Fetching groups.`
-    // });
-
-    //loading.present();
-
     this.groupsData.getGroups(parentGroup, this.groupType).subscribe((groups: any[]) => {
-      //loading.dismiss();
       this.groups = groups;
     }, (err) => {
       // Unable to log in
@@ -93,7 +86,6 @@ export class GroupListPage {
         duration: this.constants.toastDuration,
         position: 'top'
       });
-      //loading.dismiss();
       toast.present();
     });
   }

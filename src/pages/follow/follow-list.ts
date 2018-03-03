@@ -55,21 +55,12 @@ export class FollowListPage {
     this.navCtrl.push(GroupDetailPage, { groupId: group.parentGroup });
   }
 
-  private fetchData(refreshFromServer: boolean = false) {
+  private fetchData() {
     if (!this.groupCategory) {
       return;
     }
 
-    let loading = this.loadingCtrl.create({
-      content: `Fetching groups.`
-    });
-
-    if (refreshFromServer) {
-      loading.present();
-    }
-
-    this.followData.getGroups(refreshFromServer, this.groupCategory).subscribe((groups: any[]) => {
-      loading.dismiss();
+    this.followData.getGroups(null, this.groupCategory).subscribe((groups: any[]) => {
       this.groups = groups;
     }, (err) => {
       // Unable to log in
@@ -78,7 +69,6 @@ export class FollowListPage {
         duration: this.constants.toastDuration,
         position: 'top'
       });
-      loading.dismiss();
       toast.present();
     });
   }

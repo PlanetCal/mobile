@@ -3,6 +3,7 @@ import { Storage } from '@ionic/storage';
 import { UserProvider } from './user';
 import { ApiProvider } from './api';
 import { UtilsProvider } from './utils';
+import { BaseGroupsData } from './base-groups-data';
 import { Constants } from './constants';
 import { GroupsData } from './groups-data';
 import { Observable } from 'rxjs/Observable';
@@ -10,51 +11,32 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
 
 @Injectable()
-export class FollowData {
-  private groups: Array<{ groupCategory: string, groupList: Array<any> }>;
-
-  private currentGroupCategory: string;
+export class FollowData extends BaseGroupsData {
 
   constructor(
     private user: UserProvider,
     private api: ApiProvider,
-    private utils: UtilsProvider,
+    protected utils: UtilsProvider,
     private groupsData: GroupsData,
-    private constants: Constants,
+    protected constants: Constants,
     private storage: Storage
   ) {
-    this.groups = [];
+    super(utils, constants)
   }
 
-  private load(refreshFromServer: boolean, groupCategory: string): any {
-    this.currentGroupCategory = groupCategory;
-    let groupsOfThisGroupCategory = this.groups.find(x => x.groupCategory === groupCategory);
-    let groupList = null;
-    if (groupsOfThisGroupCategory) {
-      groupList = groupsOfThisGroupCategory.groupList;
-    }
-
-    if (!refreshFromServer && groupList) {
-      return Observable.of(groupList);
-    } else {
-      return this.getGroupDataFromServer(groupCategory)
-        .map(this.processDataFromServer, this);
-    }
-  }
-
-  private processDataFromServer(data: any) {
+  protected processDataFromServer(data: any) {
     data = data.filter(x => !x.parentGroup);
-    let groupsOfThisGroupCategory = this.groups.find(x => x.groupCategory === this.currentGroupCategory);
+    let groupsOfThisGroupCategory = this.groups.find(x => x.groupType === this.currentGroupType);
     if (groupsOfThisGroupCategory) {
       groupsOfThisGroupCategory.groupList = data;
     }
     else {
-      this.groups.push({ groupCategory: this.currentGroupCategory, groupList: data });
+      this.groups.push({ groupType: this.currentGroupType, groupList: data });
     }
     return data;
   }
 
-  private getGroupDataFromServer(groupCategory: string): any {
+  protected getGroupDataFromServer(groupCategory: string): any {
     let userInfo = this.user.getLoggedInUser();
     if (userInfo) {
       let endpoint = 'groups?fields=name|icon|category|childGroups|parentGroup&filter=category=' + groupCategory;
@@ -66,11 +48,5 @@ export class FollowData {
     else {
       return Observable.of([]);
     }
-  }
-
-  public getGroups(refreshFromServer: boolean, groupCategory: string) {
-    return this.load(refreshFromServer, groupCategory).map((data: { visibleGroups: number, groups: Array<any> }) => {
-      return data;
-    });
   }
 }

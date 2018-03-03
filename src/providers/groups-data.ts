@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { UserProvider } from './user';
+import { BaseGroupsData } from './base-groups-data';
 import { ApiProvider } from './api';
 import { UtilsProvider } from './utils';
 import { Constants } from './constants';
@@ -10,64 +11,18 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
 
 @Injectable()
-export class GroupsData {
-  private groups: Array<{ groupType: string, groupList: Array<any> }>;
-  private lastFetchedTimeStamp: Map<string, Date>; // groupType to date dictionary.
-  private currentGroupType: string;
-  private parentGroup: any;
+export class GroupsData extends BaseGroupsData {
 
   constructor(
     private user: UserProvider,
     private api: ApiProvider,
-    private utils: UtilsProvider,
-    private constants: Constants
+    protected utils: UtilsProvider,
+    protected constants: Constants
   ) {
-    this.groups = [];
-    this.lastFetchedTimeStamp = new Map<string, Date>();
+    super(utils, constants);
   }
 
-  private load(groupType: string): any {
-    this.currentGroupType = groupType;
-    let groupsOfThisGroupType = this.groups.find(x => x.groupType === groupType);
-    let groupList = null;
-    if (groupsOfThisGroupType) {
-      groupList = groupsOfThisGroupType.groupList;
-    }
-
-    if (this.shouldUseCachedGroups(groupType)) {
-      return Observable.of(groupList);
-    } else {
-      return this.getGroupDataFromServer(groupType)
-        .map(this.processDataFromServer, this);
-    }
-  }
-
-  private shouldUseCachedGroups(groupType: string): boolean {
-    if (this.parentGroup && this.parentGroup.id) {
-      return false;
-    }
-
-    var toReturn = false;
-    var currentDateTime = new Date();
-
-    let lastFetchTimeForThisGroupType = this.lastFetchedTimeStamp[groupType];
-
-    if (lastFetchTimeForThisGroupType) {
-      var cacheExpiryDateTime = this.utils.addSeconds(lastFetchTimeForThisGroupType, this.constants.cacheTimeoutInSeconds);
-      toReturn = cacheExpiryDateTime > currentDateTime;
-    }
-
-    if (!toReturn) {
-      this.lastFetchedTimeStamp[groupType] = currentDateTime;
-    }
-    return toReturn;
-  }
-
-  public ClearEventCache(groupType: string): void {
-    this.lastFetchedTimeStamp[groupType] = null;
-  }
-
-  private processDataFromServer(data: any) {
+  protected processDataFromServer(data: any) {
     let parentGroup = this.parentGroup;
     this.parentGroup = null;
     if (!parentGroup) {
@@ -87,7 +42,7 @@ export class GroupsData {
     return data;
   }
 
-  private getGroupDataFromServer(groupType: string): any {
+  protected getGroupDataFromServer(groupType: string): any {
     let endpoint = '';
     let userInfo = this.user.getLoggedInUser();
     if (userInfo) {
@@ -240,12 +195,5 @@ export class GroupsData {
     else {
       return Observable.of(null);
     }
-  }
-
-  public getGroups(parentGroup, groupType: string) {
-    this.parentGroup = parentGroup;
-    return this.load(groupType).map((data: { visibleGroups: number, groups: Array<any> }) => {
-      return data;
-    });
   }
 }

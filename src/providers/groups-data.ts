@@ -34,7 +34,7 @@ export class GroupsData {
       groupList = groupsOfThisGroupType.groupList;
     }
 
-    if (this.shouldUseCachedEvents(groupType)) {
+    if (this.shouldUseCachedGroups(groupType)) {
       return Observable.of(groupList);
     } else {
       return this.getGroupDataFromServer(groupType)
@@ -42,7 +42,7 @@ export class GroupsData {
     }
   }
 
-  private shouldUseCachedEvents(groupType: string): boolean {
+  private shouldUseCachedGroups(groupType: string): boolean {
     if (this.parentGroup && this.parentGroup.id) {
       return false;
     }

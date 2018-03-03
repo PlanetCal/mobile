@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { UserProvider } from './user';
+import { BaseGroupsData } from './base-groups-data';
 import { ApiProvider } from './api';
 import { UtilsProvider } from './utils';
 import { Constants } from './constants';
@@ -10,57 +11,18 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
 
 @Injectable()
-export class GroupsData {
-  private groups: Array<{ groupType: string, groupList: Array<any> }>;
-  private currentGroupType: string;
-  private parentGroup: any;
+export class GroupsData extends BaseGroupsData {
 
   constructor(
     private user: UserProvider,
     private api: ApiProvider,
-    private utils: UtilsProvider,
-    private constants: Constants
+    protected utils: UtilsProvider,
+    protected constants: Constants
   ) {
-    this.groups = [];
+    super(utils, constants);
   }
 
-  private load(refreshFromServer: boolean, groupType: string): any {
-    this.currentGroupType = groupType;
-    let groupsOfThisGroupType = this.groups.find(x => x.groupType === groupType);
-    let groupList = null;
-    if (groupsOfThisGroupType) {
-      groupList = groupsOfThisGroupType.groupList;
-    }
-
-    if (!refreshFromServer && groupList) {
-      return Observable.of(groupList);
-    } else {
-      return this.getGroupDataFromServer(groupType)
-        .map(this.processDataFromServer, this);
-    }
-  }
-
-  private processDataFromServer(data: any) {
-    let parentGroup = this.parentGroup;
-    this.parentGroup = null;
-    if (!parentGroup) {
-      //Don't filter the subscribed list. Otherwise, it causes wierd issues.
-      if (this.currentGroupType != this.constants.subscribedGroup) {
-        data = data.filter(x => !x.parentGroup);
-      }
-
-      let groupsOfThisGroupType = this.groups.find(x => x.groupType === this.currentGroupType);
-      if (groupsOfThisGroupType) {
-        groupsOfThisGroupType.groupList = data;
-      }
-      else {
-        this.groups.push({ groupType: this.currentGroupType, groupList: data });
-      }
-    }
-    return data;
-  }
-
-  private getGroupDataFromServer(groupType: string): any {
+  protected getGroupDataFromServer(groupType: string): any {
     let endpoint = '';
     let userInfo = this.user.getLoggedInUser();
     if (userInfo) {
@@ -129,13 +91,10 @@ export class GroupsData {
     }
 
     var hide = false;
-    let subscribedGroups = this.groups.find(x => x.groupType === this.constants.subscribedGroup);
-    if (subscribedGroups) {
-      let subscribedGroupsList = subscribedGroups.groupList;
-      if (subscribedGroupsList) {
-        var currentGroup = subscribedGroupsList.find(element => element.id === group.id);
-        hide = currentGroup;
-      }
+    let subscribedGroupsList = this.groups[this.constants.subscribedGroup];
+    if (subscribedGroupsList) {
+      var currentGroup = subscribedGroupsList.find(element => element.id === group.id);
+      hide = currentGroup;
     }
     return hide;
   }
@@ -189,7 +148,7 @@ export class GroupsData {
   private updateGroupsCache(groupType: string, group: any, add: boolean) {
     if (!groupType) return;
 
-    let groupsList = this.groups.find(x => x.groupType === groupType).groupList;
+    let groupsList = this.groups[groupType];
     if (groupsList) {
       if (add) {
         groupsList.push(group);
@@ -213,12 +172,5 @@ export class GroupsData {
     else {
       return Observable.of(null);
     }
-  }
-
-  public getGroups(parentGroup, refreshFromServer: boolean, groupType: string) {
-    this.parentGroup = parentGroup;
-    return this.load(refreshFromServer, groupType).map((data: { visibleGroups: number, groups: Array<any> }) => {
-      return data;
-    });
   }
 }

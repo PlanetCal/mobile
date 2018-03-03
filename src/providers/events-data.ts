@@ -14,7 +14,7 @@ import 'rxjs/add/observable/of';
 @Injectable()
 export class EventsData {
   private eventsGroupedByDate: { visibleGroups: number, groups: Array<{ date: string, hide: boolean, events: Array<{ any }> }> };
-  private lastFetchedTimeStamp: any;
+  private lastFetchedTimeStamp: Date;
   private eventsMap: any;
   private parentGroup: any;
   private _favoriteEvents: Array<string>;

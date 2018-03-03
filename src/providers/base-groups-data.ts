@@ -7,7 +7,7 @@ import 'rxjs/add/observable/of';
 
 @Injectable()
 export class BaseGroupsData {
-  protected groups: Array<{ groupType: string, groupList: Array<any> }>;
+  protected groups: Map<string, Array<any>>;// groupType to groupList dictionary.
   protected lastFetchedTimeStamp: Map<string, Date>; // groupType to date dictionary.
   protected currentGroupType: string;
   protected parentGroup: any;
@@ -16,7 +16,7 @@ export class BaseGroupsData {
     protected utils: UtilsProvider,
     protected constants: Constants
   ) {
-    this.groups = [];
+    this.groups = new Map<string, Array<any>>();
     this.lastFetchedTimeStamp = new Map<string, Date>();
   }
 
@@ -43,12 +43,7 @@ export class BaseGroupsData {
 
   protected load(groupType: string): any {
     this.currentGroupType = groupType;
-    let groupsOfThisGroupType = this.groups.find(x => x.groupType === groupType);
-    let groupList = null;
-    if (groupsOfThisGroupType) {
-      groupList = groupsOfThisGroupType.groupList;
-    }
-
+    let groupList = this.groups[groupType];
     if (this.shouldUseCachedGroups(groupType)) {
       return Observable.of(groupList);
     } else {
@@ -65,11 +60,20 @@ export class BaseGroupsData {
   }
 
   protected processDataFromServer(data: any) {
-    //abstract implmentation of these methods. Actual implementation is in base classes.
+    let parentGroup = this.parentGroup;
+    this.parentGroup = null;
+    if (!parentGroup) {
+      //Don't filter the subscribed list. Otherwise, it causes wierd issues.
+      if (this.currentGroupType != this.constants.subscribedGroup) {
+        data = data.filter(x => !x.parentGroup);
+      }
+
+      this.groups[this.currentGroupType] = data;
+    }
+    return data;
   }
 
   protected getGroupDataFromServer(groupType: string): any {
     //abstract implmentation of these methods. Actual implementation is in base classes.
-    return null;
   }
 }

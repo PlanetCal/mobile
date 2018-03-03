@@ -24,18 +24,6 @@ export class FollowData extends BaseGroupsData {
     super(utils, constants)
   }
 
-  protected processDataFromServer(data: any) {
-    data = data.filter(x => !x.parentGroup);
-    let groupsOfThisGroupCategory = this.groups.find(x => x.groupType === this.currentGroupType);
-    if (groupsOfThisGroupCategory) {
-      groupsOfThisGroupCategory.groupList = data;
-    }
-    else {
-      this.groups.push({ groupType: this.currentGroupType, groupList: data });
-    }
-    return data;
-  }
-
   protected getGroupDataFromServer(groupCategory: string): any {
     let userInfo = this.user.getLoggedInUser();
     if (userInfo) {

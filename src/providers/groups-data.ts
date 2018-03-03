@@ -22,26 +22,6 @@ export class GroupsData extends BaseGroupsData {
     super(utils, constants);
   }
 
-  protected processDataFromServer(data: any) {
-    let parentGroup = this.parentGroup;
-    this.parentGroup = null;
-    if (!parentGroup) {
-      //Don't filter the subscribed list. Otherwise, it causes wierd issues.
-      if (this.currentGroupType != this.constants.subscribedGroup) {
-        data = data.filter(x => !x.parentGroup);
-      }
-
-      let groupsOfThisGroupType = this.groups.find(x => x.groupType === this.currentGroupType);
-      if (groupsOfThisGroupType) {
-        groupsOfThisGroupType.groupList = data;
-      }
-      else {
-        this.groups.push({ groupType: this.currentGroupType, groupList: data });
-      }
-    }
-    return data;
-  }
-
   protected getGroupDataFromServer(groupType: string): any {
     let endpoint = '';
     let userInfo = this.user.getLoggedInUser();
@@ -111,13 +91,10 @@ export class GroupsData extends BaseGroupsData {
     }
 
     var hide = false;
-    let subscribedGroups = this.groups.find(x => x.groupType === this.constants.subscribedGroup);
-    if (subscribedGroups) {
-      let subscribedGroupsList = subscribedGroups.groupList;
-      if (subscribedGroupsList) {
-        var currentGroup = subscribedGroupsList.find(element => element.id === group.id);
-        hide = currentGroup;
-      }
+    let subscribedGroupsList = this.groups[this.constants.subscribedGroup];
+    if (subscribedGroupsList) {
+      var currentGroup = subscribedGroupsList.find(element => element.id === group.id);
+      hide = currentGroup;
     }
     return hide;
   }
@@ -171,7 +148,7 @@ export class GroupsData extends BaseGroupsData {
   private updateGroupsCache(groupType: string, group: any, add: boolean) {
     if (!groupType) return;
 
-    let groupsList = this.groups.find(x => x.groupType === groupType).groupList;
+    let groupsList = this.groups[groupType];
     if (groupsList) {
       if (add) {
         groupsList.push(group);

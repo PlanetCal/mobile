@@ -35,7 +35,7 @@ export class GroupListPage {
     }
     else {
       this.parentGroup = this.navParams.data ? this.navParams.data.group : null;
-      this.fetchData(this.parentGroup, true);
+      this.fetchData(this.parentGroup);
     }
   }
 
@@ -72,26 +72,19 @@ export class GroupListPage {
     this.navCtrl.push(EventsPage, { group: group });
   }
 
-
-  private isRefreshButtonHidden() {
-    return (this.parentGroup);
-  }
-
-  private fetchData(parentGroup: any, refreshFromServer: boolean = false) {
+  private fetchData(parentGroup: any) {
     if (!parentGroup && !this.groupType) {
       return;
     }
 
-    let loading = this.loadingCtrl.create({
-      content: `Fetching groups.`
-    });
+    // let loading = this.loadingCtrl.create({
+    //   content: `Fetching groups.`
+    // });
 
-    if (refreshFromServer) {
-      loading.present();
-    }
+    //loading.present();
 
-    this.groupsData.getGroups(parentGroup, refreshFromServer, this.groupType).subscribe((groups: any[]) => {
-      loading.dismiss();
+    this.groupsData.getGroups(parentGroup, this.groupType).subscribe((groups: any[]) => {
+      //loading.dismiss();
       this.groups = groups;
     }, (err) => {
       // Unable to log in
@@ -100,7 +93,7 @@ export class GroupListPage {
         duration: this.constants.toastDuration,
         position: 'top'
       });
-      loading.dismiss();
+      //loading.dismiss();
       toast.present();
     });
   }

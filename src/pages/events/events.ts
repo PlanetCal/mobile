@@ -78,14 +78,9 @@ export class EventsPage {
     // Close any open sliding items when the schedule updates
     this.eventList && this.eventList.closeSlidingItems();
 
-    let loading = this.loadingCtrl.create({
-      content: `Fetching events.`
-    });
-    loading.present();
     this.eventsDataProvider.getTimeline(parentGroup, this.queryText, this.segment)
       .subscribe((data: { visibleGroups: number, groups: Array<{ date: string, hide: boolean, events: Array<{ any }> }> }) => {
         this.shownEvents = data.visibleGroups;
-        loading.dismiss();
         this.groups = data.groups;
       }, (err) => {
         // Unable to log in
@@ -94,7 +89,6 @@ export class EventsPage {
           duration: this.constants.toastDuration,
           position: 'top'
         });
-        loading.dismiss();
         toast.present();
       });
   }

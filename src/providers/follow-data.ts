@@ -4,7 +4,6 @@ import { ApiProvider } from './api';
 import { UtilsProvider } from './utils';
 import { BaseGroupsData } from './base-groups-data';
 import { Constants } from './constants';
-import { GroupsData } from './groups-data';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
@@ -16,7 +15,6 @@ export class FollowData extends BaseGroupsData {
     protected user: UserProvider,
     protected api: ApiProvider,
     protected utils: UtilsProvider,
-    private groupsData: GroupsData,
     protected constants: Constants
   ) {
     super(user, api, utils, constants)

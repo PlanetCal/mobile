@@ -52,8 +52,8 @@ export class BaseGroupsData {
     return toReturn;
   }
 
-  public ClearEventCache(groupType: string): void {
-    this.lastFetchedTimeStamp[groupType] = null;
+  public ClearGroupDataCache(): void {
+    this.lastFetchedTimeStamp = new Map<string, Date>();
   }
 
   private load(groupType: string): any {

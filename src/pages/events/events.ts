@@ -8,8 +8,7 @@ import { GroupsData } from '../../providers/groups-data';
 import { UtilsProvider } from '../../providers/utils';
 import { Constants } from '../../providers/constants';
 
-import { EventDetailPage } from '../pages';
-import { MapPage } from '../pages';
+import { EventDetailPage, FollowTabsPage, MapPage } from '../pages';
 
 @IonicPage()
 @Component({
@@ -95,6 +94,16 @@ export class EventsPage {
 
   public showMap() {
     this.navCtrl.push(MapPage);
+  }
+
+  public goToFollowGroups() {
+    let userInfo = this.user.getLoggedInUser();
+    if (!userInfo) {
+      this.utils.showLoginAlert();
+    }
+    else {
+      this.navCtrl.push(FollowTabsPage);
+    }
   }
 
   public goToEventDetail(eventData: any) {

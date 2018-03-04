@@ -16,7 +16,7 @@ export class SignupPage {
   account: { name: string, email: string, password: string } = {
     name: '',
     email: '',
-    password: '1234'
+    password: ''
   };
 
   submitted = false;

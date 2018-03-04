@@ -2,6 +2,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Constants } from './constants';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { AlertController } from 'ionic-angular';
 
 /**
  * Utils is for utilities
@@ -10,7 +11,8 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 export class UtilsProvider {
   public constructor(
     private inAppBrowser: InAppBrowser,
-    private constants: Constants
+    private constants: Constants,
+    private alertCtrl: AlertController
   ) {
   }
 
@@ -38,6 +40,15 @@ export class UtilsProvider {
 
   public browseTo(url: string) {
     this.inAppBrowser.create(url, '_system');
+  }
+
+  public showLoginAlert() {
+    let alert = this.alertCtrl.create({
+      title: 'Login!',
+      subTitle: 'You need to be logged in first!',
+      buttons: ['OK']
+    });
+    alert.present();
   }
 
   public convertToFriendlyDateFromDateString(dateTime: string): string {

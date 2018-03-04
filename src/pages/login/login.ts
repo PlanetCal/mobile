@@ -18,7 +18,7 @@ export class LoginPage {
 
   account: { email: string, password: string } = {
     email: '',
-    password: '1234'
+    password: ''
   };
 
   submitted = false;

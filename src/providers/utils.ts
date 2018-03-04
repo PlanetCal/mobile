@@ -53,17 +53,11 @@ export class UtilsProvider {
   }
 
   public getPrivacyIcon(privacySetting: string): string {
-    if (privacySetting && privacySetting === 'Closed') {
-      return 'md-lock';
-    }
-    return 'md-unlock';
+    return (privacySetting == 'Private') ? 'md-lock' : 'md-unlock';
   }
 
   public getPrivacyMessage(privacySetting: string): string {
-    if (privacySetting && privacySetting === 'Closed') {
-      return 'Not visible to others';
-    }
-    return 'Visible to others';
+    return (privacySetting == 'Private') ? 'Not visible to others' : 'Visible to others';
   }
 
   public getEventIcon(event: any): string {

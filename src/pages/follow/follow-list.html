@@ -19,6 +19,7 @@
                   <img [src]="utils.getGroupIcon(group)" alt="Group's profile pic">
                 </ion-avatar>
                 {{group.name}}
+                <ion-icon [name]='utils.getPrivacyIcon(group.privacy)'> </ion-icon>
               </button>
             </ion-card-header>
 

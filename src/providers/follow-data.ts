@@ -23,6 +23,6 @@ export class FollowData extends BaseGroupsData {
   }
 
   protected getRestCallEndpoint(groupCategory: string): string {
-    return 'groups?fields=name|icon|category|childGroups|parentGroup&filter=category=' + groupCategory;
+    return 'groups?fields=name|icon|category|privacy|childGroups|parentGroup&filter=category=' + groupCategory;
   }
 }

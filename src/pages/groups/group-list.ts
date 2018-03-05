@@ -14,8 +14,9 @@ import { Subscriber } from 'rxjs/Subscriber';
 })
 export class GroupListPage {
   private groups: any[] = [];
-  private groupType: any;
-  private parentGroup: any;
+  private groupType: string;
+  private customizedHelpMessage: string;
+  private parentGroup: string;
 
   public constructor(
     private navCtrl: NavController,
@@ -31,11 +32,30 @@ export class GroupListPage {
   private ionViewDidEnter() {
     if (this.navParams.data && this.navParams.data.groupType) {
       this.groupType = this.navParams.data.groupType;
+      this.populateCustomizedHelpMessage(this.groupType);
       this.fetchData(null);
     }
     else {
       this.parentGroup = this.navParams.data ? this.navParams.data.group : null;
       this.fetchData(this.parentGroup);
+    }
+  }
+
+  private populateCustomizedHelpMessage(groupType: string) {
+    switch (this.groupType) {
+      case (this.constants.subscribedGroup):
+        this.customizedHelpMessage = `Follow some interesting groups to see their events in 'planet calendar app' 
+        by going to \"Follow Groups\" from the top left Menu.`;
+        break;
+      case (this.constants.ownedGroup):
+        this.customizedHelpMessage = `You can create a new group by visiting 'https://planetcal.com' 
+        from your laptop (for best experience). You can create events under it and choose to share it with the world by 
+        picking the privacy of your group as 'public' or 'private'. You can create a subgroup under a group to organize your events.
+        This app does not have this funcationality yet.`;
+        break;
+      case (this.constants.administeredGroup):
+        this.customizedHelpMessage = `Only an owner of some group can delegate you ,${this.groupType}, privilage. Afterwards that group will start showing up here. As a ${this.groupType} to a group, you will have full control over the group including 'deleting' it. Please use your privilage with great care.`;
+        break;
     }
   }
 

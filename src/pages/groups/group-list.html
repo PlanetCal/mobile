@@ -59,7 +59,11 @@
       </ion-row>
     </ion-grid>
   </ion-list>
-  <ion-list-header [hidden]='hideNoGroupsMessage()'>
-    No {{data}} Group Found
-  </ion-list-header>
+
+  <div style="margin:10px" [hidden]='hideNoGroupsMessage()'>
+    <p>Oh oh!</p>
+    <p>You are not a '{{groupType}}' of any groups yet.</p>
+    <p>{{customizedHelpMessage}}</p>
+  </div>
+
 </ion-content>

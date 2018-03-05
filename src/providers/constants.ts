@@ -20,7 +20,7 @@ export class Constants {
   public readonly toastDuration: number = 3000;
   public readonly cacheTimeoutInSeconds: number = 60;
 
-  public readonly subscribedGroup: string = 'Subscribed';
-  public readonly ownedGroup: string = 'Owned';
-  public readonly administeredGroup: string = 'Administered';
+  public readonly subscribedGroup: string = 'Follower';
+  public readonly ownedGroup: string = 'Owner';
+  public readonly administeredGroup: string = 'Contributor';
 }

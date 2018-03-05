@@ -58,11 +58,13 @@
           </button>
         </ion-item-options>
       </ion-item-sliding>
-
     </ion-item-group>
-
   </ion-list>
-  <ion-list-header [hidden]="shownEvents > 0">
-    No Events Found
-  </ion-list-header>
+  <!-- <ion-list-header [hidden]="shownEvents > 0"> -->
+  <div style="margin:10px" [hidden]="shownEvents > 0">
+    <p>No Events Found.</p>
+    <p> Follow some group by going to
+      <a on-tap="goToFollowGroups()">Follow Groups</a> from the top left Menu.</p>
+  </div>
+  <!-- </ion-list-header> -->
 </ion-content>

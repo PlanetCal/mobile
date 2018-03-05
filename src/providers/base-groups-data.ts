@@ -52,6 +52,10 @@ export class BaseGroupsData {
     return toReturn;
   }
 
+  public ClearGroupDataCache(): void {
+    this.lastFetchedTimeStamp = new Map<string, Date>();
+  }
+
   private load(groupType: string): any {
     this.currentGroupType = groupType;
     let groupList = this.groups[groupType];

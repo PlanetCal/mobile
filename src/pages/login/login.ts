@@ -4,6 +4,8 @@ import { NgForm } from '@angular/forms';
 import { IonicPage, NavController, ToastController, LoadingController } from 'ionic-angular';
 import { MainPage } from '../pages';
 import { UserProvider } from '../../providers/user';
+import { GroupsData } from '../../providers/groups-data';
+import { FollowData } from '../../providers/follow-data';
 import { EventsData } from '../../providers/events-data';
 import { Constants } from '../../providers/constants';
 
@@ -16,7 +18,7 @@ export class LoginPage {
 
   account: { email: string, password: string } = {
     email: '',
-    password: '1234'
+    password: ''
   };
 
   submitted = false;
@@ -30,6 +32,8 @@ export class LoginPage {
     private loadingCtrl: LoadingController,
     private constants: Constants,
     private user: UserProvider,
+    private groupsData: GroupsData,
+    private followData: FollowData,
     private eventsProvider: EventsData) {
     this.resetPasswordSuccessString = "Password reset request submitted."
     this.loginErrorString = "Login failed. Please check your username/password, or register yourself.";
@@ -47,6 +51,8 @@ export class LoginPage {
       this.user.login(this.account).subscribe((resp) => {
         loading.dismiss();
         this.eventsProvider.ClearEventCache();
+        this.groupsData.ClearGroupDataCache();
+        this.followData.ClearGroupDataCache();
         this.navCtrl.setRoot(MainPage);
       }, (err) => {
         // Unable to log in

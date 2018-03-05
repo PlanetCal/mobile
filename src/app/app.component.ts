@@ -31,14 +31,14 @@ export class MyApp {
     public userProvider: UserProvider
   ) {
     this.appPages = [
-      { title: 'Events', component: 'EventsPage', param: '', icon: 'calendar' },
+      { title: 'Upcoming Events', component: 'EventsPage', param: '', icon: 'calendar' },
       { title: 'About', component: 'AboutPage', param: '', icon: 'information-circle' },
       { title: 'Support', component: 'SupportPage', param: '', icon: 'help-circle' }
     ];
 
     this.loggedInPages = [
-      { title: 'My groups', component: 'DummyPage', param: 'showGroups', icon: 'people' },
-      { title: 'Follow groups', component: 'DummyPage', param: 'followGroups', icon: 'settings' },
+      { title: 'Manage Groups', component: 'DummyPage', param: 'showGroups', icon: 'people' },
+      { title: 'Configure Followings', component: 'DummyPage', param: 'followGroups', icon: 'settings' },
       { title: 'Logout', component: 'LogoutPage', param: '', icon: 'log-out' },
       { title: 'Reset Password', component: 'LoginPage', param: '', icon: 'refresh' }
     ];

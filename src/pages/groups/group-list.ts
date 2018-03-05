@@ -54,7 +54,7 @@ export class GroupListPage {
         This app does not have this funcationality yet.`;
         break;
       case (this.constants.administeredGroup):
-        this.customizedHelpMessage = `Only an owner of some group can delegate you ,${this.groupType}, privilage. Afterwards that group will start showing up here. As a ${this.groupType} to a group, you will have full control over the group including 'deleting' it. Please use your privilage with great care.`;
+        this.customizedHelpMessage = `Only an owner of some group can delegate you '${this.groupType}' privilage. Afterwards that group will start showing up here. As a ${this.groupType} to a group, you will have full control over the group including 'deleting' it. Please use your privilage with great care.`;
         break;
     }
   }
